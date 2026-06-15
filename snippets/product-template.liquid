@@ -154,28 +154,36 @@
       endif
     endfor
 
-    assign bundle_alpine_featured_media_id = nil
-    if featured_media
-      assign bundle_alpine_featured_media_id = featured_media.id
-      if featured_media.alt != blank
-        assign _fa_alpine = featured_media.alt | downcase
-        if _fa_alpine contains 'hide-from-pdp' and bundle_first_visible_media_id != blank
-          assign bundle_alpine_featured_media_id = bundle_first_visible_media_id
-        endif
-      endif
-    endif
-
     # [CUSTOM — variant image slides] Build a lookup of media ids that back a
     # variant's featured image. These are kept as slides in the main carousel
-    # (so the buy box can feature them) even when alt contains hide-from-pdp,
-    # while still being omitted from the thumbnail strip below. Delimited with
-    # commas on both ends so `contains ',id,'` can't partial-match.
+    # (so the buy box / deep links can feature them) even when alt contains
+    # hide-from-pdp, while still being omitted from the thumbnail strip below.
+    # Delimited with commas on both ends so `contains ',id,'` can't partial-match.
     assign bundle_variant_media_ids = ','
     for v in product.variants
       if v.featured_media
         assign bundle_variant_media_ids = bundle_variant_media_ids | append: v.featured_media.id | append: ','
       endif
     endfor
+
+    assign bundle_alpine_featured_media_id = nil
+    if featured_media
+      assign bundle_alpine_featured_media_id = featured_media.id
+      if featured_media.alt != blank
+        assign _fa_alpine = featured_media.alt | downcase
+        if _fa_alpine contains 'hide-from-pdp'
+          # Open on the variant's image when it is a rendered variant slide (e.g.
+          # arriving via ?variant=ID, where selected_or_first_available_variant is
+          # that variant); otherwise fall back to the first visible slide.
+          assign _fa_needle = ',' | append: featured_media.id | append: ','
+          unless bundle_variant_media_ids contains _fa_needle
+            if bundle_first_visible_media_id != blank
+              assign bundle_alpine_featured_media_id = bundle_first_visible_media_id
+            endif
+          endunless
+        endif
+      endif
+    endif
   endif
   # [END CUSTOM — bundle subscription PDP gallery / Alpine prep]
 %}
@@ -315,10 +323,15 @@
 
                           assign preload = false
                           if template.suffix == 'bundle-subscription'
+                            # Eager-load the first visible slide and the opening slide
+                            # (which may be a deep-linked variant image via ?variant=ID).
                             if section.index == 1 and media.id == bundle_first_visible_media_id
                               assign preload = true
                             endif
-                            if media.id == bundle_first_visible_media_id
+                            if section.index == 1 and media.id == bundle_alpine_featured_media_id
+                              assign preload = true
+                            endif
+                            if media.id == bundle_first_visible_media_id or media.id == bundle_alpine_featured_media_id
                               assign loading = 'eager'
                             else
                               assign loading = 'lazy'
