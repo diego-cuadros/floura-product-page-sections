@@ -1,0 +1,107 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "recipe-banner": {
+      "type": "main-article-recipe-banner",
+      "blocks": {
+        "icons_with_text": {
+          "type": "icons_with_text",
+          "settings": {
+            "icon_thickness": 1.5,
+            "background_color": "bg-transparent text-scheme-text",
+            "show_border": true,
+            "icon_size": "h-10 w-10",
+            "icon_1": "people",
+            "text_1": "8-10 serves",
+            "icon_2": "clock",
+            "text_2": "30 minutes",
+            "icon_3": "nut_free",
+            "text_3": "Nut free",
+            "icon_4": "box",
+            "text_4": "",
+            "icon_5": "box",
+            "text_5": ""
+          }
+        }
+      },
+      "block_order": [
+        "icons_with_text"
+      ],
+      "settings": {
+        "display_on_card": false,
+        "text_alignment": "lg:text-left",
+        "crop": "",
+        "image_shape": "default",
+        "blob_type": 1,
+        "rotate_image": 0,
+        "image_position": "right",
+        "image_size": "half",
+        "disable_media_style": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "main-recipe": {
+      "type": "main-article-recipe",
+      "blocks": {
+        "ingredients": {
+          "type": "ingredients",
+          "settings": {
+            "ingredients_heading": "Ingredients",
+            "display_on_card": true,
+            "ingredients_content": "<ul><li>Ingredient 1</li><li>Ingredient 2</li><li>Ingredient 3</li></ul>"
+          }
+        },
+        "featured-products": {
+          "type": "featured-products",
+          "settings": {
+            "product_1": "",
+            "product_2": "",
+            "product_3": "",
+            "display_on_card": true,
+            "product_tile_style": "mini",
+            "enable_quick_buy": false
+          }
+        }
+      },
+      "block_order": [
+        "ingredients",
+        "featured-products"
+      ],
+      "settings": {
+        "show_top_padding": false,
+        "show_next_previous_links": true,
+        "display_on_card": true,
+        "show_author": false,
+        "show_date": false,
+        "show_share_links": true,
+        "show_tags": true,
+        "desktop_max_width": "max-w-7xl",
+        "sidebar_width_desktop": 18,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "main-recipe-structured-data": {
+      "type": "main-article-recipe-structured-data",
+      "settings": {
+        "metafield_ingredients": "custom.ingredients",
+        "metafield_serves": "custom.serves",
+        "total_time_metafield": "custom.total_time_iso_format"
+      }
+    }
+  },
+  "order": [
+    "recipe-banner",
+    "main-recipe",
+    "main-recipe-structured-data"
+  ]
+}

@@ -1,0 +1,685 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs_XXXEgJ": {
+      "type": "breadcrumbs",
+      "name": "t:sections.breadcrumbs.name",
+      "settings": {
+        "separator": "/",
+        "text_alignment": "justify-start",
+        "font_size": "text-sm",
+        "active_text_color": "text",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353"
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "judge_me_reviews_preview_badge_C7M9mN": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "display_on_card": false,
+            "text_align": "text-left"
+          }
+        },
+        "text_3ddWag": {
+          "type": "text",
+          "settings": {
+            "display_on_card": false,
+            "text": "Daily Fiber Bars - {{ product.metafields.custom.badge.value }}",
+            "icon": "none"
+          }
+        },
+        "liquid_98Rz3z": {
+          "type": "liquid",
+          "settings": {
+            "display_on_card": false,
+            "liquid": "<b>Flavor notes: </b>"
+          }
+        },
+        "text_nktTfx": {
+          "type": "text",
+          "settings": {
+            "display_on_card": false,
+            "text": "{{ product.metafields.custom.excerpt.value }}",
+            "icon": "none"
+          }
+        },
+        "spacer_grDfgU": {
+          "type": "spacer",
+          "settings": {
+            "height": 4
+          }
+        },
+        "collection_nav_Wj7MAW": {
+          "type": "collection-nav",
+          "settings": {
+            "nav-label": "Flavor",
+            "collection": "daily-fiber-bar"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "display_on_card": false,
+            "option_style": "drop_down",
+            "full_width_buttons": false,
+            "hide_option_labels": false,
+            "enable_color_swatches": false
+          }
+        },
+        "skio_plan_picker_W8m9r8": {
+          "type": "skio-plan-picker",
+          "settings": {
+            "form_id": "",
+            "external_price_selector": ".price-item--regular",
+            "show_details": false,
+            "show_without_subscription": false,
+            "show_compare_price": true,
+            "legend_content": "Select subscription plan",
+            "show_legend": false,
+            "layout": "vertical",
+            "dropdownPosition": "inside",
+            "additional_frequency_label": "",
+            "start_onetime": false,
+            "onetime_first": true,
+            "group_border_radius": 0,
+            "group_border_width": 2,
+            "group_border_color": "#000000",
+            "group_border_selected_color": "#000000",
+            "group_background_color": "rgba(0,0,0,0)",
+            "selected_group_background_color": "rgba(0,0,0,0)",
+            "group_text_color": "#000000",
+            "group_selected_text_color": "#000000",
+            "show_radio_selector": true,
+            "onetime_title": "One time purchase",
+            "subscription_title": "Subscribe & Save",
+            "prepaid_title": "Prepaid",
+            "discount_format": "percent",
+            "discount_style": "bubble",
+            "discount_text": "Save [discount]",
+            "discount_color": "#0fa573",
+            "discount_text_color": "#ffffff",
+            "additional_subscription_content": "- Buy More, Save More On Recurring Orders <br> - 10% off on 1 box <br> - 15% off on 2 boxes <br>- 20% off on 3 or more boxes <br>\n- Free Shipping <br>\n- Exclusive Access to New Flavors <br>\n- Pause, Skip, or Cancel Anytime",
+            "selector_type": "dropdown",
+            "button_plan_selector_width": 100,
+            "default_subscription": "",
+            "future_price_adjustments_text": "<small>Then [discount] and off after the [order_count_ordinal] order</small>",
+            "element_name": "skio-plan-picker",
+            "product_handle": "",
+            "combine_groups": false,
+            "combined_group_name": "Subscription"
+          }
+        },
+        "skio_subscriptions_yc_s20_app_block_txwf8q": {
+          "type": "shopify://apps/skio-subscriptions-yc-s20/blocks/app-block/de50f7a4-0bb0-4d4c-84e2-c03dce83436d",
+          "disabled": true,
+          "settings": {
+            "form_id": "product-form-{{section.id}}",
+            "start_onetime": "false",
+            "onetime_first": "false",
+            "default_subscription": "",
+            "group_border_radius": 5,
+            "group_border_shadow": true,
+            "group_border_selected_color": "#000000",
+            "onetime_title": "One Time",
+            "subscription_title": "Subscribe & Save",
+            "prepaid_title": "",
+            "discount_format": "percent",
+            "discount_style": "bubble",
+            "discount_prefix": "-",
+            "discount_suffix": "",
+            "discount_color": "#ef3340"
+          }
+        },
+        "baf3083e-d14d-435d-bca3-100d6ac490ce": {
+          "type": "buy_buttons",
+          "settings": {
+            "display_on_card": false,
+            "showqty": true,
+            "afterbtn": "Buy Bundle & get a FREE carton.",
+            "show_price": false,
+            "enable_payment_button": false,
+            "show_pickup_availability": false,
+            "show_gift_card_recipient": false
+          }
+        },
+        "icon_row_EyCVpK": {
+          "type": "icon_row",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false,
+            "uppercase_text": false,
+            "icon_alignment": "justify-center",
+            "icon_thickness": 1.5,
+            "background_color": "bg-transparent text-scheme-text",
+            "show_border": true,
+            "icon_size": "h-10 w-10",
+            "icon_1": "vegan",
+            "text_1": "Plant Based",
+            "icon_2": "no_additives",
+            "text_2": "Preservative Free",
+            "icon_3": "sugar_free",
+            "text_3": "Refined Sugar Free",
+            "icon_4": "gluten_free",
+            "text_4": "Gluten Free",
+            "icon_5": "dairy_free",
+            "text_5": "Dairy Free"
+          }
+        },
+        "a17e90c4-acc9-4f1d-af84-828ae4cb2289": {
+          "type": "description",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false,
+            "truncate_description": false,
+            "text_align": "text-left"
+          }
+        },
+        "klaviyo_reviews_average_rating_U7F6PM": {
+          "type": "shopify://apps/klaviyo-reviews/blocks/average-rating/db20e365-d984-4ac4-9655-e1588d951ca9",
+          "disabled": true,
+          "settings": {
+            "product": "{{product}}"
+          }
+        },
+        "share_buttons_LxQaDx": {
+          "type": "share_buttons",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_preview_badge_C7M9mN",
+        "title",
+        "text_3ddWag",
+        "liquid_98Rz3z",
+        "text_nktTfx",
+        "spacer_grDfgU",
+        "collection_nav_Wj7MAW",
+        "variant_picker",
+        "skio_plan_picker_W8m9r8",
+        "skio_subscriptions_yc_s20_app_block_txwf8q",
+        "baf3083e-d14d-435d-bca3-100d6ac490ce",
+        "icon_row_EyCVpK",
+        "a17e90c4-acc9-4f1d-af84-828ae4cb2289",
+        "klaviyo_reviews_average_rating_U7F6PM",
+        "share_buttons_LxQaDx"
+      ],
+      "settings": {
+        "bbl": "",
+        "show_carousel": true,
+        "crop": "",
+        "image_shape": "default",
+        "desktop_media_width": "lg:col-span-6_lg:col-span-6",
+        "show_slideshow_arrows_on_desktop": false,
+        "enable_image_zoom": false,
+        "enable_video_looping": true,
+        "autoplay_videos_on_desktop": true,
+        "media_mobile_width": "w-full",
+        "thumbnails_position": "under",
+        "thumbnail_crop": "aspect-w-1 aspect-h-1",
+        "thumbnail_shape": "default",
+        "thumbnail_size": "standard",
+        "show_thumbnails_on_mobile": false,
+        "hide_media_shadow": false,
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "icon_list_9AVpqp": {
+      "type": "icon-list",
+      "blocks": {
+        "icon_ikX6qD": {
+          "type": "icon",
+          "settings": {
+            "icon": "star",
+            "custom_image": "shopify://shop_images/icon-1.webp",
+            "text": "Plant Based"
+          }
+        },
+        "icon_imzn7d": {
+          "type": "icon",
+          "settings": {
+            "icon": "star",
+            "custom_image": "shopify://shop_images/icon-2.webp",
+            "text": "Emulsifier Free"
+          }
+        },
+        "icon_8XUtRi": {
+          "type": "icon",
+          "settings": {
+            "icon": "star",
+            "custom_image": "shopify://shop_images/icon-3.webp",
+            "text": "Refined Sugar Free"
+          }
+        },
+        "icon_hacV94": {
+          "type": "icon",
+          "settings": {
+            "icon": "star",
+            "custom_image": "shopify://shop_images/icon-4.webp",
+            "text": "Gluten Free"
+          }
+        },
+        "icon_MYmXER": {
+          "type": "icon",
+          "settings": {
+            "icon": "star",
+            "custom_image": "shopify://shop_images/icon-5.webp",
+            "text": "Dairy Free"
+          }
+        }
+      },
+      "block_order": [
+        "icon_ikX6qD",
+        "icon_imzn7d",
+        "icon_8XUtRi",
+        "icon_hacV94",
+        "icon_MYmXER"
+      ],
+      "name": "t:sections.icon_list.name",
+      "settings": {
+        "title": "",
+        "max_width": 50,
+        "text_style": "body",
+        "uppercase_text": false,
+        "layout_on_mobile": "scroll",
+        "icon_alignment_on_desktop": "md:justify-center",
+        "icon_thickness": 1,
+        "background_color": "bg-transparent text-scheme-text",
+        "show_border": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "nutrition_facts_DH4NG3": {
+      "type": "nutrition-facts",
+      "blocks": {
+        "fact_jE8mKz": {
+          "type": "fact",
+          "disabled": true,
+          "settings": {
+            "title": "<ul><li><b>Total Fat</b> <b>5g</b></li>\n<li><span>Saturated Fat 0.5g</span> <b>3%</b></li>\n<li><span>Trans Fat Og\n</li></ul>"
+          }
+        },
+        "fact_mXjcUb": {
+          "type": "fact",
+          "disabled": true,
+          "settings": {
+            "title": "<ul><li><b>Cholesterol Omg                                     </b> <b>0%</b></li></ul>"
+          }
+        },
+        "fact_z68Df6": {
+          "type": "fact",
+          "disabled": true,
+          "settings": {
+            "title": "<ul><li><b>Sodium 105mg         </b> <b>5%</b></li></ul>"
+          }
+        },
+        "fact_tbAYqV": {
+          "type": "fact",
+          "disabled": true,
+          "settings": {
+            "title": "<ul><li><b>Total Carbohydrate 28g</b> <b>10%</b></li>\n<li><span>Dietary Fiber 13g</span> <b>46%</b></li>\n<li><span>Total Sugars 8g\n</li>\n<li><span>Includes 0g Added Sugars</span> <b>0%</b></li></ul>"
+          }
+        },
+        "fact_yRbGM4": {
+          "type": "fact",
+          "disabled": true,
+          "settings": {
+            "title": "<ul><li><b>Protein 2g</b></li>\n</ul>"
+          }
+        },
+        "fact_gB6GnN": {
+          "type": "fact",
+          "disabled": true,
+          "settings": {
+            "title": "<ul>\n    <li><span>Vitamin D 0mcg</span> <span>0%</span></li>\n    <li><span>Calcium 40mg</span> <span>2%</span></li>\n    <li><span>Iron 0.8mg</span> <span>4%</span></li>\n    <li><span>Potassium 240mg</span> <span>6%</span></li>\n</ul>"
+          }
+        }
+      },
+      "block_order": [
+        "fact_jE8mKz",
+        "fact_mXjcUb",
+        "fact_z68Df6",
+        "fact_tbAYqV",
+        "fact_yRbGM4",
+        "fact_gB6GnN"
+      ],
+      "name": "Nutrition Facts",
+      "settings": {
+        "head": "Nutrition Facts",
+        "bar_image": "{{ product.metafields.custom.bar_image.value }}",
+        "ingredient_list": "{{ product.metafields.custom.ingredients | metafield_tag }}",
+        "calories": "140",
+        "btmln": "*The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice."
+      }
+    },
+    "image_with_text_overlay_CaD3QM": {
+      "type": "image-with-text-overlay",
+      "disabled": true,
+      "name": "t:sections.image_with_text_overlay.name",
+      "settings": {
+        "custom__class": "outer_craves_sec",
+        "image": "shopify://shop_images/attachment_3_1.png",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": true,
+        "style": "full",
+        "mobile_style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-center",
+        "text_align": "text-left",
+        "text_align_mobile": "default",
+        "text_max_width_desktop": "default",
+        "content_padding_mobile": 20,
+        "subheader": "",
+        "subheader_font_size_desktop": 20,
+        "subheader_font_size_mobile": 16,
+        "subheader_color": "",
+        "subheader_max_width_desktop": 500,
+        "subheader_max_width_mobile": 320,
+        "badge_max_width_desktop": 280,
+        "badge_max_width_mobile": 200,
+        "title": "Your Body Craves Floura",
+        "title_new_line_after_each_word": false,
+        "header_font_size": 80,
+        "header_font_size_mobile": 40,
+        "header_color": "",
+        "richtext": "<p><strong>The Unspoken Truth: A Fiber Gap</strong><br/><strong>95% of Americans are missing out on essential fiber from diverse whole foods.</strong> This isn't just a statistic; it's a silent challenge to our vitality. Fiber is the crucial fuel for your beneficial gut bacteria, actively nurturing a balanced microbiome (that includes your skin). Without it, we're not just missing a nutrient—we're missing the foundation for true flourish.</p>",
+        "body_font_size_desktop": 20,
+        "body_font_size_mobile": 18,
+        "body_text_color": "",
+        "cta_url": "",
+        "cta_text": "Shop Now",
+        "color_scheme": "",
+        "use_gradient_background": false
+      }
+    },
+    "video_with_text_overlay_AHkHXM": {
+      "type": "video-with-text-overlay",
+      "disabled": true,
+      "name": "t:sections.video_with_text_overlay.name",
+      "settings": {
+        "video": "shopify://files/videos/Copy of 2025_Floura_General_ Brand Deck (1)_04d08dd3-3f19-44fd-96c3-ab23eccfc445_eca0c399-2074-4871-9a22-f650e08d66ff.mp4",
+        "crop": "four-three",
+        "crop_desktop": "cinematic",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": true,
+        "style": "full",
+        "place_content": "place-content-center-center",
+        "text_align": "text-center",
+        "title": "Fiber, Reimagined. Flavor, Uncompromised.",
+        "heading_size": "heading-standard",
+        "richtext": "",
+        "cta_url": "",
+        "cta_text": "Shop Now",
+        "color_scheme": "",
+        "use_gradient_background": false
+      }
+    },
+    "image_with_text_overlay_NqVzir": {
+      "type": "image-with-text-overlay",
+      "disabled": true,
+      "name": "t:sections.image_with_text_overlay.name",
+      "settings": {
+        "custom__class": "Outer_fiver_flavor",
+        "image": "shopify://shop_images/Copy_of_2025_Floura_General__Brand_Deck_1__04d08dd3-3f19-44fd-96c3-ab23eccfc445_1.png",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": true,
+        "style": "full",
+        "mobile_style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-center",
+        "text_align": "text-center",
+        "text_align_mobile": "default",
+        "text_max_width_desktop": "default",
+        "content_padding_mobile": 20,
+        "subheader": "",
+        "subheader_font_size_desktop": 20,
+        "subheader_font_size_mobile": 16,
+        "subheader_color": "",
+        "subheader_max_width_desktop": 500,
+        "subheader_max_width_mobile": 320,
+        "badge_max_width_desktop": 280,
+        "badge_max_width_mobile": 200,
+        "title": "Fiber, Reimagined. Flavor, Uncompromised.",
+        "title_new_line_after_each_word": false,
+        "header_font_size": 80,
+        "header_font_size_mobile": 40,
+        "header_color": "",
+        "richtext": "",
+        "body_font_size_desktop": 20,
+        "body_font_size_mobile": 18,
+        "body_text_color": "",
+        "cta_url": "",
+        "cta_text": "Shop Now",
+        "color_scheme": "",
+        "use_gradient_background": false
+      }
+    },
+    "176340801886e044c3": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_abQYrY": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_abQYrY"
+      ],
+      "settings": {
+        "apply_vertical_spacing": true,
+        "apply_horizontal_spacing": true,
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-full",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "17338811218fba04af": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_reviews_product_reviews_GJUHCd": {
+          "type": "shopify://apps/klaviyo-reviews/blocks/product-reviews/db20e365-d984-4ac4-9655-e1588d951ca9",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "klaviyo_reviews_product_reviews_GJUHCd"
+      ],
+      "disabled": true,
+      "settings": {
+        "apply_vertical_spacing": false,
+        "apply_horizontal_spacing": false,
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-full",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "vertical_video_embeds_VYEQCE": {
+      "type": "vertical-video-embeds",
+      "blocks": {
+        "video_embed_yTchpe": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/d28abf3f94be4d1caa4c77527f304256.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_MitTgX": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/7dbeceec3c47456ebeccdc78613be89d.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_twnk8F": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a8e197945bd8463dbc4e96fddbddf22a.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_mwfecb": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a9588f4c992243daaaa01eb6fa555ef6.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_BXQcRa": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/577799218ae44cd49e8cb98b2d3d586e.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_TKkamT": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/5f34c35ca2464c839ddbe06fbdd5a690.mp4",
+            "video_embed_code": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_embed_yTchpe",
+        "video_embed_MitTgX",
+        "video_embed_twnk8F",
+        "video_embed_mwfecb",
+        "video_embed_BXQcRa",
+        "video_embed_TKkamT"
+      ],
+      "name": "t:sections.vertical_video_embeds.name",
+      "settings": {
+        "title": "Floura <strong>from the Community</strong>",
+        "subheading": "",
+        "slideshow_focus": "center",
+        "autoscroll_mode": "1",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "faq_xMLWJk": {
+      "type": "faq",
+      "blocks": {
+        "question_EnTXVi": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What is the Fiber Gap?",
+            "answer": "<p>Only 5% of Americans meet the recommended daily fiber intake of 25g for women and 38g for men. Floura Bars help bridge this gap with delicious, fiber-rich whole foods.</p>"
+          }
+        },
+        "question_b7GwhV": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "How much fiber do I need to eat?",
+            "answer": "<p>Experts recommend that adults aim for <strong>25-38 grams of fiber daily</strong>, depending on age and gender. But it’s not just about how much—you also need a variety of fiber to support a diverse and thriving gut microbiome. That’s why nutritionists suggest eating <strong>30 different plant-based foods each week</strong> to get the full benefits of fiber.</p><p>At Floura, we make it easy to boost your fiber intake and diversity. Each bar or bite packs 12 whole plants, giving you 40% of your weekly fiber diversity in one delicious, convenient snack. It’s a simple, tasty way to nourish your gut and feel your best!</p>"
+          }
+        },
+        "question_ApPDHy": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "Why does plant diversity matter?",
+            "answer": "<p>Did you know experts recommend eating 30 different plants each week to fuel a healthy gut? That’s because diverse fiber supports the diverse microbes that keep your gut thriving. </p><p>Floura makes it easier than ever to meet that goal. With 12 whole plants in every bar or bite, Floura delivers 40% of your weekly fiber diversity in one delicious snack. Nourish your gut, one bite at a time.</p>"
+          }
+        },
+        "question_3iKNjz": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What ingredients are you using?",
+            "answer": "<p>At Floura, our proprietary ingredients are anything but ordinary. Take our Red Apple Paste and SuperFiber Prebiotic Flour—crafted from innovative components like Fermented Watermelon Rind Flour and Red Apple Flour. These exceptional ingredients are prepared from fresh fruit trimmings in our facility, minimizing waste while maximizing flavor and nutrition.</p><p>What sets us apart? All our flours are made entirely from fruit, making them naturally gluten-free. And that’s not all—our products are free from gluten, dairy, emulsifiers, refined sugars (including corn syrup), stabilizers, and synthetic flavorings. Pure, clean, and bursting with goodness—that’s the Floura difference.</p>"
+          }
+        },
+        "question_qCgHeH": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What is the nutritional profile of a Floura Bar?",
+            "answer": "<p>The official nutrition profile for each bar is available on each product page.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_EnTXVi",
+        "question_b7GwhV",
+        "question_ApPDHy",
+        "question_3iKNjz",
+        "question_qCgHeH"
+      ],
+      "disabled": true,
+      "name": "t:sections.faq.name",
+      "settings": {
+        "mainimg": "shopify://shop_images/TH_Floura-Bites_1180705_1.webp",
+        "display_on_card": true,
+        "heading_text_style": "heading",
+        "two_columns_desktop": false,
+        "title": "Frequently Asked Questions",
+        "richtext": "",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false,
+        "showbtn": true,
+        "showbtnlnk": "shopify://pages/faq"
+      }
+    },
+    "blog_posts_a9gV6W": {
+      "type": "blog-posts",
+      "name": "t:sections.blog_posts.name",
+      "settings": {
+        "display_on_card": false,
+        "posts_per_row_desktop": 4,
+        "title": "Blog posts",
+        "blog": "gutsy",
+        "post_limit": 4,
+        "crop": "aspect-w-4 aspect-h-3",
+        "image_shape": "default",
+        "blog_show_author": false,
+        "blog_show_date": false,
+        "show_post_excerpt": true,
+        "show_view_all": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs_XXXEgJ",
+    "main",
+    "icon_list_9AVpqp",
+    "nutrition_facts_DH4NG3",
+    "image_with_text_overlay_CaD3QM",
+    "video_with_text_overlay_AHkHXM",
+    "image_with_text_overlay_NqVzir",
+    "176340801886e044c3",
+    "17338811218fba04af",
+    "vertical_video_embeds_VYEQCE",
+    "faq_xMLWJk",
+    "blog_posts_a9gV6W"
+  ]
+}

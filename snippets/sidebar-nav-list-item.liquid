@@ -1,0 +1,123 @@
+{% comment %}
+  First level
+{% endcomment %}
+{% assign showcase_link_tiles = '' %}
+<li
+  class="text-lg lg:text-xl"
+  style="--first-delay-tap: {% increment first_delay_tap %};"
+>
+  {% if link.links.size > 0 %}
+    <data-island
+      x-data="
+        {
+          expanded: {% if forloop.first and section.settings.auto_expand %}true{% else %}false{% endif %}
+        }
+      "
+    >
+      <button
+        class="font-heading flex w-full flex-row items-center justify-between py-2.5 text-left {{ section.settings.sidebar_menu_font_size }}"
+        @click="expanded = ! expanded"
+        :aria-expanded="expanded"
+      >
+        <span>{{ link.title }}</span>
+        <div class="ml-auto">
+          <span
+            class="block h-3 w-3"
+            :class="{'rotate-180': expanded}"
+          >
+            {%- render 'icon-chevron-down' -%}
+          </span>
+        </div>
+      </button>
+      <div x-show="expanded" x-collapse>
+        <ul class="pb-5 text-base font-main">
+          {% for link in link.links %}
+            {% comment %}
+              Second level
+            {% endcomment %}
+            {%- liquid
+              assign showcase_link = false
+              if section.settings.showcase_second_level_links
+                if link.type == 'collection_link' or link.type == 'product_link'
+                  if link.links.size == 0
+                    assign showcase_link = true
+                  endif
+                endif
+              endif
+            -%}
+
+            {% unless showcase_link %}
+              <li
+                class="my-3 text-base"
+                style="--second-delay-tap: {% increment second_delay_tap %};"
+              >
+                {% if link.links.size > 0 %}
+                  <data-island
+                    x-data="{ expanded: false }"
+                  >
+                    <button
+                      class="flex w-full flex-row items-center justify-between {{ base_font_class }}"
+                      @click="expanded = ! expanded"
+                      :aria-expanded="expanded"
+                    >
+                      <span>{{ link.title }}</span>
+                      <div class="ml-auto">
+                        <span
+                          class="block h-3 w-3"
+                          :class="{'rotate-180': expanded}"
+                        >
+                          {%- render 'icon-chevron-down' -%}
+                        </span>
+                      </div>
+                    </button>
+                    <ul x-show="expanded" x-collapse>
+                      {% for link in link.links %}
+                        {% comment %}
+                          Third level
+                        {% endcomment %}
+                        <li
+                          class="mt-3 pl-5 text-base"
+                          style="--third-delay-tap: {% increment third_delay_tap %};"
+                        >
+                          <a href="{{ link.url }}">
+                            {{ link.title }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </data-island>
+                {% else %}
+                  <a class="" href="{{ link.url }}">
+                    {{ link.title }}
+                  </a>
+                {% endif %}
+              </li>
+            {% else %}
+              {%- capture link_tile -%}
+                  <li class="text-base">
+                    {%- assign object = link.object -%}
+                    {% render 'showcase-tile', object: object, crop: section.settings.crop, sizes: '(min-width: 1024px) calc(41.67vw / 2), (min-width: 768px) calc(58.33vw / 2), calc(91.67vw / 2)' %}
+                  </li>
+                {%- endcapture -%}
+              {%- assign showcase_link_tiles = showcase_link_tiles
+                | append: link_tile
+              -%}
+            {%- endunless -%}
+          {% endfor %}
+        </ul>
+        {% if showcase_link_tiles != '' %}
+          <ul class="nav-item mb-5 grid grid-cols-2 gap-5">
+            {{ showcase_link_tiles }}
+          </ul>
+        {% endif %}
+      </div>
+    </data-island>
+  {% else %}
+    <a
+      class="font-heading block py-2.5 {{ section.settings.sidebar_menu_font_size }}"
+      href="{{ link.url }}"
+    >
+      {{ link.title }}
+    </a>
+  {% endif %}
+</li>

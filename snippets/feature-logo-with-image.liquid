@@ -1,0 +1,119 @@
+{%- render 'shape-defs',
+  shape: image_shape,
+  shape_id: section_id,
+  index: index,
+  blob_type: blob_type
+-%}
+
+{%- liquid
+  if logo != blank
+    assign logo_sizes = logo_max_width | append: 'vw'
+  endif
+
+  case alignment
+    when 'left'
+      assign alignment_classes = 'mr-auto'
+    when 'right'
+      assign alignment_classes = 'ml-auto'
+    when 'center'
+      assign alignment_classes = 'mx-auto'
+  endcase
+
+  assign loading = 'lazy'
+  if section.index <= 3
+    assign loading = 'eager'
+  endif
+
+  assign preload = false
+  if section.index == 1
+    assign preload = true
+  endif
+-%}
+
+<div class="block">
+  <div class="relative z-20 flex flex-col items-center">
+    {%- if logo != blank -%}
+      {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+      <div
+        class="w-full {{ alignment_classes }}"
+        style="max-width: {{ section.settings.logo_max_width }}%"
+        role="complementary"
+      >
+        {{
+          logo
+          | image_url: width: 3000
+          | image_tag:
+            class: 'w-full',
+            width: logo.width,
+            sizes: logo_sizes,
+            alt: logo_alt,
+            preload: preload
+        }}
+      </div>
+    {%- else -%}
+      <div
+        class="w-full {{ alignment_classes }}"
+        style="max-width: {{ logo_max_width }}%"
+        role="complementary"
+      >
+        {%- render 'icon-logo-placeholder', class: 'w-full h-auto' %}
+      </div>
+    {%- endif -%}
+
+    {%- if button_link != blank and button_label != '' -%}
+      <div class="mx-auto mb-5 mt-5">
+        <a href="{{ button_link }}" class="push-btn inline-block">
+          <span class="push-btn__surface">{{ button_label }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="image-container mx-auto {% unless disable_media_style %}{% if settings.media_shadow_direction contains 'top' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}{% endunless %} {% if image_offset_mobile == 0 %}mt-5{% endif %} {% if image_offset_desktop == 0 %}lg:mt-10{% endif %}">
+    {%- if image != blank -%}
+      {%- liquid
+        assign desktop_sizes = max_width_image_desktop | append: 'vw'
+        assign mobile_sizes = max_width_image_mobile | append: 'vw'
+
+        assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', ' | append: mobile_sizes
+      -%}
+      {%- render 'media-image',
+        media: image,
+        media_id: image.id,
+        shape_id: section_id,
+        shape: image_shape,
+        crop: crop,
+        rotate: rotate_image,
+        is_card: false,
+        blob_type: blob_type,
+        container_id: container_id,
+        disable_media_style: disable_media_style,
+        loading: loading,
+        preload: preload,
+        sizes: sizes
+      -%}
+    {%- else -%}
+      {%- render 'media-image-placeholder',
+        shape_id: section_id,
+        container_id: section_id,
+        shape: image_shape,
+        crop: crop,
+        rotate: rotate_image,
+        is_card: false,
+        blob_type: blob_type,
+        disable_media_style: disable_media_style
+      -%}
+    {%- endif -%}
+  </div>
+
+  {% style %}
+    #shopify-section-{{ section_id }} .image-container {
+      width: {{ max_width_image_mobile }}%;
+    }
+
+    @media (min-width: 990px) {
+      #shopify-section-{{ section_id }} .image-container {
+        width: {{ max_width_image_desktop }}%;
+      }
+    }
+  {% endstyle %}
+</div>

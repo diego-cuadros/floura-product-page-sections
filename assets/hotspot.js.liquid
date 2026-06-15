@@ -1,0 +1,45 @@
+function initSlider(t) {
+    let e = t.querySelectorAll(".hotspot");
+let a = t.querySelectorAll(".slider");
+let c = t.querySelectorAll(".dot");
+    function s(s) {
+        a.forEach((t => {
+            t.classList.remove("active");
+        })), c.forEach((t => {
+            t.classList.remove("active");
+        }));
+        let i = t.querySelector(`.slider[data-attr="${s + 1}"]`);
+        i && i.classList.add("active");
+        let l = t.querySelector(`.dot[data-slide="${s + 1}"]`);
+        l && l.classList.add("active");
+        let r = t.querySelector(`.hotspot[data-attr="${s + 1}"]`);
+        r && (e.forEach((t => {
+            t.classList.remove("active");
+        })), r.classList.add("active"));
+    }
+    e.forEach((s => {
+        s.addEventListener("click", (function() {
+            let s = this.dataset.attr;
+            a.forEach((t => {
+                t.classList.remove("active");
+            }));
+            let i = t.querySelector(`.slider[data-attr="${s}"]`);
+            i && i.classList.add("active"), c.forEach((t => {
+                t.classList.remove("active");
+            }));
+            let l = t.querySelector(`.dot[data-slide="${s}"]`);
+            l && l.classList.add("active"), e.forEach((t => {
+                t.classList.remove("active");
+            })), this.classList.add("active");
+        }));
+    })), c.forEach((t => {
+        t.addEventListener("click", (function() {
+            let e = parseInt(t.getAttribute("data-slide")) - 1;
+            s(e);
+        }));
+    })), s(0);
+}
+
+document.querySelectorAll(".veda-hotspot-section-wrapper").forEach((t => {
+    initSlider(t);
+}));

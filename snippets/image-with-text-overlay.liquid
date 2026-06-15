@@ -1,0 +1,227 @@
+{% liquid
+  assign image_class = 'w-full'
+  unless loading
+    assign loading = 'lazy'
+  endunless
+  unless preload
+    assign preload = false
+  endunless
+
+  if style == 'inset'
+    assign image_class = image_class | append: ' media__styled-element'
+    assign desktop_sizes = 'min(1820px, 100vw)'
+  else
+    assign desktop_sizes = '100vw'
+  endif
+  assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', 100vw'
+
+  if heading_size == 'heading-feature'
+    assign content_max_width = 'max-w-xl'
+  else
+    assign content_max_width = 'max-w-lg'
+  endif
+
+  if display_content_below_image_on_mobile
+    assign content_class = 'lg:grid lg:absolute lg:inset-0 lg:w-full lg:h-full'
+    assign content_inset_class = 'max-w-site lg:py-5 lg:px-section mx-auto'
+    assign card_container_class = 'lg:card'
+    assign card_content_class = 'lg:card__surface lg:py-10 lg:px-section'
+  else
+    assign content_class = 'grid absolute inset-0 w-full h-full'
+    assign content_inset_class = 'max-w-site py-5 px-section mx-auto'
+    assign card_container_class = 'card'
+    assign card_content_class = 'card__surface py-5 lg:py-10 px-section'
+  endif
+
+  unless mode
+    assign mode = ''
+  endunless
+
+  if mode == 'logo_overlay'
+    assign content_class = 'flex items-center justify-center absolute inset-0 w-full h-full'
+    assign place_content = ''
+    assign text_align = ''
+    assign content_max_width = 'max-w-site'
+    if style == 'inset'
+      assign logo_wrapper_class = 'px-section'
+    endif
+  endif
+
+  assign has_text_content = false
+  if subheader != blank or title != blank or richtext != blank
+    assign has_text_content = true
+  endif
+
+  assign has_button_content = false
+  if cta_text != blank and cta_url != blank
+    assign has_button_content = true
+  endif
+
+  assign hide_empty_content = true
+  if has_text_content or has_button_content
+    assign hide_empty_content = false
+  endif
+
+  case text_align
+    when 'text-left'
+      assign mobile_content_below_media_align = 'justify-start'
+    when 'text-center'
+      assign mobile_content_below_media_align = 'justify-center'
+    when 'text-right'
+      assign mobile_content_below_media_align = 'justify-end'
+  endcase
+%}
+
+<div class="relative z-10 h-full lg:bg-transparent">
+  {%- if cta_url != blank and cta_text == blank -%}
+    <a href="{{ cta_url }}" class="absolute inset-0 z-20"></a>
+  {%- endif -%}
+
+  {%- liquid
+    assign desktop_inset = false
+    if style == 'inset'
+      assign desktop_inset = true
+    endif
+    assign mobile_inset = false
+    if mobile_style == 'inset'
+      assign mobile_inset = true
+    endif
+  -%}
+  <div class="{% if crop contains 'slideshow' %}lg:h-full{% endif %} {% if mobile_inset and desktop_inset %}max-w-site px-5 lg:px-10 mx-auto{% elsif desktop_inset %}lg:max-w-site lg:px-10 lg:mx-auto{% elsif mobile_inset %}max-w-site px-5 mx-auto lg:max-w-none lg:px-0 lg:mx-0{% endif %}">
+    <div class="{{ crop }} {% if style == 'inset' %} media media--css-only h-full w-full{% endif %}">
+      {% if image != blank %}
+        {% capture image_tag_output %}{{
+            image
+            | image_url: width: 2000
+            | image_tag: sizes: sizes, class: image_class, loading: loading, preload: preload
+          }}{% endcapture %}
+        {%- if image_mobile != blank -%}
+          <div class="hidden lg:block">
+            {{ image_tag_output }}
+          </div>
+        {%- else -%}
+          {{ image_tag_output }}
+        {%- endif -%}
+        {%- if image_mobile != blank -%}
+          <div class="lg:hidden">
+            {{
+              image_mobile
+              | image_url: width: 1200
+              | image_tag:
+                sizes: '100vw',
+                class: image_class,
+                loading: loading,
+                preload: preload
+            }}
+          </div>
+        {%- endif -%}
+      {% else %}
+        <div class="{{ image_class }} {% unless slideshow_height == 'natural' %}absolute inset-0{% endunless %}">
+          {{
+            'lifestyle-1'
+            | placeholder_svg_tag: 'block text-scheme-placeholder-foreground fill-current bg-neutral-100'
+          }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div
+    class="iwto-content-wrapper px-section py-section-vertical-spacing {{ content_class }} z-10  text-scheme-text {{ place_content }} {{ text_align }} {% if style == 'inset' %}max-w-site mx-auto{% endif %}"
+  >
+    {%- capture content %}
+    {%- if mode == 'logo_overlay' -%}
+      {%- if logo != blank -%}
+        {%- liquid
+          assign logo_alt = logo.alt | default: shop.name | escape
+          assign logo_sizes = logo_max_width | append: 'vw'
+        -%}
+        <div
+          class="mx-auto w-full"
+          style="max-width: {{ logo_max_width }}%"
+          role="complementary"
+        >
+          {{
+            logo
+            | image_url: width: 3000
+            | image_tag:
+              class: 'w-full',
+              width: logo.width,
+              sizes: logo_sizes,
+              alt: logo_alt,
+              preload: preload
+          }}
+        </div>
+      {%- else -%}
+        <div
+          class="mx-auto w-full"
+          style="max-width: {{ logo_max_width }}%"
+          role="complementary"
+        >
+          {%- render 'icon-logo-placeholder', class: 'w-full h-auto' %}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      {% if subheader != blank %}
+        <p class="iwto-subheader font-heading text-lg italic {% if title != blank or richtext != blank %}mb-2{% endif %}">{{ subheader }}</p>
+      {% endif %}
+      {% if badge_image != blank %}
+        <div class="iwto-badge flex justify-center {% if title != blank or subheader != blank %}mb-2{% endif %}">
+          {{ badge_image | image_url: width: 400 | image_tag: class: 'iwto-badge__img h-auto max-h-16 w-auto', loading: 'lazy', alt: '' }}
+        </div>
+      {% endif %}
+      {% if title != blank %}
+        <h2 class="iwto-heading inline-heading-rte font-heading {{ heading_size }} heading-style {{ settings.heading_drop_shadow_style }}">
+          {% if title_new_line_after_each_word %}
+            {% assign title_words = title | strip_html | split: ' ' %}
+            {% for word in title_words %}
+              {{ word }}{% unless forloop.last %}<br>{% endunless %}
+            {% endfor %}
+          {% else %}
+            {{ title }}
+          {% endif %}
+        </h2>
+      {% endif %}
+      {% if richtext != blank %}
+        <div class="iwto-body inline-rte  {% if title != blank or subheader != blank %}mt-5{% endif %}">
+          {{ richtext }}
+        </div>
+      {% endif %}
+    {%- endif -%}
+
+    {% if cta_url != blank and cta_text != blank %}
+      <div class="iwto-cta-wrap relative inline-block z-10 {% if title != blank or richtext != blank or subheader != blank %}mt-5{% endif %}">
+        <a class="push-btn inline-block" href="{{ cta_url }}">
+          <span class="push-btn__surface">{{ cta_text }}</span>
+        </a>
+      </div>
+    {% endif %}
+  {%- endcapture -%}
+
+    {%- if mode == 'logo_overlay' -%}
+      <div class="flex w-full flex-col items-center gap-5 {{ logo_wrapper_class }}">
+        {{ content }}
+      </div>
+    {%- else -%}
+      <div class="flex {{ mobile_content_below_media_align }} {% if style == 'inset' %}{{ content_inset_class }}{% endif %} {% if display_on_card == true and hide_empty_content == true %}hidden lg:hidden{% endif %}">
+        {%- unless display_content_below_image_on_mobile == false -%}
+          <div class="iwto-text-block iwto-mobile-block {% unless display_content_below_image_on_mobile == false %}lg:hidden{% endunless %} {% if display_on_card == true %}{{ card_container_class }}{% endif %} {{ content_max_width }}">
+            <div class="break-words {% if display_on_card == true %}{{ card_content_class }}{% endif %} ">
+              {{ content }}
+            </div>
+          </div>
+        {%- endunless -%}
+
+        <div
+          class="iwto-text-block iwto-desktop-block {% unless display_content_below_image_on_mobile == false %}hidden lg:block{% endunless %} {% if display_on_card == true %}{{ card_container_class }} {% endif %}  {{ content_max_width }} text-scheme-text"
+        >
+          <div class="break-words {% if display_on_card == true %}{{ card_content_class }}{% endif %}">
+            {{ content }}
+          </div>
+          {% if display_on_card and settings.card_show_border_on_shadow -%}
+            <div class="{{ card_border_class }}"></div>
+          {%- endif %}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

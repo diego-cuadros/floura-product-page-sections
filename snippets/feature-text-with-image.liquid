@@ -1,0 +1,86 @@
+{%- render 'shape-defs',
+  shape: image_shape,
+  shape_id: section_id,
+  index: index,
+  blob_type: blob_type
+-%}
+
+{%- liquid
+  assign loading = 'lazy'
+
+  if section.index <= 3
+    assign loading = 'eager'
+  endif
+
+  assign preload = false
+
+  if section.index == 1
+    assign preload = true
+  endif
+-%}
+
+<div class="block">
+  <div class="relative z-20 flex flex-col items-center">
+    {% if title != '' %}
+      <h2 class="feature-text inline-heading-rte font-heading heading-style break-words {{ settings.heading_drop_shadow_style }} {{ max_width_heading }} text-center {% if apply_effects %}heading-effects{% endif %} {% render 'type-scale-classes', mobile_text_scale: section.settings.mobile_text_scale, desktop_text_scale: section.settings.desktop_text_scale %}">
+        {{ title }}
+      </h2>
+    {% endif %}
+
+    {%- if button_link != blank and button_label != '' -%}
+      <div class="mx-auto mb-5 mt-5">
+        <a href="{{ button_link }}" class="push-btn inline-block">
+          <span class="push-btn__surface">{{ button_label }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="image-container mx-auto {% unless disable_media_style %}{% if settings.media_shadow_direction contains 'top' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}{% endunless %} {% if image_offset_mobile == 0 %}mt-5{% endif %} {% if image_offset_desktop == 0 %}lg:mt-10{% endif %}">
+    {%- if image != blank -%}
+      {%- liquid
+        assign desktop_sizes = max_width_image_desktop | append: 'vw'
+        assign mobile_sizes = max_width_image_mobile | append: 'vw'
+
+        assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', ' | append: mobile_sizes
+      -%}
+      {%- render 'media-image',
+        media: image,
+        media_id: image.id,
+        shape_id: section_id,
+        shape: image_shape,
+        crop: crop,
+        rotate: rotate_image,
+        is_card: false,
+        blob_type: blob_type,
+        container_id: container_id,
+        disable_media_style: disable_media_style,
+        preload: preload,
+        loading: loading,
+        sizes: sizes
+      -%}
+    {%- else -%}
+      {%- render 'media-image-placeholder',
+        shape_id: section_id,
+        container_id: section_id,
+        shape: image_shape,
+        crop: crop,
+        rotate: rotate_image,
+        is_card: false,
+        blob_type: blob_type,
+        disable_media_style: disable_media_style
+      -%}
+    {%- endif -%}
+  </div>
+
+  {% style %}
+    #shopify-section-{{ section_id }} .image-container {
+      width: {{ max_width_image_mobile }}%;
+    }
+
+    @media (min-width: 990px) {
+      #shopify-section-{{ section_id }} .image-container {
+        width: {{ max_width_image_desktop }}%;
+      }
+    }
+  {% endstyle %}
+</div>

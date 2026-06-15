@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div[data-color-scheme=primary].bg-scheme-background.text-scheme-text",
+  "sections": {
+    "cart": {
+      "type": "cart",
+      "settings": {
+        "display_on_card": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "collection_list_carousel_LQdidT": {
+      "type": "collection-list-carousel",
+      "disabled": true,
+      "settings": {
+        "title": "Fiber that tastes good",
+        "collection_list": [
+          "frontpage",
+          "super-bars",
+          "superbites"
+        ],
+        "crop": "aspect-w-1 aspect-h-1",
+        "image_shape": "default",
+        "slideshow_focus": "center",
+        "mobile_slide_width": "three_fifths",
+        "desktop_slide_width": 25,
+        "autoscroll_mode": "0",
+        "button_style": "push-btn__surface",
+        "show_buttons_on_mobile": true,
+        "only_show_button_on_hover": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "cart",
+    "collection_list_carousel_LQdidT"
+  ]
+}

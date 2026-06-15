@@ -1,0 +1,759 @@
+{%- liquid
+  assign country_selector = false
+  assign locale_selector = false
+
+  if section.settings.show_country_selector and localization.available_countries.size > 1
+    assign country_selector = true
+  endif
+  if section.settings.show_locale_selector and shop.published_locales.size > 1
+    assign locale_selector = true
+  endif
+
+  assign shape_dividers = section.blocks | where: 'type', 'shape_divider'
+  assign shape_dividers_size = shape_dividers.size
+  assign content_blocks_size = section.blocks.size | minus: shape_dividers_size
+
+  case content_blocks_size
+    when 1
+      assign block_width_desktop = 'lg:col-span-full'
+    when 2
+      assign block_width_desktop = 'lg:col-span-6'
+    when 3
+      assign block_width_desktop = 'lg:col-span-4'
+    when 4
+      assign block_width_desktop = 'lg:col-span-6 xl:col-span-3'
+    else
+      assign block_width_desktop = 'lg:col-span-4'
+  endcase
+-%}
+<footer
+  class="relative bg-scheme-background px-section  text-scheme-text{% if section.settings.use_gradient_background %} bg-scheme-gradient{% endif %}"
+  data-color-scheme="{{ section.settings.color_scheme }}"
+>
+  <div class="section-content relative z-10 mx-auto max-w-site py-section-vertical-spacing">
+    <div class="grid grid-footer grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-theme">
+      {%- for block in section.blocks -%}
+        {% unless block.type == 'sticker'
+          or block.type == 'background_pattern'
+          or block.type == 'background_shape'
+          or block.type == 'shape_divider'
+        %}
+          <div
+            class="space-y-5 {{ block_width_desktop }} {% if forloop.last %}lg:col-end-last{%  endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {%- case block.type -%}
+              {%- when 'logo' -%}
+                <div class="h1 font-heading">
+                  {% if block.settings.logo != blank %}
+                    {% liquid
+                      assign logo = block.settings.logo
+                      assign image_size = block.settings.logo_max_width
+
+                      # theme-check-disable VariableName
+                      # https://github.com/Shopify/theme-tools/issues/397
+                      assign image_size_2x = block.settings.logo_max_width | times: 2
+                      assign image_size_3x = block.settings.logo_max_width | times: 3
+                      # theme-check-enable VariableName
+                    %}
+                    <a
+                      href="{{ routes.root_url }}"
+                      class="inline w-full"
+                    >
+                      <div
+                        style="max-width: {{ block.settings.logo_max_width }}px;"
+                      >
+                        <img
+                          src="{{ logo | image_url: width: image_size }}"
+                          srcset="
+                            {{- logo | image_url: width: image_size | append: ' 1x,' -}}
+                            {{- logo | image_url: width: image_size_2x | append: ' 2x,' -}}
+                            {{- logo | image_url: width: image_size_3x | append: ' 3x' -}}
+                          "
+                          alt="{{ shop.name }}"
+                          width="{{ logo.width }}"
+                          height="{{ logo.height }}"
+                          loading="eager"
+                        >
+                      </div>
+                    </a>
+                  {% else %}
+                    <a
+                      href="{{ routes.root_url }}"
+                      class="mx-auto block max-w-[12rem] break-words sm:max-w-md lg:max-w-2xl xl:max-w-none"
+                    >
+                      {{- shop.name -}}
+                    </a>
+                  {% endif %}
+                </div>
+              <div class="logoinfo">
+              {{ block.settings.logotext }}
+              </div>
+              {%- when 'tagline_and_social_links' -%}
+                {%- liquid
+                  if forloop.last
+                    assign social_class = 'justify-start lg:justify-end'
+                    assign tagline_class = 'text-right'
+                  else
+                    assign social_class = 'justify-start lg:justify-start'
+                  endif
+                -%}
+                {%- if block.settings.tagline != blank -%}
+                  
+                  <h4 class="ftrheading">{{ block.settings.colhead }}</h4>
+                  <div class="inline-rte break-words {{ tagline_class }}">
+                    {{ block.settings.tagline }}
+                  </div>
+                  
+                {%- endif -%}
+                {%- if block.settings.show_social_icons -%}
+                  {%- render 'social-icons', list_class: social_class -%}
+                {%- endif -%}
+              {%- when 'newsletter' -%}
+                <div>
+                  {%- if block.settings.newsletter_heading != blank -%}
+                    <h2 class="font-heading heading-secondary mb-5">
+                      {{ block.settings.newsletter_heading }}
+                    </h2>
+                  {%- endif -%}
+
+                  {% form 'customer', id: 'FooterNewsletter' %}
+                    {% if form.errors %}
+                      <p
+                        class=" text-scheme-error"
+                        id="Newsletter-error--{{ section.id }}"
+                      >
+                        {{ form.errors.translated_fields.email | capitalize }}
+                        {{ form.errors.messages.email }}
+                      </p>
+                    {% endif %}
+                    {% if form.posted_successfully? %}
+                      <p
+                        class=""
+                        id="Newsletter-success--{{ section.id }}"
+                      >
+                        {{ 'general.newsletter_form.confirmation' | t }}
+                      </p>
+                    {% else %}
+                      <div class="items-center justify-center">
+                        <input
+                          type="hidden"
+                          name="contact[tags]"
+                          value="newsletter"
+                        >
+                        <label
+                          for="NewsletterForm-{{ section.id }}"
+                          class="sr-only"
+                        >
+                          {{ 'general.newsletter_form.newsletter_email' | t }}
+                        </label>
+                        <div class=" w-full flex-grow lg:mr-2">
+                          <input
+                            id="NewsletterForm-{{ section.id }}"
+                            type="email"
+                            name="contact[email]"
+                            class="input--background input-group-field w-full text-scheme-text placeholder:text-scheme-text {% if form.errors %}border-scheme-error{% else %}border-scheme-text{% endif %}"
+                            value="{{ form.email }}"
+                            autocorrect="off"
+                            autocapitalize="off"
+                            autocomplete="email"
+                            {% if form.errors %}
+                              autofocus
+                              aria-invalid="true"
+                              aria-describedby="Newsletter-error--{{ section.id }}"
+                            {% elsif form.posted_successfully? %}
+                              aria-describedby="Newsletter-success--{{ section.id }}"
+                            {% endif %}
+                            placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                            required
+                          >
+                        </div>
+                        <button
+                          type="submit"
+                          class="push-btn push-btn--pop mt-2.5 w-full"
+                          name="commit"
+                          id="Subscribe-{{ section.id }}"
+                        >
+                          <span class="push-btn__surface w-full">
+                            {{- 'general.newsletter_form.submit' | t -}}
+                          </span>
+                        </button>
+                      </div>
+                    {% endif %}
+                  {% endform %}
+                </div>
+              {%- when 'menus' -%}
+                <div class="flex flex-wrap justify-start gap-10 {% if forloop.last %}lg:justify-end{% else %}{% if forloop.first %}lg:justify-start{% else %}lg:justify-center{% endif %}{% endif %}">
+                  {%- if block.settings.linklist_1 != blank %}
+                    <div class="w-full  flex-1">
+                      {% assign link_list = block.settings.linklist_1 %}
+                      {% if block.settings.show_menu_headings %}
+                        <h2 class="font-heading mb-4 break-all text-base">
+                          {{ link_list.title }}
+                        </h2>
+                      {% endif %}
+                      <ul class="list-none space-y-2.5">
+                        {% for link in link_list.links %}
+                          <li>
+                            <a
+                              href="{{ link.url }}"
+                              class="secondary-text-link break-words"
+                            >
+                              {{ link.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.linklist_2 != blank %}
+                    <div class="w-full  flex-1">
+                      {% assign link_list = block.settings.linklist_2 %}
+                      {% if block.settings.show_menu_headings %}
+                        <h2 class="font-heading mb-4 break-all text-base">
+                          {{ link_list.title }}
+                        </h2>
+                      {% endif %}
+                      <ul class="list-none space-y-2.5">
+                        {% for link in link_list.links %}
+                          <li>
+                            <a
+                              href="{{ link.url }}"
+                              class="secondary-text-link"
+                            >
+                              {{ link.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.linklist_3 != blank %}
+                    <div class="w-full flex-1">
+                      {% assign link_list = block.settings.linklist_3 %}
+                      {% if block.settings.show_menu_headings %}
+                        <h2 class="font-heading mb-4 break-all text-base">
+                          {{ link_list.title }}
+                        </h2>
+                      {% endif %}
+                      <ul class="list-none space-y-2.5">
+                        {% for link in link_list.links %}
+                          <li>
+                            <a
+                              href="{{ link.url }}"
+                              class="secondary-text-link"
+                            >
+                              {{ link.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {%- endif -%}
+                </div>
+            {% when 'soss' %}
+                {%- liquid
+                  if forloop.last
+                    assign social_class = 'justify-start lg:justify-end'
+                    assign tagline_class = 'text-right'
+                  else
+                    assign social_class = 'justify-start lg:justify-start'
+                  endif
+                -%}
+                <h4 class="ftrheading">{{ block.settings.sos_heading }}</h4>
+                  {%- render 'social-icons', list_class: social_class -%}
+              {% when 'contact' %}
+              <div class="phone-email-footer">
+              <h4 class="ftrheading">{{ block.settings.fc_heading }}</h4>
+                <ul>
+                  <li><a href="mailto:{{ block.settings.fc_mail }}"> <span>{% render 'phone-icon' %} </span>{{ block.settings.fc_mail }}</a></li>
+                  <li><a href="tel:{{ block.settings.fc_phone }}">   <span>{% render 'email-icon' %} </span>{{ block.settings.fc_phone }}</a></li>
+                </ul>
+              </div>
+            {%- endcase -%}
+          </div>
+        {% endunless %}
+      {%- endfor -%}
+    </div>
+
+    <div class="section-content-top-margin justify-between text-scheme-text md:flex">
+      <div class="{% if country_selector or locale_selector %}lg:w-1/3{% endif %}">
+        <p class="text-sm">
+          &copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: '/' }}.
+          <span class="ml-2 inline-block">{{ powered_by_link }}. All rights reserved.</span>
+        </p>
+      </div>
+
+      {%- if section.settings.show_payment_icons -%}
+        {% unless shop.enabled_payment_types == empty %}
+          <div class="mt-10 lg:mt-0  {% if country_selector or locale_selector %}lg:w-1/3{% endif %}">
+            <h2 class="visually-hidden">
+              {{ 'layout.footer.accepted_payments' | t }}
+            </h2>
+            <ul class="payment-icons -mx-2 {% if country_selector or locale_selector %}lg:text-center{% endif %}">
+              {% for type in shop.enabled_payment_types %}
+                <li class="mx-2 inline-block w-8">
+                  {{ type | payment_type_svg_tag: class: 'icon payment-icon' }}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endunless %}
+      {%- endif -%}
+
+      {%- if country_selector or locale_selector -%}
+        <div class="mb-4 mt-10 flex flex-wrap items-center justify-between lg:mb-0 lg:mt-0 lg:w-1/3 lg:justify-end">
+          {% render 'localization-form',
+            context: 'footer',
+            country_selector: country_selector,
+            locale_selector: locale_selector
+          %}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <img src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/Group_1000008961.png?v=1754569065" alt="Back to top">
+</button>
+
+<script>
+    // Show button after scrolling down 200px
+  window.addEventListener('scroll', function () {
+    const btn = document.getElementById('backToTop');
+    if (window.scrollY > 200) {
+      btn.classList.add('show');
+    } else {
+      btn.classList.remove('show');
+    }
+  });
+
+  // Scroll to top on click
+  document.getElementById('backToTop').addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+{% if shape_dividers_size > 0 %}
+  <div class="absolute inset-0">
+    <div class="relative inset-0 h-full w-full overflow-hidden">
+      {%- liquid
+        for shape_divider in shape_dividers
+          render 'block-shape-divider', block: shape_divider, no_z_index: true
+        endfor
+      -%}
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "class": "section-footer mt-auto relative z-shape-divider",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "t:sections.footer.settings.show_payment_icons.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header_countryregion_selector",
+      "info": "To add a country/region, go to your [payment settings.](/admin/settings/payments)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "t:sections.footer.settings.show_country_selector.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header_language_selector",
+      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "t:sections.footer.settings.show_locale_selector.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.header_color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme1",
+      "label": "t:common.settings.color_scheme.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_gradient_background",
+      "label": "t:common.settings.use_gradient_background.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "t:common.settings.logo.label",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "t:common.settings.logo.label",
+          "info": "t:common.settings.logo.info"
+        },
+        {
+          "type": "range",
+          "id": "logo_max_width",
+          "min": 20,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "label": "t:common.settings.logo_max_width.label",
+          "default": 100
+        },
+         {
+          "type": "richtext",
+          "id": "logotext",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "tagline_and_social_links",
+      "name": "t:sections.footer.blocks.tagline_and_social_links.name",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "colhead",
+          "label": "t:sections.footer.blocks.tagline_and_social_links.settings.tagline.label",
+          "default": "Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "tagline",
+          "label": "t:sections.footer.blocks.tagline_and_social_links.settings.tagline.label",
+          "default": "Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store."
+        },
+        {
+          "type": "header",
+          "content": "t:sections.footer.blocks.tagline_and_social_links.settings.header_social_media_icons"
+        },
+        {
+          "type": "paragraph",
+          "content": "t:sections.footer.blocks.tagline_and_social_links.settings.paragraph_to_display_your"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "label": "t:sections.footer.blocks.tagline_and_social_links.settings.show_social_icons.label"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "t:sections.footer.blocks.newsletter.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:sections.footer.blocks.newsletter.settings.header_email_signup"
+        },
+        {
+          "type": "paragraph",
+          "content": "t:common.settings.paragraph_customers_who_subscribe"
+        },
+        {
+          "type": "text",
+          "id": "newsletter_heading",
+          "label": "t:sections.footer.blocks.newsletter.settings.newsletter_heading.label",
+          "default": "Sign up to our newsletter"
+        }
+      ]
+    },
+    {
+      "type": "soss",
+      "name": "Social Media",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "sos_heading",
+          "label": "Social Media Heading",
+          "default": "Social media"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Footer Contact",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "fc_heading",
+          "label": "Contact Heading",
+          "default": "Customer Support"
+        },
+        {
+          "type": "text",
+          "id": "fc_mail",
+          "label": "Contact Email"
+        },
+        {
+          "type": "text",
+          "id": "fc_phone",
+          "label": "Contact Phone"
+        }
+      ]
+    },
+    {
+      "type": "menus",
+      "name": "t:sections.footer.blocks.menus.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_menu_headings",
+          "label": "t:sections.footer.blocks.menus.settings.show_menu_headings.label",
+          "default": false
+        },
+        {
+          "type": "link_list",
+          "id": "linklist_1",
+          "label": "t:sections.footer.blocks.menus.settings.linklist_1.label",
+          "default": "footer",
+          "info": "t:sections.footer.blocks.menus.settings.linklist_1.info"
+        },
+        {
+          "type": "link_list",
+          "id": "linklist_2",
+          "label": "t:sections.footer.blocks.menus.settings.linklist_2.label",
+          "info": "t:sections.footer.blocks.menus.settings.linklist_2.info"
+        },
+        {
+          "type": "link_list",
+          "id": "linklist_3",
+          "label": "t:sections.footer.blocks.menus.settings.linklist_3.label",
+          "info": "t:sections.footer.blocks.menus.settings.linklist_3.info"
+        }
+      ]
+    },
+    {
+      "name": "t:common.blocks.shape_divider.name",
+      "type": "shape_divider",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "select",
+          "label": "t:common.blocks.shape_divider.settings.target_section.label",
+          "id": "target_section",
+          "default": "above",
+          "options": [
+            {
+              "value": "above",
+              "label": "t:common.blocks.shape_divider.settings.target_section.options.section_above.label"
+            },
+            {
+              "value": "below",
+              "label": "t:common.blocks.shape_divider.settings.target_section.options.section_below.label"
+            }
+          ],
+          "info": "t:common.blocks.shape_divider.settings.target_section.info"
+        },
+        {
+          "type": "color_scheme",
+          "id": "target_section_color_scheme",
+          "default": "scheme1",
+          "label": "t:common.blocks.shape_divider.settings.target_section_color_scheme.label",
+          "info": "t:common.blocks.shape_divider.settings.target_section_color_scheme.info"
+        },
+        {
+          "type": "select",
+          "label": "t:common.blocks.shape_divider.settings.style.label",
+          "id": "style",
+          "default": "waves-1-patterned_1200x20",
+          "options": [
+            {
+              "value": "waves-1-patterned_1200x20",
+              "label": "t:common.blocks.shape_divider.settings.style.options.waves_1.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "waves-2-patterned_1200x43",
+              "label": "t:common.blocks.shape_divider.settings.style.options.waves_2.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "waves-3-patterned_1200x84",
+              "label": "t:common.blocks.shape_divider.settings.style.options.waves_3.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "zig-zag-1-patterned_1200x21",
+              "label": "t:common.blocks.shape_divider.settings.style.options.zig_zag_1.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "zig-zag-2-patterned_1200x37",
+              "label": "t:common.blocks.shape_divider.settings.style.options.zig_zag_2.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "zig-zag-3-patterned_1200x65",
+              "label": "t:common.blocks.shape_divider.settings.style.options.zig_zag_3.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "circles-1-patterned_1200x16",
+              "label": "t:common.blocks.shape_divider.settings.style.options.circles_1.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "circles-2-patterned_1200x35",
+              "label": "t:common.blocks.shape_divider.settings.style.options.circles_2.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "circles-3-patterned_1200x67",
+              "label": "t:common.blocks.shape_divider.settings.style.options.circles_3.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "spikes-1-patterned_1200x132",
+              "label": "t:common.blocks.shape_divider.settings.style.options.spikes_1.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "spikes-2-patterned_1200x132",
+              "label": "t:common.blocks.shape_divider.settings.style.options.spikes_2.label",
+              "group": "t:common.blocks.shape_divider.settings.style.group_patterned"
+            },
+            {
+              "value": "tilt-1-shape_1440x101",
+              "label": "t:common.blocks.shape_divider.settings.style.options.tilt_1.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "tilt-2-shape_1440x180",
+              "label": "t:common.blocks.shape_divider.settings.style.options.tilt_2.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "tilt-3-shape_1440x293",
+              "label": "t:common.blocks.shape_divider.settings.style.options.tilt_3.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "waves-1-shape_1440x261",
+              "label": "t:common.blocks.shape_divider.settings.style.options.waves_1.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "waves-2-shape_1440x330",
+              "label": "t:common.blocks.shape_divider.settings.style.options.waves_2.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "mountains-1-shape_1440x293",
+              "label": "t:common.blocks.shape_divider.settings.style.options.mountains_1.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "mountains-2-shape_1440x325",
+              "label": "t:common.blocks.shape_divider.settings.style.options.mountains_2.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "curve-shape_1440x149",
+              "label": "t:common.blocks.shape_divider.settings.style.options.curve.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "curve-inverse-shape_1440x149",
+              "label": "t:common.blocks.shape_divider.settings.style.options.curve_inverse.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "steps-1-shape_1400x105",
+              "label": "t:common.blocks.shape_divider.settings.style.options.steps_1.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "steps-2-shape_1400x105",
+              "label": "t:common.blocks.shape_divider.settings.style.options.steps_2.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "arrow-1-shape_1400x33",
+              "label": "t:common.blocks.shape_divider.settings.style.options.arrow_1.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "arrow-2-shape_1400x73",
+              "label": "t:common.blocks.shape_divider.settings.style.options.arrow_2.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "offset-ovals-shape_1400x155",
+              "label": "t:common.blocks.shape_divider.settings.style.options.offset_ovals.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "triangle-shape_1400x145",
+              "label": "t:common.blocks.shape_divider.settings.style.options.triangle.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "triangle-asymmetrical-shape_1400x145",
+              "label": "t:common.blocks.shape_divider.settings.style.options.triangle_asymmetrical.label",
+              "group": "t:common.settings.shape.label"
+            },
+            {
+              "value": "clouds-shape_1400x161",
+              "label": "t:common.blocks.shape_divider.settings.style.options.clouds.label",
+              "group": "t:common.settings.shape.label"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "flip_horizontal",
+          "label": "t:common.blocks.shape_divider.settings.flip_horizontal.label"
+        },
+        {
+          "type": "header",
+          "content": "t:common.settings.header_animation"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_animation",
+          "label": "t:common.blocks.shape_divider.settings.enable_animation.label",
+          "info": "t:common.blocks.shape_divider.settings.enable_animation.info"
+        },
+        {
+          "type": "select",
+          "id": "animation_direction",
+          "label": "t:common.blocks.shape_divider.settings.animation_direction.label",
+          "options": [
+            {
+              "value": "",
+              "label": "t:common.options.right_to_left.label"
+            },
+            {
+              "value": "reverse",
+              "label": "t:common.options.left_to_right.label"
+            }
+          ],
+          "default": ""
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

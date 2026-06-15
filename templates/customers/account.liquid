@@ -1,0 +1,123 @@
+<div
+  class="section-content max-w-site px-section py-section-vertical-spacing"
+  data-color-scheme="scheme3"
+>
+  <div class="mb-10 lg:flex lg:items-center lg:justify-between">
+    <h1 class="font-heading heading-feature mb-2.5">
+      {{ 'customer.account.title' | t }}
+    </h1>
+    <div class="text-sm">
+      {% if customer.first_name != blank %}
+        {% capture first_name %}<a class="" href="{{ routes.account_url }}">{{ customer.first_name }}</a>{% endcapture %}
+        {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}
+      {% else %}
+        <a class="" href="{{ routes.account_url }}">
+          {{- 'layout.customer.account' | t -}}
+        </a>
+      {% endif %}
+      /
+      <a
+        class="mb-2 inline-block text-scheme-accent-1"
+        href="{{ routes.account_logout_url }}"
+      >
+        {{- 'layout.customer.log_out' | t -}}
+      </a>
+    </div>
+  </div>
+
+  <div class="max-w-screen grid-cols-1 lg:grid lg:grid-cols-12">
+    <div class="lg:col-span-8">
+      <h2 class="font-heading heading-secondary mb-2.5">
+        {{ 'customer.orders.title' | t }}
+      </h2>
+
+      {% paginate customer.orders by 20 %}
+        {% if customer.orders.size != 0 %}
+          <table class="responsive-table text-sm lg:text-base">
+            <thead class="text-sm">
+              <tr>
+                <th scope="col">{{ 'customer.orders.order_number' | t }}</th>
+                <th scope="col">{{ 'customer.orders.date' | t }}</th>
+                <th scope="col">{{ 'customer.orders.payment_status' | t }}</th>
+                <th scope="col">
+                  {{ 'customer.orders.fulfillment_status' | t }}
+                </th>
+                <th scope="col">{{ 'customer.orders.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in customer.orders %}
+                <tr class="responsive-table-row lg:border-none">
+                  <td
+                    class="text-scheme-accent-1"
+                    data-label="{{ 'customer.orders.order_number' | t }}"
+                  >
+                    <span class="underline">
+                      {{- order.name | link_to: order.customer_url -}}
+                    </span>
+                  </td>
+                  <td data-label="{{ 'customer.orders.date' | t }}">
+                    {{ order.created_at | date: format: 'month_day_year' }}
+                  </td>
+                  <td data-label="{{ 'customer.orders.payment_status' | t }}">
+                    {{ order.financial_status_label }}
+                  </td>
+                  <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">
+                    {{ order.fulfillment_status_label }}
+                  </td>
+                  <td data-label="{{ 'customer.orders.total' | t }}">
+                    {{ order.total_price | money }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>{{ 'customer.orders.none' | t }}</p>
+        {% endif %}
+
+        {% if paginate.pages > 1 %}
+          {% render 'pagination', paginate, section_color: 'scheme1' %}
+        {% endif %}
+      {% endpaginate %}
+    </div>
+
+    <div class="mb-2 mt-8 lg:col-span-3 lg:col-start-10 lg:mt-0">
+      <div class="card">
+        <div class="card__surface relative z-shape-divider bg-scheme-card p-5">
+          <h2 class="font-heading heading-secondary mb-2.5">
+            Manage Subscriptions
+          </h2>
+          <a
+            class="push-btn  inline-block w-full"
+            href="/a/account/shopify-login"
+          >
+            <span class="push-btn__surface w-full">
+              Manage Your subscription
+            </span
+            >
+          </a>
+        </div>
+
+        <div class="card__surface relative z-shape-divider bg-scheme-card p-5">
+          <h2 class="font-heading heading-secondary mb-2.5">
+            {{ 'customer.account.details' | t }}
+          </h2>
+          <div class="mb-4">
+            {{ customer.default_address | format_address }}
+          </div>
+          <a
+            class="push-btn  inline-block w-full"
+            href="{{ routes.account_addresses_url }}"
+          >
+            <span class="push-btn__surface w-full">
+              {{- 'customer.account.view_addresses' | t }} (
+              {{- customer.addresses_count -}}
+              )</span
+            >
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

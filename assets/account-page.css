@@ -1,0 +1,12 @@
+.Account .font-heading.heading-standard{
+    color: #1A1919;
+    font-size: 36px;
+    font-weight: 600;
+    font-family: 'Founders Grotesk';
+}
+.Account a.font-secondary.text-sm:hover, .Account a.block.text-sm:hover,.Account button span.text-sm:hover {
+    text-decoration: none;
+}
+.Account a.font-secondary.text-sm, .Account a.block.text-sm,.Account button span.text-sm {
+    text-decoration: underline;
+}

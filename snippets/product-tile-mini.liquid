@@ -1,0 +1,202 @@
+{%- liquid
+  assign crop = crop | default: settings.product_tiles_aspect_ratio
+  assign shape = shape | default: settings.product_tile_mini_media_shape
+  if enable_quick_buy
+    assign product_form_id = 'product-form-' | append: section.id | append: '-' | append: product.id
+    assign current_variant = product.selected_or_first_available_variant
+    assign featured_media = current_variant.featured_media | default: product.featured_media
+  endif
+  if use_variant
+    assign target = product.selected_or_first_available_variant
+  else
+    assign target = product
+  endif
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 1999
+  if compare_at_price > price
+    assign on_sale = true
+  else
+    assign on_sale = false
+  endif
+
+  assign money_price = price | money
+  if settings.currency_code_enabled
+    assign money_price = price | money_with_currency
+  endif
+
+  if target == product and product.price_varies
+    assign money_price = money_price | append: '+'
+  endif
+
+  unless preload
+    assign preload = false
+  endunless
+
+  unless loading
+    assign loading = 'lazy'
+  endunless
+-%}
+{%- if product and product != empty -%}
+  <div
+    class="product-tile product-tile--mini relative {{ class }} {% if display_on_card %}text-scheme-text card{% endif %}"
+  >
+    {% if enable_quick_buy %}
+      <data-island
+        class="contents"
+        x-data="
+          QuickBuy({
+            product: {{ product | json | escape }},
+            variant: {{ current_variant | json | escape }},
+            featuredMediaID: {{ featured_media.id | json }}
+          })
+        "
+        src="{{ 'island-quick-buy.bundle.js' | asset_url }}"
+        data-product-root="{{ section.id }}-{{ product.id }}"
+      >
+    {% endif %}
+
+    <div class="flex items-center justify-between {% if display_on_card %}bg-scheme-card card__surface p-2.5{%  endif %}">
+      <a
+        href="{{ product.url | within: collection }}"
+        class="flex justify-start gap-5"
+      >
+        {%- if product.featured_media -%}
+          <div class="media--small w-24 shrink-0">
+            <div class="product-media-object relative {% unless display_on_card %}{% if settings.media_shadow_direction contains 'top' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}{% endunless %}">
+              {%- render 'product-tile-media-image',
+                media: product.featured_media,
+                shape_id: shape_id,
+                shape: shape,
+                is_card: display_on_card,
+                crop: crop,
+                hover_image: hover_image,
+                container_id: section.id,
+                quick_buy: enable_quick_buy,
+                product: product,
+                index: index,
+                preload: preload,
+                loading: loading,
+                widths: '200, 350, 450, 750, 850',
+                sizes: '6rem'
+              -%}
+            </div>
+          </div>
+        {%- endif -%}
+        <div class="product-tile flex items-center break-words text-left">
+          <div>
+            <h3 class="font-body text-base">{{ product.title | escape }}</h3>
+            {%- if settings.product_tiles_show_vendor -%}
+              <p class="mt-1">{{ product.vendor }}</p>
+            {%- endif -%}
+
+            {%- render 'price',
+              product: product,
+              price_class: 'mt-1.5',
+              compare_at_price: compare_at_price,
+              price: price,
+              money_price: money_price,
+              on_sale: on_sale
+            -%}
+          </div>
+        </div>
+      </a>
+      {%- if enable_quick_buy and current_variant.available -%}
+        <div>
+          {% form 'product',
+            product,
+            id: product_form_id,
+            data-product-form: '',
+            data-product-handle: product.handle,
+            data-enable-history-state: 'true',
+            data-product-form: '',
+            x-ref: 'productForm',
+            class: 'quick-buy-product-form'
+          %}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+            <span class="sr-only">
+              {{- 'products.general.regular_price' | t -}}
+            </span>
+
+            <div
+              class="font-secondary mb-2.5 rounded-button bg-scheme-accent-1 px-3 py-2 text-xs text-scheme-accent-1-contrast empty:hidden"
+              x-text="cartAddErrorMessage"
+            ></div>
+
+            <div class="relative z-10 text-center {% unless product.available %}cursor-not-allowed{% endunless %} {% if settings.button_shadow_direction contains 'top' %}pt-button-shadow{% else %}pb-button-shadow{% endif %}">
+              <button
+                class="push-btn"
+                type="submit"
+              >
+                <div class="push-btn__surface push-btn__surface--secondary p-2 align-bottom">
+                  <div class="m-auto h-4 w-4">{% render 'icon-add' %}</div>
+                </div>
+                <span class="visually-hidden">, {{ product.title }}</span>
+              </button>
+            </div>
+
+            {%- if settings.cart_type == 'page'
+              or settings.open_modal_on_add_to_cart == false
+            -%}
+              <div
+                class=" rte mt-2.5 text-center text-sm"
+                tabindex="-1"
+                x-ref="added"
+                x-show="addedToCart"
+                x-cloak
+                x-transition:enter="transition ease duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease duration-300"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+              >
+                <div class="text-sm">
+                  {{ 'products.product.added_to_cart' | t }}!
+                  {{
+                    'products.product.add_to_cart_confirm_html'
+                    | t:
+                      cart_url: routes.cart_url,
+                      link_url: routes.all_products_collection_url
+                  -}}
+                  .
+                </div>
+              </div>
+            {%- endif -%}
+          {% endform %}
+        </div>
+      {%- endif -%}
+    </div>
+    {% if enable_quick_buy %}
+      </data-island>
+    {% endif %}
+  </div>
+{%- else -%}
+  <div class="product-tile product-tile--mini relative {{ class }} {% if display_on_card %}text-scheme-text card{% endif %} max-w-sm">
+    <div class="flex items-center justify-between {% if display_on_card %}bg-scheme-card card__surface p-2.5{%  endif %}">
+      <div class="flex justify-start gap-5">
+        <div class="media--small w-24">
+          <div class="relative {% unless display_on_card %}{% if settings.media_shadow_direction contains 'top' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}{% endunless %}">
+            {%- render 'media-image-placeholder',
+              shape_id: shape_id,
+              container_id: section.id,
+              index: index,
+              shape: shape,
+              crop: crop,
+              is_card: section.settings.display_on_card
+            -%}
+          </div>
+        </div>
+        <div class="product-tile flex items-center  text-left">
+          <div>
+            <h3 class="font-body text-base">
+              {{ 'sections.onboarding.product_title' | t }}
+            </h3>
+            {% render 'price', price_class: 'mt-2' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}

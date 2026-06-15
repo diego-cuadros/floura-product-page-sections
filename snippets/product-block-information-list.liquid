@@ -1,0 +1,40 @@
+<div
+  class="{{ block_base_classes }}"
+  {{ block.shopify_attributes }}
+>
+  <ul
+    class="information-list flex flex-col gap-y-4"
+  >
+    {% for i in (1..6) %}
+      {%- capture heading %}heading_{{ i }}{%- endcapture -%}
+      {%- capture content %}content_{{ i }}{%- endcapture -%}
+      {%- liquid
+        assign heading = block.settings[heading]
+        assign content = block.settings[content]
+      -%}
+      {% if heading != blank %}
+        <li class="information-list__container grid grid-cols-sidebar items-baseline gap-x-1">
+          <div class="information-list__heading break-words {% if block.settings.heading_style == true %}font-bold{% endif %}">
+            {{- heading -}}
+            {% if block.settings.append_colon %}:{% endif %}
+          </div>
+          <data-island
+            class="inline-rte information-list__content"
+            x-data="RTE"
+          >
+            {{ content }}
+          </data-island>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  {% style %}
+    .product-block-information-list .information-list__container .information-list__heading {
+        width: 5ch;
+
+        @media (min-width: 640px) {
+            width: {{ block.settings.col_width }}ch;
+        }
+    }
+  {% endstyle %}
+</div>

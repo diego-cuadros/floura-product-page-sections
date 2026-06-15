@@ -1,0 +1,116 @@
+{%- liquid
+  unless video.alt == blank
+    assign alt_text = video.alt
+  else
+    assign alt_text = 'general.video.video' | t
+  endunless
+-%}
+
+<data-island
+  x-data="
+    {
+      init() {
+        this.$store.modals.register('{{ video_modal_id }}', 'modal');
+        initTeleport(this.$root);
+      },
+      destroy() {
+        this.$store.modals.close('{{ video_modal_id }}');
+        delete this.$store.modals.modals['{{ video_modal_id }}'];
+      }
+    }
+  "
+  on="idle"
+>
+  <div x-cloak>
+    <template data-should-teleport="#modal-slot">
+      <template x-if="$store.modals.modal.contents === '{{ video_modal_id }}'">
+        <div
+          data-modal-label="{{ alt_text | escape }}"
+          class="fixed inset-0 h-full w-full bg-scheme-background"
+        >
+          <div class="fixed flex w-full items-center justify-between px-section pb-2.5 pt-5">
+            <h2 class="sr-only" class="" tabindex="-1">
+              {{ alt_text | escape }}
+            </h2>
+            <button
+              @click.prevent="$store.modals.close('{{ video_modal_id }}')"
+              class="ml-auto block"
+            >
+              <span class="sr-only">
+                {{- 'general.accessibility.close_modal' | t -}}
+              </span>
+              <span class="inline-block h-5 w-5">
+                {%- render 'icon-close' -%}
+              </span>
+            </button>
+          </div>
+          <div
+            class="flex h-full w-full"
+            x-show="$store.modals.modal.contents === '{{ video_modal_id }}'"
+          >
+            <div
+              x-data="Video('inline', 'autoplay')"
+              id="video-in-{{ video_modal_id }}"
+              class="aspect-h-9 aspect-w-16 relative m-auto w-9/12"
+              @{{ video_modal_id }}-will-close.window="pause"
+              x-init="enabled = true"
+            >
+              <template x-if="enabled">
+                <div
+                  x-data="HTMLVideo"
+                  class="transition-opacity duration-500"
+                  :class="{ 'opacity-0 pointer-events-none' : !shown }"
+                  @play="play"
+                  @pause="pause"
+                >
+                  {% if video %}
+                    {{
+                      video
+                      | video_tag:
+                        autoplay: true,
+                        image_size: '2048x',
+                        controls: true,
+                        preload: 'none',
+                        class: 'absolute inset-0 w-full h-full',
+                        muted: false,
+                        x-ref: 'video'
+                    }}
+                  {% else %}
+                    <video
+                      x-ref="video"
+                      autoplay
+                      class="absolute inset-0 h-full w-full"
+                      controls
+                    >
+                      <source
+                        src="{{ 'placeholder-video.mp4' | asset_url }}"
+                        type="video/mp4"
+                      >
+                      Your browser does not support the video tag.
+                    </video>
+                  {% endif %}
+                </div>
+              </template>
+              <button
+                @click="enabled = true"
+                class="absolute inset-0 z-10 grid h-full w-full place-content-center"
+                :class="{ 'opacity-0 pointer-events-none' : shown }"
+              >
+                <span class="sr-only">{{ 'general.video.play' | t }}</span>
+                <div class="push-btn">
+                  <div class="push-btn__surface p-2 align-bottom">
+                    <div class="p-2.5">
+                      <div class="h-10 w-10">
+                        {% render 'icon-play' %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
+    </template>
+  </div>
+</data-island>

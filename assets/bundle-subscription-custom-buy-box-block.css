@@ -1,0 +1,808 @@
+/*
+ * bundle-subscription.css
+ *
+ * Scoped to .bundle-subscription-buybox — the root wrapper of the
+ * buy-box-bundle-subscription.liquid snippet. This class is only
+ * rendered by templates/product.bundle-subscription.json so there
+ * is no risk of style bleed into other templates.
+ *
+ * The file is conditionally loaded in layout/theme.liquid only when
+ * template.suffix == 'bundle-subscription'.
+ */
+
+/* ================================================================
+   DESIGN TOKENS
+   Set on the buybox wrapper so all child rules can reference them.
+   ================================================================ */
+.bundle-subscription-buybox {
+  --bs-red:            #C5273C;          /* fallback — overridden by block.settings.accent_color via inline style */
+  --bs-green:          #16a34a;          /* discount badge, checkmarks */
+  --bs-border:         rgba(0,0,0,0.15); /* default tile border  */
+  --bs-border-active:  #111111;          /* selected tile border */
+  --bs-fill:           #111111;          /* selected pack tile fill */
+  --bs-white:          #ffffff;
+  --bs-radius-card:    6px;
+  --bs-radius-btn:     0.5rem;
+  --bs-radius-sm:      0.375rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+
+/* ================================================================
+   SECTION HEADINGS
+   Used by pack selector legend, variant selector label,
+   and mix-match heading. Normal case, bold, larger than body.
+   ================================================================ */
+.bundle-subscription-buybox .pack-selector__heading,
+.bundle-subscription-buybox .variant-selector__label,
+.bundle-subscription-buybox .mix-match-selector__heading {
+  display: block;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  margin: 0 0 0.75rem;
+  line-height: 1.25;
+}
+
+
+/* ================================================================
+   PACK SELECTOR
+   ================================================================ */
+.bundle-subscription-buybox .pack-selector {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bundle-subscription-buybox .pack-selector__options {
+  display: flex;
+  gap: 0.625rem;
+}
+
+/* Each option fills equal space and stacks badge above label */
+.bundle-subscription-buybox .pack-selector__option {
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Hide the native radio; the label is the visual button */
+.bundle-subscription-buybox .pack-selector__radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.bundle-subscription-buybox .pack-selector__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  padding: 0.875rem 0.75rem;
+  flex: 1;
+  border: .5px solid rgba(0,0,0,0.15);
+  border-radius: var(--bs-radius-card);
+  user-select: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  background-color: #FBF5E1 ;
+}
+
+/* Selected tile — white bg, 1px black border */
+.bundle-subscription-buybox .pack-selector__radio:checked ~ .pack-selector__label {
+  border: 1px solid var(--bs-border-active);
+  background-color: var(--bs-white);
+}
+
+/* Keyboard focus ring */
+.bundle-subscription-buybox .pack-selector__radio:focus-visible ~ .pack-selector__label {
+  outline: 2px solid var(--bs-border-active);
+  outline-offset: 3px;
+}
+
+.bundle-subscription-buybox .pack-selector__pack-name {
+  font-size: 20px;
+  font-weight: 500; 
+  text-transform: capitalize;
+  line-height: 16px;
+  color: #111111;
+  margin-top: .4rem;
+}
+
+.bundle-subscription-buybox .pack-selector__per-bar-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.2rem 0.35rem;
+  margin-top: 0.25rem;
+  text-align: center;
+  max-width: 100%;
+}
+
+/* Net price + /bar — single flex item so row gap does not insert space before /bar */
+.bundle-subscription-buybox .pack-selector__per-bar-net {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+
+.bundle-subscription-buybox .pack-selector__per-bar-gross {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(17, 17, 17, 0.48);
+  text-decoration-thickness: 1px;
+}
+
+.bundle-subscription-buybox .pack-selector__per-bar-gross[hidden] {
+  display: none !important;
+}
+
+.bundle-subscription-buybox .pack-selector__per-bar,
+.bundle-subscription-buybox .pack-selector__per-bar-unit {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #111111;
+}
+
+.bundle-subscription-buybox .pack-selector__per-bar {
+  font-weight: 500;
+}
+
+/* ── Pack badge — sits above the label, outside its flow ─────── */
+.bundle-subscription-buybox .pack-selector__badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  display: flex;
+  padding: 0.15rem 0.6rem 0rem 0.6rem;
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 500; 
+  text-transform: capitalize;
+  white-space: nowrap;
+  background-color: var(--bs-red);
+  color: var(--bs-white);
+  pointer-events: none;
+}
+
+
+/* ================================================================
+   VARIANT DROPDOWN — 1-pack flavor picker
+   ================================================================ */
+.bundle-subscription-buybox .variant-selector {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Radio list — same visual style as mix-match */
+.bundle-subscription-buybox .variant-selector__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--bs-border-active);
+  border-radius: var(--bs-radius-card);
+  overflow: hidden;
+}
+
+.bundle-subscription-buybox .variant-selector__item {
+  border-top: .5px solid var(--bs-border);
+}
+
+.bundle-subscription-buybox .variant-selector__item:first-child {
+  border-top: none;
+}
+
+.bundle-subscription-buybox .variant-selector__item--oos {
+  opacity: 0.4;
+}
+
+.bundle-subscription-buybox .variant-selector__row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.15rem 1rem 0.15rem 0.25rem;
+  cursor: pointer;
+  background-color: #FBF5E1 ;
+  transition: background-color 0.15s ease;
+}
+
+.bundle-subscription-buybox .variant-selector__item:has(.variant-selector__radio:checked) .variant-selector__row {
+  background-color: var(--bs-white);
+}
+
+/* Hide native radio */
+.bundle-subscription-buybox .variant-selector__radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.bundle-subscription-buybox .variant-selector__thumb {
+  flex-shrink: 0;
+  width: 43px;
+  height: 43px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.bundle-subscription-buybox .variant-selector__thumb--placeholder {
+  width: 43px;
+  height: 43px;
+  background-color: rgba(0,0,0,0.06);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.bundle-subscription-buybox .variant-selector__flavor-name {
+  flex: 0 0 auto;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: -.4rem;
+}
+
+/* Push radio indicator to far right; name + New badge stay visually grouped */
+.bundle-subscription-buybox .variant-selector__radio-indicator {
+  margin-left: auto;
+}
+
+.bundle-subscription-buybox .variant-selector__new-badge {
+  
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+  height: 20px;
+  padding: 0.15rem 0.6rem 0rem 0.6rem;
+  border: 1px solid var(--bs-red);
+  border-radius: 0;
+  color: var(--bs-red);
+  white-space: nowrap;
+}
+
+.bundle-subscription-buybox .variant-selector__oos-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+  opacity: 0.5;
+}
+
+/* Custom radio indicator */
+.bundle-subscription-buybox .variant-selector__radio-indicator {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 50%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bundle-subscription-buybox .variant-selector__item:has(.variant-selector__radio:checked) .variant-selector__radio-indicator {
+  border-color: var(--bs-border-active);
+  box-shadow: inset 0 0 0 2px var(--bs-white), inset 0 0 0 10px var(--bs-fill);
+}
+
+
+/* ================================================================
+   MIX-AND-MATCH SELECTOR — 2 or 3 packs
+   ================================================================ */
+.bundle-subscription-buybox .mix-match-selector {
+  display: flex;
+  flex-direction: column; 
+}
+
+.bundle-subscription-buybox .mix-match-selector__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+
+/* List — no gaps; outer border + radius handled per item position */
+.bundle-subscription-buybox .mix-match-selector__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--bs-border-active); 
+  overflow: hidden;
+}
+
+.bundle-subscription-buybox .mix-match-selector__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.15rem 1rem 0.15rem 0.25rem;
+  border: none;
+  border-top: .5px solid var(--bs-border);
+  background-color: #FBF5E1 ;
+  transition: background-color 0.15s ease;
+}
+
+.bundle-subscription-buybox .mix-match-selector__item--active {
+  background-color: var(--bs-white);
+}
+
+.bundle-subscription-buybox .mix-match-selector__item:first-child {
+  border-top: none;
+}
+
+.bundle-subscription-buybox .mix-match-selector__item--unavailable {
+  opacity: 0.4;
+}
+
+.bundle-subscription-buybox .mix-match-selector__thumb {
+  flex-shrink: 0;
+  width: 43px;
+  height: 43px;
+  border-radius: 0.375rem;
+  object-fit: cover;
+}
+
+.bundle-subscription-buybox .mix-match-selector__thumb--placeholder {
+  width: 43px;
+  height: 43px;
+  background-color: rgba(0,0,0,0.06);
+}
+
+.bundle-subscription-buybox .mix-match-selector__flavor-name {
+  flex: 0 0 auto;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: -.4rem;
+}
+
+/* Push stepper to far right; name + New badge stay visually grouped */
+.bundle-subscription-buybox .mix-match-selector__stepper {
+  margin-left: auto;
+}
+
+.bundle-subscription-buybox .mix-match-selector__oos-badge {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  opacity: 0.6;
+}
+
+/* Stepper — single bordered container around - qty + */
+.bundle-subscription-buybox .mix-match-selector__stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: .5px solid rgba(0,0,0);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bundle-subscription-buybox .mix-match-selector__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+  color: inherit;
+  margin-bottom: -.3rem;
+  flex-shrink: 0;
+}
+
+.bundle-subscription-buybox .mix-match-selector__btn:hover:not(:disabled) {
+  background-color: rgba(0,0,0,0.06);
+}
+
+.bundle-subscription-buybox .mix-match-selector__btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.bundle-subscription-buybox .mix-match-selector__btn:focus-visible {
+  outline: 2px solid var(--bs-border-active);
+  outline-offset: -2px;
+}
+
+.bundle-subscription-buybox .mix-match-selector__qty {
+  min-width: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  padding: 0 0.25rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+
+  margin-bottom: -.3rem;
+}
+ 
+/* ================================================================
+   PURCHASE OPTIONS — Subscribe & Save / One Time
+   ================================================================ */
+.bundle-subscription-buybox .purchase-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Each tile has its own full 4-sided border */
+.bundle-subscription-buybox .purchase-option {
+  display: block;
+  position: relative;
+  border: 1px solid var(--bs-border);
+  cursor: pointer;
+  background-color: #FBF5E1 ;
+  transition: border-color 0.15s ease, background-color 0.15s ease, z-index 0s;
+}
+
+/* Subscribe: rounded top, square bottom; pull down 1px to collapse double border */
+.bundle-subscription-buybox .purchase-option--subscribe {
+  border-radius: 6px 6px 0 0;
+  margin-bottom: -1px;
+}
+
+/* One-time: square top, rounded bottom */
+.bundle-subscription-buybox .purchase-option--onetime {
+  border-radius: 0 0 6px 6px;
+}
+
+/* Selected tile: white bg, all 4 borders go dark, sit on top so border isn't clipped */
+.bundle-subscription-buybox .purchase-option:has(.purchase-option__radio:checked) {
+  border-color: var(--bs-border-active);
+  background-color: var(--bs-white);
+  z-index: 1;
+}
+
+/* Visually hidden native radio — custom indicator used instead */
+.bundle-subscription-buybox .purchase-option__radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.bundle-subscription-buybox .purchase-option__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem;
+}
+
+/* One-time tile: horizontal row */
+.bundle-subscription-buybox .purchase-option__inner--row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+}
+
+.bundle-subscription-buybox .purchase-option__inner--row .purchase-option__price {
+  margin-left: auto;
+}
+
+/* ── Subscribe inner: radio column + content column ──────────── */
+.bundle-subscription-buybox .purchase-option--subscribe .purchase-option__inner {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.625rem;
+}
+
+/* Radio indicator lives as ::before on the inner wrapper — sits in the left column */
+.bundle-subscription-buybox .purchase-option--subscribe .purchase-option__inner::before {
+  content: '';
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 50%;
+  margin-top: 0.2rem; /* optical alignment with title text */
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bundle-subscription-buybox .purchase-option--subscribe:has(.purchase-option__radio:checked) .purchase-option__inner::before {
+  border-color: var(--bs-border-active);
+  box-shadow: inset 0 0 0 2px var(--bs-white), inset 0 0 0 10px var(--bs-fill);
+}
+
+/* Content column — stacks header, frequency, perks vertically */
+.bundle-subscription-buybox .purchase-option__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Header row: title + badge + pricing (no radio indicator here anymore) */
+.bundle-subscription-buybox .purchase-option__header {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+
+/* On one-time tile: indicator is the first child of the row */
+.bundle-subscription-buybox .purchase-option__inner--row::before {
+  content: '';
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 50%;
+  order: -1;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bundle-subscription-buybox .purchase-option:has(.purchase-option__radio:checked) .purchase-option__inner--row::before {
+  border-color: var(--bs-border-active);
+  box-shadow: inset 0 0 0 2px var(--bs-white), inset 0 0 0 10px var(--bs-fill);
+}
+
+/* ── Typography ───────────────────────────────────────────────── */
+.bundle-subscription-buybox .purchase-option__title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-align: left;
+  flex: 0 0 auto;
+  margin-bottom: -.4rem;
+}
+
+.bundle-subscription-buybox .purchase-option__discount-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem 0rem 0.6rem;
+  border: 1px solid var(--bs-green);
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--bs-green);
+  text-transform: capitalize;
+height: 20px;
+}
+
+.bundle-subscription-buybox .purchase-option__pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Mobile: stack totals, with discounted price above compare/strikethrough */
+@media (max-width: 989px) {
+  .bundle-subscription-buybox .purchase-option__pricing {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 0.125rem;
+  }
+}
+
+.bundle-subscription-buybox .purchase-option__compare-price {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(17, 17, 17, 0.55);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+
+.bundle-subscription-buybox .purchase-option__price {
+  font-size: 20px;
+  font-weight: 500; 
+  margin-bottom: -.4rem;
+}
+
+/* ── Subscribe details: slide open/closed (grid 0fr → 1fr; display:none can’t animate) */
+.bundle-subscription-buybox .purchase-option__subscribe-expand {
+  display: grid;
+  grid-template-rows: 1fr;
+  padding-top: 0;
+  transition:
+    grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Space below “Subscribe & Save” header — only when accordion is open (subscribe selected) */
+.bundle-subscription-buybox
+  .purchase-option--subscribe:has(.purchase-option__radio:checked)
+  .purchase-option__subscribe-expand {
+  padding-top: 0.875rem;
+}
+
+.bundle-subscription-buybox
+  .purchase-option--subscribe:has(.purchase-option__radio:not(:checked))
+  .purchase-option__subscribe-expand {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  pointer-events: none;
+  padding-top: 0;
+}
+
+.bundle-subscription-buybox .purchase-option__subscribe-expand-inner {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* Mobile typography — below theme lg (~990px) */
+@media (max-width: 989px) {
+  .bundle-subscription-buybox .pack-selector {
+    font-size: 18px;
+  }
+
+  .bundle-subscription-buybox .pack-selector__pack-name {
+    font-size: 18px;
+  }
+
+  .bundle-subscription-buybox .purchase-option__title {
+    font-size: 18px;
+  }
+
+  .bundle-subscription-buybox .mix-match-selector__flavor-name,
+  .bundle-subscription-buybox .variant-selector__flavor-name {
+    font-size: 16.5px;
+  }
+
+  .bundle-subscription-buybox .purchase-option__perk {
+    font-size: 13.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bundle-subscription-buybox .purchase-option__subscribe-expand {
+    transition: none;
+  }
+}
+
+/* ── Frequency dropdown ───────────────────────────────────────── */
+.bundle-subscription-buybox .purchase-option__frequency-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.bundle-subscription-buybox .frequency-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  width: fit-content;
+}
+
+.bundle-subscription-buybox .frequency-select {
+  appearance: none;
+  padding: 0.8rem 2.25rem 0.5rem 0.875rem;
+  /* border: 1px solid rgba(0,0,0,0.25); */
+  border-radius: var(--bs-radius-sm);
+  background: #FBF5E1 ;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  min-width: 146px;
+  /* transition: border-color 0.15s ease; */
+}
+
+.bundle-subscription-buybox .frequency-select:focus {
+  outline: none;
+  outline-offset: 0;
+  border-color: transparent;
+}
+
+.bundle-subscription-buybox .frequency-select__chevron {
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  line-height: 0;
+}
+
+/* ── Perks checklist ──────────────────────────────────────────── */
+.bundle-subscription-buybox .purchase-option__perks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bundle-subscription-buybox .purchase-option__perk {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.bundle-subscription-buybox .purchase-option__perk::before {
+  content: '';
+  flex-shrink: 0;
+  width: 8.6px;
+  height: 5.6px;
+  margin-top: 0.05em;
+  background-image: url("data:image/svg+xml,%3Csvg width='11' height='8' viewBox='0 0 11 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.999879 4.00012L3.59985 6.6001L9.59985 1.0001' stroke='%2300A96F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* ================================================================
+   ADD TO CART BUTTON
+   ================================================================ */
+.bundle-subscription-buybox .bundle-subscription-buybox__actions {
+  margin-top: 0.25rem;
+}
+
+.bundle-subscription-buybox .bundle-atc-btn {
+  
+  display: block;
+  width: 100%;
+  padding: 1rem 1.5rem .6rem 1.5rem;
+  border: none;
+  border-radius: var(--bs-radius-btn);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  cursor: pointer;
+  background-color: var(--bs-red);
+  color: var(--bs-white);
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.bundle-subscription-buybox .bundle-atc-btn:not(:disabled):hover {
+  background-color: #9f1515;
+}
+
+.bundle-subscription-buybox .bundle-atc-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.bundle-subscription-buybox .bundle-atc-btn:focus-visible {
+  outline: 2px solid var(--bs-red);
+  outline-offset: 3px;
+}

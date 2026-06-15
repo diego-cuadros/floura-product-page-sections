@@ -1,0 +1,114 @@
+{% comment %} <!-- /snippets/social-sharing.liquid -->
+<div class="flex items-center justify-start text-sm">
+  <h3 class="mr-5 w-auto">{{ 'sharing.social_sharing.title' | t }}:</h3>
+  <div class="social-sharing -mx-2 flex flex-wrap items-center justify-start">
+    {% if settings.share_facebook %}
+      <a
+        class="my-1 {% if settings.sharing_display == 'icons' %}p-2{% else %}mr-2{% endif %}"
+        target="_blank"
+        href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}"
+      >
+        {%- if settings.sharing_display == 'icons' %}
+          <span class="inline-block h-5 w-5">{% render 'icon-facebook' %}</span>
+
+        {%- else -%}
+          <span class="secondary-text-link {% if settings.links_uppercase %}uppercase{% endif %}">
+            {{- 'sharing.social_sharing.facebook' | t -}}
+          </span>
+        {%- endif -%}
+        <span class="visually-hidden">
+          {{- 'sharing.social_sharing.facebook_title' | t -}}
+        </span>
+      </a>
+    {% endif %}
+
+    {% if settings.share_twitter %}
+      <a
+        class="my-1 {% if settings.sharing_display == 'icons' %}{{ icon_transform }} p-2{% else %}mr-2{% endif %}"
+        target="_blank"
+        href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}"
+      >
+        {%- if settings.sharing_display == 'icons' %}
+          <span class="inline-block h-5 w-5">{% render 'icon-twitter' %}</span>
+        {%- else -%}
+          <span class="secondary-text-link {% if settings.links_uppercase %}uppercase{% endif %}">
+            {{- 'sharing.social_sharing.twitter' | t -}}
+          </span>
+        {%- endif -%}
+        <span class="visually-hidden">
+          {{- 'sharing.social_sharing.twitter_title' | t -}}
+        </span>
+      </a>
+    {% endif %}
+
+    {% if settings.share_pinterest and share_image != blank %}
+      <a
+        class="my-1 {% if settings.sharing_display == 'icons' %}{{ icon_transform }} p-2{% else %}mr-2{% endif %}"
+        target="_blank"
+        href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | image_url: width: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}"
+      >
+        {%- if settings.sharing_display == 'icons' %}
+          <span class="inline-block h-5 w-5">
+            {%- render 'icon-pinterest' -%}
+          </span>
+        {%- else -%}
+          <span class="secondary-text-link {% if settings.links_uppercase %}uppercase{% endif %}">
+            {{- 'sharing.social_sharing.pinterest' | t -}}
+          </span>
+        {%- endif -%}
+        <span class="visually-hidden">
+          {{- 'sharing.social_sharing.pinterest_title' | t -}}
+        </span>
+      </a>
+    {% endif %}
+  </div>
+</div> {% endcomment %}
+<!-- /snippets/social-sharing.liquid -->
+<div class="social-toggle-wrapper relative">
+  <!-- Main share icon (click to toggle social icons) -->
+  <button class="share-toggle-button share-toggle-button-1 p-2" aria-label="Toggle social sharing">
+    <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.12 9.33333L16 3.21333V6.49333L14.8533 6.66667C9.10667 7.48 5.21333 10.4933 2.98667 15.1067C6.08 12.92 9.92 11.8667 14.6667 11.8667H16V15.4533M13.3333 13.2267C7.37333 13.5067 3.10667 15.6533 0 20C1.33333 13.3333 5.33333 6.66667 14.6667 5.33333V0L24 9.33333L14.6667 18.6667V13.2C14.2267 13.2 13.7867 13.2133 13.3333 13.2267Z" fill="black"/>
+    </svg>
+  </button>
+
+  <!-- Social sharing icons (hidden by default) -->
+  <div class="social-sharing social-sharing-1 absolute top-full left-0 mt-2 flex gap-2 bg-white p-2 border border-gray-200 rounded shadow">
+    {% if settings.share_facebook %}
+      <a href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}" target="_blank" aria-label="Share on Facebook">
+        <span class="inline-block h-5 w-5">{% render 'icon-facebook' %}</span>
+      </a>
+    {% endif %}
+    {% if settings.share_twitter %}
+      <a href="//twitter.com/share?text={{ share_title | url_param_escape }}&url={{ shop.url | append: share_permalink }}" target="_blank" aria-label="Share on Twitter">
+        <span class="inline-block h-5 w-5">{% render 'icon-twitter' %}</span>
+      </a>
+    {% endif %}
+    {% if settings.share_pinterest and share_image != blank %}
+      <a href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&media={{ share_image | image_url: width: '1024x1024' }}&description={{ share_title | url_param_escape }}" target="_blank" aria-label="Share on Pinterest">
+        <span class="inline-block h-5 w-5">{% render 'icon-pinterest' %}</span>
+      </a>
+    {% endif %}
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleBtn = document.querySelector(".share-toggle-button-1");
+  const sharingMenu = document.querySelector(".social-sharing-1");
+
+  if (toggleBtn && sharingMenu) {
+    toggleBtn.addEventListener("click", function (e) {
+      e.stopPropagation(); // prevent click from triggering outside-close immediately
+      sharingMenu.classList.toggle("active");
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", function (e) {
+      if (!toggleBtn.contains(e.target) && !sharingMenu.contains(e.target)) {
+        sharingMenu.classList.remove("active");
+      }
+    });
+  }
+});
+
+</script>

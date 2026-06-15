@@ -1,0 +1,144 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "rich_text_jVwLpe": {
+      "type": "rich-text",
+      "disabled": true,
+      "settings": {
+        "title": "13g Fiber, 12 Whole Plants",
+        "heading_size": "heading-standard",
+        "rich_text": "<p>We've crushed nature's hidden heroes watermelon rinds, apple cores, and produce trimmings into <strong>the most concentrated diverse fiber bar out there.</strong> Seriously good flavor, no fake additives.<br/><br/></p>",
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-2/3",
+        "button_link": "",
+        "button_label": "Shop Now",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "display_on_card": false,
+        "show_collection_title": true,
+        "show_collection_description": true,
+        "linklist": "explore",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "featured-image": {
+      "type": "main-collection-image",
+      "blocks": {
+        "shape_divider_XDArpU": {
+          "type": "shape_divider",
+          "settings": {
+            "target_section": "below",
+            "target_section_color_scheme": "scheme3",
+            "style": "waves-1-patterned_1200x20",
+            "flip_horizontal": false,
+            "enable_animation": false,
+            "animation_direction": ""
+          }
+        }
+      },
+      "block_order": [
+        "shape_divider_XDArpU"
+      ],
+      "disabled": true,
+      "settings": {
+        "style": "full",
+        "height": "pt-two-thirds-screen-height",
+        "color_scheme": "scheme-6c3d44eb-acc8-48df-8fae-7b22ab978a32",
+        "use_gradient_background": false
+      }
+    },
+    "custom_liquid_9A48pd": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "section {height: 10px;}"
+      ],
+      "name": "t:sections.custom_liquid.name",
+      "settings": {
+        "title": "",
+        "custom_liquid": "",
+        "full_width": false,
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353"
+      }
+    },
+    "image_with_text_overlay_YKnLg9": {
+      "type": "image-with-text-overlay",
+      "name": "t:sections.image_with_text_overlay.name",
+      "settings": {
+        "custom__class": "",
+        "image": "shopify://shop_images/collection-header1.png",
+        "image_mobile": "shopify://shop_images/collection-header-mobile.png",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": true,
+        "style": "inset",
+        "mobile_style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-start",
+        "text_align": "text-center",
+        "text_align_mobile": "default",
+        "text_max_width_desktop": "default",
+        "content_padding_mobile": 30,
+        "subheader": "",
+        "subheader_font_size_desktop": 20,
+        "subheader_font_size_mobile": 16,
+        "subheader_color": "",
+        "subheader_max_width_desktop": 500,
+        "subheader_max_width_mobile": 320,
+        "badge_max_width_desktop": 280,
+        "badge_max_width_mobile": 200,
+        "title": "15g Fiber, 12 Whole Plants",
+        "title_new_line_after_each_word": false,
+        "header_font_size": 40,
+        "header_font_size_mobile": 36,
+        "header_color": "",
+        "richtext": "<p>We take nature’s overlooked heroes—watermelon rinds, apple cores, produce trimmings—and turn them into something extraordinary: a wildly concentrated, diverse fiber bar bursting with flavor.</p>",
+        "body_font_size_desktop": 18,
+        "body_font_size_mobile": 18,
+        "body_text_color": "",
+        "cta_url": "",
+        "cta_text": "Shop Now",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "no_products": 20,
+        "display_on_card": true,
+        "enable_quick_buy": false,
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 5,
+        "enable_filtering": false,
+        "enable_sorting": false,
+        "expand_filters": false,
+        "show_filter_count": false,
+        "enable_color_swatch_filters": false,
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "rich_text_jVwLpe",
+    "banner",
+    "featured-image",
+    "custom_liquid_9A48pd",
+    "image_with_text_overlay_YKnLg9",
+    "product-grid"
+  ]
+}

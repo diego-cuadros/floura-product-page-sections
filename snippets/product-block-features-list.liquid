@@ -1,0 +1,46 @@
+<div
+  class="{{ block_base_classes }}"
+  {{ block.shopify_attributes }}
+>
+  <ul
+    class="features-list__container text-left"
+  >
+    {%- for i in (1..6) -%}
+      {%- capture title %}title_{{ i }}{%- endcapture -%}
+      {%- liquid
+        assign title = block.settings[title]
+      -%}
+      {%- if title != '' -%}
+        {%- liquid
+          assign classes = ''
+          if block.settings.border_between_rows
+            unless forloop.first and block.settings.border_top_bottom == false
+              assign classes = 'border-t-general border-solid border-current'
+            endunless
+            if block.settings.border_top_bottom
+              assign classes = classes | append: ' last:border-b'
+            endif
+          endif
+
+          if block.settings.border_top_bottom and block.settings.border_between_rows == false
+            assign classes = 'first:border-t-general last:border-b-general border-current'
+          endif
+          if block.settings.border_between_rows
+            assign classes = classes | append: ' py-2'
+          else
+            assign classes = classes | append: ' py-1'
+            if block.settings.border_top_bottom
+              assign classes = classes | append: ' first:pt-4 last:pb-4'
+            endif
+          endif
+        -%}
+        <li class="features-list__item flex items-center justify-between gap-x-3 {{  classes }} {% if block.settings.uppercase_text %}uppercase{%  endif %}">
+          <span>{{ title }}</span>
+          <div class="inline-block h-5 w-5 shrink-0 rounded-full border-[calc(var(--icon-thickness)_*_1px)] border-current">
+            {%- render 'theme-icon', icon: 'check_mark' -%}
+          </div>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</div>

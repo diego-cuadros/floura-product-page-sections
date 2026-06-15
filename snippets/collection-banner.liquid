@@ -1,0 +1,82 @@
+{%- liquid
+  unless loading
+    assign loading = 'lazy'
+  endunless
+
+  unless preload
+    assign preload = false
+  endunless
+-%}
+
+{%- if collection.image != blank and show_collection_image -%}
+  {%- liquid
+    if collection_image_style == 'inset'
+      assign container_class = 'media media--css-only'
+      assign wrapper_class = 'media__element-wrapper'
+      assign image_class = 'media__styled-element'
+      assign sizes = 'min(1820px, 100vw)'
+    else
+      assign sizes = '100vw'
+    endif
+  -%}
+  <div class="{% if collection_image_style == 'inset' %}pt-half-section-vertical-spacing max-w-site px-section mx-auto w-full{% endif %}">
+    <div class="{{ container_class }}">
+      <div class="{{ wrapper_class }} {% unless crop == '' or crop == blank or crop == 'natural' %}object-wrapper {{ crop }}{% endunless %}">
+        {{
+          collection.image
+          | image_url: width: 2000
+          | image_tag:
+            sizes: sizes,
+            class: image_class,
+            loading: loading,
+            preload: preload
+        }}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+<div class="section-content relative z-10 mx-auto max-w-site px-section py-section-vertical-spacing">
+  <div class="{% if display_on_card %}card mx-auto{% endif %}">
+    <div class="{% if display_on_card %}card__surface p-5 lg:p-10{% endif %} break-words">
+      {%- if title != '' and show_collection_title -%}
+        <h1 class="font-heading heading-feature  heading-style text-center {{ settings.heading_drop_shadow_style }}">
+          {{ collection.title }}
+        </h1>
+      {%- endif -%}
+      {%- if collection.description != blank and show_collection_description -%}
+        <div class="{% unless hide_title %}mt-5{% endunless %} rte mx-auto max-w-xl text-center text-rte">
+          {{ collection.description }}
+        </div>
+      {%- endif -%}
+      {%- if linklist != blank -%}
+        <div class="relative mt-5 py-2">
+          <nav role="navigation">
+            <ul class="flex flex-wrap justify-center gap-2.5">
+              {%- for link in linklist.links -%}
+                <li class="inline-block">
+                  {%- if link.active -%}
+                    <a
+                      class="btn bg-scheme-text text-sm text-scheme-text-contrast after:hidden lg:text-base"
+                      href="{{ link.url }}"
+                      aria-current="page"
+                    >
+                      {{- link.title -}}
+                    </a>
+                  {%- else -%}
+                    <a
+                      class="btn bg-scheme-secondary-background text-sm text-scheme-text  after:hidden lg:text-base"
+                      href="{{ link.url }}"
+                    >
+                      {{- link.title -}}
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </nav>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

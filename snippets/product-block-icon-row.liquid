@@ -1,0 +1,42 @@
+{%- liquid
+  assign icon_alignment = block.settings.icon_alignment
+
+  case block.settings.icon_size
+    when 'h-10 w-10'
+      assign list_item_width = 'w-16'
+    when 'h-12 w-12'
+      assign list_item_width = 'w-18'
+    when 'h-16 w-16'
+      assign list_item_width = 'w-20'
+  endcase
+-%}
+<div
+  class="{{ block_base_classes }} {{ color_class }}{% if icon_alignment == 'justify-between' %} -mx-section{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  <ul
+    class="feature-icon-list flex gap-4 pb-2 {{ icon_alignment }}{% if icon_alignment == 'justify-between' %} px-section overflow-x-auto snap-x snap-promixity{% else %} flex-wrap{% endif %}"
+  >
+    {%- for i in (1..5) -%}
+      {%- capture icon %}icon_{{ i }}{%- endcapture -%}
+      {%- capture text %}text_{{ i }}{%- endcapture -%}
+      {%- liquid
+        assign icon = block.settings[icon]
+        assign text = block.settings[text]
+      -%}
+      {%- if text != '' -%}
+        <li class="flex {{ list_item_width }} flex-col items-center text-center{% if icon_alignment == 'justify-between' %} scroll-mx-section snap-start shrink-0{% endif %}">
+          <span
+            style="--icon-thickness: {{ block.settings.icon_thickness }};"
+            class="mb-2 inline-block {{  block.settings.icon_size }} rounded-full {% if block.settings.show_border %}border-[calc(var(--icon-thickness)_*_1px)]{% else %}border-0{% endif %} border-current {{ block.settings.background_color }}"
+          >
+            {% render 'theme-icon', icon: icon %}
+          </span>
+          <span class="block {% if block.settings.icon_alignment == 'flex-initial' %}max-w-[12ch]{% endif %} break-words text-sm  {% if block.settings.uppercase_text %}uppercase{%  endif %}">
+            {{- text | escape | strip -}}
+          </span>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</div>

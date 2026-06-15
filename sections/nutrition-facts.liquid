@@ -1,0 +1,161 @@
+<style>
+/* .nutrition-facts-section {
+  padding: 40px 20px;
+  background: #f4f6ff;
+  font-family: sans-serif;
+}
+.nutrition-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: flex-start;
+}
+.nutrition-left,
+.nutrition-center,
+.nutrition-right {
+  flex: 1 1 300px;
+}
+.nutrition-left h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.ingredient-list {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.serving-info {
+  margin-bottom: 10px;
+}
+.calories-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: fit-content;
+  margin-top: 10px;
+}
+.calories-number {
+  font-size: 24px;
+  font-weight: bold;
+}
+.bar-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.fact-box {
+  border: 1px solid #000;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+.fact-title {
+  font-weight: bold;
+}
+.fact-value {
+  font-size: 16px;
+}
+.fact-note {
+  font-size: 14px;
+  color: #666;
+} */
+</style>
+
+<section class="nutrition-facts-section">
+  <h2 class="inline-heading-rte font-heading heading-standard  heading-style break-words text-center none">{{ section.settings.head }}</h2>
+  <div class="nutrition-wrapper">
+    <div class="nutrition-left">
+      <div class="ingredient-list">
+        <strong>Ingredient list:</strong><br>
+        <p>{{ section.settings.ingredient_list | newline_to_br }}</p>
+      </div>
+      <div class="serving-info">
+        <div>1 Serving Per Container</div>
+        <div><strong>Serving Size</strong> 1 Bar (45g)</div>
+      </div>
+      {% comment %} <div class="calories-box">
+        <div>Amount Per Serving</div>
+        <div class="calories-box-inner">
+        <div><strong>Calories</strong></div>
+        <div class="calories-number">{{ section.settings.calories }}</div>
+        </div>
+      </div> {% endcomment %}
+    </div>
+
+    <div class="nutrition-center">
+      {% if section.settings.bar_image %}
+        <img src="{{ section.settings.bar_image | image_url: width: 600 }}" alt="Bar Image" class="bar-image" loading="lazy">
+      {% endif %}
+    </div>
+
+    <div class="nutrition-right">
+      {% for block in section.blocks %}
+        <div class="fact-box">
+          <div class="fact-title">{{ block.settings.title }}</div>
+          <div class="fact-value">{{ block.settings.value }}</div>
+          {% if block.settings.note != blank %}
+            <div class="fact-note">{{ block.settings.note }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <p class="btmln">{{ section.settings.btmln }}</p>
+</section>
+
+{% schema %}
+{
+  "name": "Nutrition Facts",
+  "settings": [
+    {
+      "type": "text",
+      "id": "head",
+      "label": "Main Heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "bar_image",
+      "label": "Bar Image"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_list",
+      "label": "Ingredient List"
+    },
+    {
+      "type": "text",
+      "id": "calories",
+      "label": "Calories",
+      "default": "140"
+    },
+     {
+      "type": "text",
+      "id": "btmln",
+      "label": "Bottom Line"
+    },
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Nutrition Fact",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "title",
+          "label": "Box Content"
+        },
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nutrition Facts",
+      "blocks": [
+        { "type": "fact" }
+      ]
+    }
+  ]
+}
+{% endschema %}

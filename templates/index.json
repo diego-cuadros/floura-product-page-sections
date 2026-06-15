@@ -1,0 +1,945 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_text_overlay_Y9XNAM": {
+      "type": "image-with-text-overlay",
+      "disabled": true,
+      "name": "t:sections.image_with_text_overlay.name",
+      "settings": {
+        "custom__class": "",
+        "image": "shopify://shop_images/brownie-batter-launch-desktop.jpg",
+        "image_mobile": "shopify://shop_images/brownie-mobile.png",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": false,
+        "style": "full",
+        "mobile_style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-start",
+        "text_align": "text-center",
+        "text_align_mobile": "default",
+        "text_max_width_desktop": "50vw",
+        "content_padding_mobile": 20,
+        "subheader": "",
+        "subheader_font_size_desktop": 20,
+        "subheader_font_size_mobile": 15,
+        "subheader_color": "",
+        "subheader_max_width_desktop": 500,
+        "subheader_max_width_mobile": 320,
+        "badge_image": "shopify://shop_images/its-finally-here.png",
+        "badge_max_width_desktop": 280,
+        "badge_max_width_mobile": 200,
+        "title": "<strong>HELLO BROWNIE BATTER</strong>",
+        "title_new_line_after_each_word": true,
+        "header_font_size": 80,
+        "header_font_size_mobile": 50,
+        "header_color": "#ff5096",
+        "richtext": "<p>Your Daily Ritual Just Got A Little More Decadent</p>",
+        "body_font_size_desktop": 20,
+        "body_font_size_mobile": 15,
+        "body_text_color": "#ffffff",
+        "button_bg_color": "",
+        "button_text_color": "",
+        "button_outline_color": "",
+        "button_hover_bg_color": "",
+        "button_hover_text_color": "",
+        "cta_url": "shopify://collections/all",
+        "cta_text": "Shop Brownie Batter",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "image_with_text_overlay_qzHU8k": {
+      "type": "image-with-text-overlay",
+      "name": "t:sections.image_with_text_overlay.name",
+      "settings": {
+        "custom__class": "",
+        "image": "shopify://shop_images/brownie-batter-launch-desktop-copy.jpg",
+        "image_mobile": "shopify://shop_images/brownie-batter-launch-mobile-copy.png",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": false,
+        "style": "full",
+        "mobile_style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-center",
+        "text_align": "text-center",
+        "text_align_mobile": "default",
+        "text_max_width_desktop": "default",
+        "content_padding_mobile": 20,
+        "subheader": "",
+        "subheader_font_size_desktop": 20,
+        "subheader_font_size_mobile": 16,
+        "subheader_color": "",
+        "subheader_max_width_desktop": 500,
+        "subheader_max_width_mobile": 320,
+        "badge_max_width_desktop": 280,
+        "badge_max_width_mobile": 200,
+        "title": "",
+        "title_new_line_after_each_word": false,
+        "header_font_size": 80,
+        "header_font_size_mobile": 40,
+        "header_color": "",
+        "richtext": "",
+        "body_font_size_desktop": 20,
+        "body_font_size_mobile": 18,
+        "body_text_color": "",
+        "button_bg_color": "",
+        "button_text_color": "",
+        "button_outline_color": "",
+        "button_hover_bg_color": "",
+        "button_hover_text_color": "",
+        "cta_url": "shopify://products/floura-daily-fiber-bars",
+        "cta_text": "",
+        "color_scheme": "scheme-e99d08dd-7f05-4038-91fd-31f073e97cfa",
+        "use_gradient_background": false
+      }
+    },
+    "custom_liquid_A3hcHk": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "section {height: 24px;}"
+      ],
+      "name": "t:sections.custom_liquid.name",
+      "settings": {
+        "title": "",
+        "custom_liquid": "",
+        "full_width": false,
+        "color_scheme": "scheme6"
+      }
+    },
+    "image_with_text_overlay_Tx7PeT": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "custom__class": "",
+        "image": "shopify://shop_images/flavors-carousel-desktop.gif",
+        "image_mobile": "shopify://shop_images/flavors-carousel-mobile.gif",
+        "display_on_card": true,
+        "display_content_below_image_on_mobile": true,
+        "style": "full",
+        "mobile_style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-start",
+        "text_align": "text-left",
+        "text_align_mobile": "text-center",
+        "text_max_width_desktop": "32vw",
+        "content_padding_mobile": 46,
+        "subheader": "",
+        "subheader_font_size_desktop": 20,
+        "subheader_font_size_mobile": 16,
+        "subheader_color": "",
+        "subheader_max_width_desktop": 500,
+        "subheader_max_width_mobile": 320,
+        "badge_max_width_desktop": 280,
+        "badge_max_width_mobile": 200,
+        "title": "The most delicious way to eat fiber.",
+        "title_new_line_after_each_word": false,
+        "header_font_size": 38,
+        "header_font_size_mobile": 38,
+        "header_color": "",
+        "richtext": "<p>Made from 12 whole plants including fruit, roots, and seeds, our bars pack 15g of diverse fiber into every bite. Ridiculously good flavor. Seriously delicious super fiber.</p>",
+        "body_font_size_desktop": 18,
+        "body_font_size_mobile": 18,
+        "body_text_color": "",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#000000",
+        "button_outline_color": "#000000",
+        "button_hover_bg_color": "#000000",
+        "button_hover_text_color": "#ffffff",
+        "cta_url": "shopify://products/floura-daily-fiber-bars",
+        "cta_text": "SHOP NOW",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "shape_badges_mjphxD": {
+      "type": "shape-badges",
+      "blocks": {
+        "shape_zg8AWJ": {
+          "type": "shape",
+          "settings": {
+            "shape": "ticket",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Palm oil\nfree",
+            "link": ""
+          }
+        },
+        "shape_FQ9RtJ": {
+          "type": "shape",
+          "settings": {
+            "shape": "star",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Non GMO",
+            "link": ""
+          }
+        },
+        "shape_JfGBU8": {
+          "type": "shape",
+          "settings": {
+            "shape": "diamond",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Refined\nSugar Free",
+            "link": ""
+          }
+        },
+        "shape_p6NRpM": {
+          "type": "shape",
+          "settings": {
+            "shape": "burst",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Gluten\nfree",
+            "link": ""
+          }
+        },
+        "shape_rFPG8e": {
+          "type": "shape",
+          "settings": {
+            "shape": "elipse",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Preservative\nFree",
+            "link": ""
+          }
+        },
+        "shape_8i37Tm": {
+          "type": "shape",
+          "settings": {
+            "shape": "ticket",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Dairy\nFree",
+            "link": ""
+          }
+        },
+        "shape_B6Cpbd": {
+          "type": "shape",
+          "settings": {
+            "shape": "star",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Plant Based",
+            "link": ""
+          }
+        },
+        "shape_4UBU4e": {
+          "type": "shape",
+          "settings": {
+            "shape": "diamond",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Emulsifier\nFree",
+            "link": ""
+          }
+        },
+        "shape_kLPCKd": {
+          "type": "shape",
+          "settings": {
+            "shape": "burst",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Gluten\nfree",
+            "link": ""
+          }
+        },
+        "shape_XRaAUY": {
+          "type": "shape",
+          "settings": {
+            "shape": "elipse",
+            "color": "#fbf5e2",
+            "text-color": "#000000",
+            "text": "Preservative\nFree",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "shape_zg8AWJ",
+        "shape_FQ9RtJ",
+        "shape_JfGBU8",
+        "shape_p6NRpM",
+        "shape_rFPG8e",
+        "shape_8i37Tm",
+        "shape_B6Cpbd",
+        "shape_4UBU4e",
+        "shape_kLPCKd",
+        "shape_XRaAUY"
+      ],
+      "disabled": true,
+      "name": "Shape Badge Slider",
+      "settings": {
+        "heading": "Eat . Flourish . Live"
+      }
+    },
+    "featured_product_variants_raMeWE": {
+      "type": "featured-product-variants",
+      "name": "t:sections.featured_product_variants.name",
+      "settings": {
+        "title": "Find Your Favorite",
+        "subheading": "",
+        "text_alignment": "left",
+        "product": "floura-daily-fiber-bars",
+        "variant_limit": 25,
+        "enable_quick_buy": true,
+        "display_on_card": true,
+        "allow_full_width": true,
+        "layout": "carousel",
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 5,
+        "slideshow_focus": "left",
+        "mobile_slide_width": "full_width",
+        "tablet_slide_width": 33,
+        "desktop_slide_width": 27,
+        "autoscroll_mode": "0",
+        "enable_lifestyle_hover_image": true,
+        "lifestyle_image_metafield": "custom.lifestyle_image",
+        "badge_placement": "top_left",
+        "badge_color": "accent_2",
+        "badge_custom_background": "#e74450",
+        "badge_custom_text": "",
+        "badge_shape": "rectangle",
+        "product_tiles_aspect_ratio": "aspect-w-1 aspect-h-1",
+        "image_shape": "",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#000000",
+        "button_outline_color": "#000000",
+        "button_hover_bg_color": "#000000",
+        "button_hover_text_color": "#ffffff",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "custom_table_DYTHxb": {
+      "type": "custom-table",
+      "blocks": {
+        "row_wnNkH7": {
+          "type": "row",
+          "settings": {
+            "title": "15 Grams Diverse Fiber",
+            "column_1_icon": "check_mark",
+            "column_1_text": "",
+            "column_2_icon": "check_close",
+            "column_2_text": "",
+            "column_3_icon": "check_close",
+            "column_3_text": "",
+            "column_4_icon": "check_close",
+            "column_4_text": ""
+          }
+        },
+        "row_3xmieV": {
+          "type": "row",
+          "settings": {
+            "title": "12 Whole Plants",
+            "column_1_icon": "check_mark",
+            "column_1_text": "",
+            "column_2_icon": "check_close",
+            "column_2_text": "",
+            "column_3_icon": "check_close",
+            "column_3_text": "",
+            "column_4_icon": "check_close",
+            "column_4_text": ""
+          }
+        },
+        "row_6Nrt6z": {
+          "type": "row",
+          "settings": {
+            "title": "Real Fruit Flavor",
+            "column_1_icon": "check_mark",
+            "column_1_text": "",
+            "column_2_icon": "check_close",
+            "column_2_text": "",
+            "column_3_icon": "check_close",
+            "column_3_text": "",
+            "column_4_icon": "check_close",
+            "column_4_text": ""
+          }
+        },
+        "row_8zrnbT": {
+          "type": "row",
+          "settings": {
+            "title": "Preservative Free",
+            "column_1_icon": "check_mark",
+            "column_1_text": "",
+            "column_2_icon": "check_close",
+            "column_2_text": "",
+            "column_3_icon": "check_mark",
+            "column_3_text": "",
+            "column_4_icon": "",
+            "column_4_text": ""
+          }
+        },
+        "row_V9MqFF": {
+          "type": "row",
+          "settings": {
+            "title": "Dairy Free",
+            "column_1_icon": "check_mark",
+            "column_1_text": "",
+            "column_2_icon": "check_close",
+            "column_2_text": "",
+            "column_3_icon": "check_mark",
+            "column_3_text": "",
+            "column_4_icon": "",
+            "column_4_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_wnNkH7",
+        "row_3xmieV",
+        "row_6Nrt6z",
+        "row_8zrnbT",
+        "row_V9MqFF"
+      ],
+      "name": "Custom Table",
+      "settings": {
+        "mainimg": "shopify://shop_images/floura-bar-flavors-hp.png",
+        "title": "Us vs Them",
+        "display_on_card": false,
+        "max_width": "",
+        "highlighted_column": "1",
+        "highlighted_column_color": "accent-1",
+        "show_scroll_left_to_right_on_mobile": true,
+        "column_1_title": "Column 1",
+        "column_1_image": "shopify://shop_images/2412_Floura_LOGO.webp",
+        "column_2_title": "Bland, Brown  Bars",
+        "enable_column_3": true,
+        "column_3_title": "Gritty Fiber Powder",
+        "enable_column_4": false,
+        "column_4_title": "Column 4",
+        "icon_thickness": 1.5,
+        "background_color": "bg-transparent text-scheme-text",
+        "show_border": true,
+        "color_scheme": "scheme3",
+        "use_gradient_background": false
+      }
+    },
+    "featured_product_Xd77VB": {
+      "type": "featured-product",
+      "blocks": {
+        "text_Qm8Rty": {
+          "type": "text",
+          "settings": {
+            "display_on_card": false,
+            "text": "10-pack",
+            "icon": "none"
+          }
+        },
+        "title_X9yTww": {
+          "type": "title",
+          "settings": {
+            "display_on_card": false,
+            "text_align": "text-left"
+          }
+        },
+        "star_rating_TTiRKJ": {
+          "type": "star_rating",
+          "settings": {
+            "display_on_card": false
+          }
+        },
+        "price_FdRpRR": {
+          "type": "price",
+          "settings": {
+            "display_on_card": false,
+            "show_on_sale_sticker": false,
+            "text_align": "text-left"
+          }
+        },
+        "text_49Apna": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false,
+            "text": "Flavor notes: ",
+            "icon": "none"
+          }
+        },
+        "liquid_hcQnr4": {
+          "type": "liquid",
+          "settings": {
+            "display_on_card": false,
+            "liquid": "<b>Flavor notes: </b>\n<p>Discover all five Floura flavors in one box. The variety pack includes two bars each of: Brambleberry Lavender, Raspberry Rose, Blueberry Matcha, Vanilla Rooibos, and Mango Cardamom.</p>"
+          }
+        },
+        "text_xmxXaj": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false,
+            "text": "Discover all five Floura flavors in one box. Your variety pack includes two bars each of: Brambleberry Lavender, Raspberry Rose, Blueberry Matcha, Vanilla Rooibos, and Mango Cardamom. (10 bars total)",
+            "icon": "none"
+          }
+        },
+        "variant_picker_UDLLQR": {
+          "type": "variant_picker",
+          "settings": {
+            "display_on_card": false,
+            "option_style": "drop_down",
+            "full_width_buttons": false,
+            "hide_option_labels": true,
+            "enable_color_swatches": false
+          }
+        },
+        "share_buttons_pLBQce": {
+          "type": "share_buttons",
+          "settings": {
+            "display_on_card": false
+          }
+        },
+        "subscription_p4AGaV": {
+          "type": "subscription",
+          "settings": {
+            "subscription_heading": "Subscribe & Save",
+            "text": "$3.00 off on subscription orders.",
+            "onetime_heading": "One-time purchase"
+          }
+        },
+        "skio_subscriptions_yc_s20_app_block_TFMq48": {
+          "type": "shopify://apps/skio-subscriptions-yc-s20/blocks/app-block/de50f7a4-0bb0-4d4c-84e2-c03dce83436d",
+          "disabled": true,
+          "settings": {
+            "form_id": "product-form-{{section.id}}",
+            "start_onetime": "true",
+            "onetime_first": "true",
+            "default_subscription": "",
+            "group_border_radius": 5,
+            "group_border_shadow": true,
+            "group_border_selected_color": "#000000",
+            "onetime_title": "One Time",
+            "subscription_title": "Subscribe. & Save",
+            "prepaid_title": "Prepaid",
+            "discount_format": "absolute",
+            "discount_style": "bubble",
+            "discount_prefix": "-",
+            "discount_suffix": "",
+            "discount_color": "#eb3131"
+          }
+        },
+        "buy_buttons_Fi7edY": {
+          "type": "buy_buttons",
+          "settings": {
+            "display_on_card": false,
+            "showqty": true,
+            "afterbtn": "Bundle Single Flavor Packs & Get a FREE Flavor.",
+            "show_price": false,
+            "enable_payment_button": false,
+            "show_pickup_availability": false,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "text_Qm8Rty",
+        "title_X9yTww",
+        "star_rating_TTiRKJ",
+        "price_FdRpRR",
+        "text_49Apna",
+        "liquid_hcQnr4",
+        "text_xmxXaj",
+        "variant_picker_UDLLQR",
+        "share_buttons_pLBQce",
+        "subscription_p4AGaV",
+        "skio_subscriptions_yc_s20_app_block_TFMq48",
+        "buy_buttons_Fi7edY"
+      ],
+      "disabled": true,
+      "settings": {
+        "bbl": "shopify://pages/bundle",
+        "title": "A Bit Of Everything",
+        "product": "fruit-crush-discovery-set",
+        "crop": "aspect-w-4 aspect-h-3",
+        "image_shape": "default",
+        "media_mobile_width": "w-full",
+        "desktop_media_width": "lg:col-span-6_lg:col-span-6",
+        "enable_video_looping": true,
+        "thumbnails_position": "under",
+        "thumbnail_crop": "aspect-w-3 aspect-h-4",
+        "thumbnail_shape": "default",
+        "hide_media_shadow": true,
+        "thumbnail_size": "standard",
+        "show_thumbnails_on_mobile": false,
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "why_we_launched_FyUjVB": {
+      "type": "why-we-launched",
+      "blocks": {
+        "block_XNNkXF": {
+          "type": "block",
+          "settings": {
+            "image": "shopify://shop_images/image_3_2.webp",
+            "head": "The Unspoken Truth: A Fiber Gap",
+            "text": "<p><strong>95% of Americans are missing out on essential fiber from diverse whole foods. </strong>This isn't just a statistic; it's a silent challenge to our vitality. Fiber is the crucial fuel for your beneficial gut bacteria, actively nurturing a balanced microbiome (that includes your skin). Without it, we're not just missing a nutrient—we're missing the foundation for true flourish.</p>",
+            "reverse_layout": false,
+            "decorative_svg": "shopify://shop_images/Group_72.webp"
+          }
+        },
+        "block_VnGCtj": {
+          "type": "block",
+          "settings": {
+            "image": "shopify://shop_images/1908474785.webp",
+            "head": "For People, Planet, and Pure Pleasure.",
+            "text": "<p>We're on a bold mission to intercept 100 million pounds of fresh produce trimmings—the rinds, skins, and cores—that would otherwise contribute to global food waste. This isn't just about sustainability; it's about transforming forgotten abundance into vital nourishment, creating a powerful ripple effect for both human health and the health of our planet.</p>",
+            "reverse_layout": false
+          }
+        },
+        "block_wrCLbJ": {
+          "type": "block",
+          "settings": {
+            "image": "shopify://shop_images/jeni-homepage-mango.png",
+            "head": "Crafted by a Tastemaker. Led by a Visionary.",
+            "text": "<p>Floura is making fiber not just delicious, but an experience. With the same iconic flavor design that inspired the very tastes you love from Jeni's Splendid Ice Creams, our products are a testament to the power of a true tastemaker. Jeni Britton's vision ensures that every bar is a delightful step towards a more vibrant you.</p>",
+            "reverse_layout": false
+          }
+        }
+      },
+      "block_order": [
+        "block_XNNkXF",
+        "block_VnGCtj",
+        "block_wrCLbJ"
+      ],
+      "name": "Why We Launched",
+      "settings": {
+        "heading": "Why We Launched"
+      }
+    },
+    "hotspot_4ReNae": {
+      "type": "hotspot",
+      "blocks": {
+        "hotspot_hrqGCH": {
+          "type": "hotspot",
+          "settings": {
+            "prodimg": "shopify://shop_images/18_1_2.webp",
+            "product": "matcha-blueberry-1",
+            "show_dynamic_checkout": true,
+            "tag_name": "{{ block.settings.product.metafields.custom.badge.value }}",
+            "tag_color": "#ffffff",
+            "tag_background_color": "#e74450",
+            "horizontal_position": 50,
+            "vertical_position": 50
+          }
+        },
+        "hotspot_Tgh7FF": {
+          "type": "hotspot",
+          "settings": {
+            "prodimg": "shopify://shop_images/VanillaSingle_1.webp",
+            "product": "vanilla-rooibos-1",
+            "show_dynamic_checkout": true,
+            "tag_name": "{{ block.settings.product.metafields.custom.badge.value }}",
+            "tag_color": "#ffffff",
+            "tag_background_color": "#e74450",
+            "horizontal_position": 12,
+            "vertical_position": 27
+          }
+        },
+        "hotspot_XHMRrK": {
+          "type": "hotspot",
+          "settings": {
+            "prodimg": "shopify://shop_images/12_1.webp",
+            "product": "mango-cardamom-1",
+            "show_dynamic_checkout": true,
+            "tag_name": "{{ block.settings.product.metafields.custom.badge.value }}",
+            "tag_color": "#ffffff",
+            "tag_background_color": "#e74450",
+            "horizontal_position": 60,
+            "vertical_position": 70
+          }
+        },
+        "hotspot_hYRyCX": {
+          "type": "hotspot",
+          "settings": {
+            "prodimg": "shopify://shop_images/9_6.webp",
+            "product": "raspberry-rose-1",
+            "show_dynamic_checkout": true,
+            "tag_name": "{{ block.settings.product.metafields.custom.badge.value }}",
+            "tag_color": "#ffffff",
+            "tag_background_color": "#e74450",
+            "horizontal_position": 29,
+            "vertical_position": 39
+          }
+        },
+        "hotspot_EEeJQR": {
+          "type": "hotspot",
+          "settings": {
+            "prodimg": "shopify://shop_images/15_1.webp",
+            "product": "brambleberry-lavender-1",
+            "show_dynamic_checkout": true,
+            "tag_name": "{{ block.settings.product.metafields.custom.badge.value }}",
+            "tag_color": "#ffffff",
+            "tag_background_color": "#e74450",
+            "horizontal_position": 81,
+            "vertical_position": 81
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_hrqGCH",
+        "hotspot_Tgh7FF",
+        "hotspot_XHMRrK",
+        "hotspot_hYRyCX",
+        "hotspot_EEeJQR"
+      ],
+      "disabled": true,
+      "name": "t:sections.hotspot.presets.name",
+      "settings": {
+        "section_heading": "Designed for Humans with Taste",
+        "section_description": "",
+        "bbl": "shopify://pages/bundle",
+        "verticle_text": "",
+        "image": "shopify://shop_images/3eed08e2-a6d7-440b-aa42-e660a2b6c93a_1.webp",
+        "layout_image": "image_first",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "1763407912f2375de9": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_ugc_media_grid_BPpdJx": {
+          "type": "shopify://apps/judge-me-reviews/blocks/ugc_media_grid/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_ugc_media_grid_BPpdJx"
+      ],
+      "settings": {
+        "apply_vertical_spacing": true,
+        "apply_horizontal_spacing": true,
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-full",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "vertical_video_embeds_LzQatM": {
+      "type": "vertical-video-embeds",
+      "blocks": {
+        "video_embed_rkfcRQ": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/577799218ae44cd49e8cb98b2d3d586e.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_hDFwDa": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/5f34c35ca2464c839ddbe06fbdd5a690.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_xJgyar": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/7dbeceec3c47456ebeccdc78613be89d.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_hG64Ub": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/d28abf3f94be4d1caa4c77527f304256.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_TEez46": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a8e197945bd8463dbc4e96fddbddf22a.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_q74x6H": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a9588f4c992243daaaa01eb6fa555ef6.mp4",
+            "video_embed_code": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_embed_rkfcRQ",
+        "video_embed_hDFwDa",
+        "video_embed_xJgyar",
+        "video_embed_hG64Ub",
+        "video_embed_TEez46",
+        "video_embed_q74x6H"
+      ],
+      "disabled": true,
+      "name": "t:sections.vertical_video_embeds.name",
+      "settings": {
+        "title": "Floura <strong>from the Community</strong>",
+        "subheading": "",
+        "slideshow_focus": "left",
+        "autoscroll_mode": "1",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "faq_xF9GNf": {
+      "type": "faq",
+      "blocks": {
+        "question_ntPiac": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What is the Fiber Gap?",
+            "answer": "<p>Only 5% of Americans meet the recommended daily fiber intake of 25g for women and 38g for men. Floura Bars help bridge this gap with delicious, fiber-rich whole foods.</p>"
+          }
+        },
+        "question_r4rbmD": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "How much fiber do I need to eat?",
+            "answer": "<p>Experts recommend that adults aim for <strong>25-38 grams of fiber daily</strong>, depending on age and gender. But it’s not just about how much—you also need a variety of fiber to support a diverse and thriving gut microbiome. That’s why nutritionists suggest eating <strong>30 different plant-based foods each week</strong> to get the full benefits of fiber.</p><p>At Floura, we make it easy to boost your fiber intake and diversity. Each bar or bite packs 12 whole plants, giving you 40% of your weekly fiber diversity in one delicious, convenient snack. It’s a simple, tasty way to nourish your gut and feel your best!</p>"
+          }
+        },
+        "question_BgKCiz": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "Why does plant diversity matter?",
+            "answer": "<p>Did you know experts recommend eating 30 different plants each week to fuel a healthy gut? That’s because diverse fiber supports the diverse microbes that keep your gut thriving. </p><p>Floura makes it easier than ever to meet that goal. With 12 whole plants in every bar or bite, Floura delivers 40% of your weekly fiber diversity in one delicious snack. Nourish your gut, one bite at a time.</p>"
+          }
+        },
+        "question_y7AbV9": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What ingredients are you using?",
+            "answer": "<p>At Floura, our proprietary ingredients are anything but ordinary. Take our Red Apple Paste and SuperFiber Prebiotic Flour—crafted from innovative components like Fermented Watermelon Rind Flour and Red Apple Flour. These exceptional ingredients are prepared from fresh fruit trimmings in our facility, minimizing waste while maximizing flavor and nutrition.</p><p>What sets us apart? All our flours are made entirely from fruit, making them naturally gluten-free. And that’s not all—our products are free from gluten, dairy, emulsifiers, refined sugars (including corn syrup), stabilizers, and synthetic flavorings. Pure, clean, and bursting with goodness—that’s the Floura difference.</p>"
+          }
+        },
+        "question_6PKL4N": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What is the nutritional profile of a Floura Bar?",
+            "answer": "<p>The official nutrition profile for each bar is available on each product page.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_ntPiac",
+        "question_r4rbmD",
+        "question_BgKCiz",
+        "question_y7AbV9",
+        "question_6PKL4N"
+      ],
+      "disabled": true,
+      "name": "t:sections.faq.name",
+      "settings": {
+        "mainimg": "shopify://shop_images/TH_Floura-Bites_1180705_1_a95b9d5b-07c1-45c2-9394-fb4807699972.jpg",
+        "display_on_card": true,
+        "heading_text_style": "heading",
+        "two_columns_desktop": false,
+        "title": "Frequently Asked Questions",
+        "richtext": "",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false,
+        "showbtn": true,
+        "showbtnlnk": "shopify://pages/faq"
+      }
+    },
+    "165089168609b8f684": {
+      "type": "blog-posts",
+      "settings": {
+        "display_on_card": false,
+        "posts_per_row_desktop": 4,
+        "title": "Blog posts",
+        "blog": "gutsy",
+        "post_limit": 4,
+        "crop": "aspect-w-4 aspect-h-3",
+        "image_shape": "default",
+        "blog_show_author": false,
+        "blog_show_date": false,
+        "show_post_excerpt": true,
+        "show_view_all": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": true
+      }
+    },
+    "17634078836d32a2c7": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_testimonials_carousel_Bngx9m": {
+          "type": "shopify://apps/judge-me-reviews/blocks/testimonials_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "show_sample_reviews": false,
+            "reviews_selection": "all",
+            "products": [
+              "matcha-blueberry-1",
+              "brambleberry-lavender-1",
+              "fruit-crush-discovery-set",
+              "mango-cardamom-1",
+              "raspberry-rose-1",
+              "vanilla-rooibos-1"
+            ],
+            "star_rating": "4_to_5_star",
+            "max_reviews": 20,
+            "quote_marks_size": "small",
+            "product_name_text_size": "small",
+            "verified_badge_style": "icon",
+            "card_height": "medium",
+            "text_size": "small",
+            "stars_size": "medium",
+            "arrows_position": "bottom",
+            "max_width": 1100,
+            "corner_styling": "soft",
+            "quote_marks_style": "sans_serif",
+            "card_color": "#f9f9f9",
+            "stars_and_quote_marks_color": "#c5273c",
+            "text_color": "#000000",
+            "arrows_color": "#000000",
+            "show_border": false,
+            "border_color": "#108474",
+            "show_drop_shadow": false,
+            "transition_speed": 5,
+            "header_text": "Customers Loving Floura",
+            "show_average_rating": true
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_testimonials_carousel_Bngx9m"
+      ],
+      "settings": {
+        "apply_vertical_spacing": true,
+        "apply_horizontal_spacing": true,
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-full",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "image_with_text_overlay_Y9XNAM",
+    "image_with_text_overlay_qzHU8k",
+    "custom_liquid_A3hcHk",
+    "image_with_text_overlay_Tx7PeT",
+    "shape_badges_mjphxD",
+    "featured_product_variants_raMeWE",
+    "custom_table_DYTHxb",
+    "featured_product_Xd77VB",
+    "why_we_launched_FyUjVB",
+    "hotspot_4ReNae",
+    "1763407912f2375de9",
+    "vertical_video_embeds_LzQatM",
+    "faq_xF9GNf",
+    "165089168609b8f684",
+    "17634078836d32a2c7"
+  ]
+}

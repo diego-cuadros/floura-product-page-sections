@@ -1,0 +1,312 @@
+{%- liquid
+  assign image_shape = image_shape | default: settings.product_tile_media_shape
+  assign mobile_grid_cols = item.settings.products_per_row_mobile
+  assign layout = item.settings.layout
+
+  case item.settings.products_per_row_tablet
+    when '2'
+      assign tablet_grid_cols = 'md:grid-cols-2'
+    when '3'
+      assign tablet_grid_cols = 'md:grid-cols-3'
+    else
+      assign tablet_grid_cols = 'md:grid-cols-2'
+  endcase
+
+  case item.settings.products_per_row_desktop
+    when 2
+      assign desktop_grid_cols = 'lg:grid-cols-2'
+    when 3
+      assign desktop_grid_cols = 'lg:grid-cols-3'
+    when 4
+      assign desktop_grid_cols = 'lg:grid-cols-4'
+    when 5
+      assign desktop_grid_cols = 'lg:grid-cols-5'
+    when 6
+      assign desktop_grid_cols = 'lg:grid-cols-6'
+  endcase
+
+  case item.settings.mobile_slide_width
+    when 'three_fifths'
+      assign mobile_slide_width = 'w-3/5'
+    when 'full_width'
+      assign mobile_slide_width = 'w-full'
+  endcase
+
+  assign products_count = 0
+  for product in collection.products limit: item.settings.no_products
+    assign products_count = products_count | plus: 1
+  endfor
+
+  if products_count == 1
+    assign layout = 'grid'
+  endif
+
+  assign eager_loading_limit = mobile_grid_cols | plus: 0 | default: 1
+
+  if layout == 'grid'
+    if item.settings.display_on_card
+      assign desktop_sizes = 'calc((100vw / ' | append: item.settings.products_per_row_desktop | append: ') - 2.5rem)'
+      assign tablet_sizes = 'calc((100vw / ' | append: item.settings.products_per_row_tablet | append: ') - 2.5rem)'
+      if item.settings.products_per_row_mobile == '2'
+        assign mobile_sizes = 'calc((100vw / ' | append: item.settings.products_per_row_mobile | append: ') - 1.25rem)'
+      else
+        assign mobile_sizes = 'calc((100vw / ' | append: item.settings.products_per_row_mobile | append: ') - 2.5rem)'
+      endif
+    else
+      assign desktop_sizes = 'calc(100vw / ' | append: item.settings.products_per_row_desktop | append: ')'
+      assign tablet_sizes = 'calc(100vw / ' | append: item.settings.products_per_row_tablet | append: ')'
+      assign mobile_sizes = 'calc(100vw / ' | append: item.settings.products_per_row_mobile | append: ')'
+    endif
+  else
+    if item.settings.display_on_card
+      assign desktop_sizes = 'calc(' | append: item.settings.desktop_slide_width | append: 'vw - 2.5rem)'
+
+      if mobile_slide_width == 'w-3/5'
+        assign mobile_sizes = 'calc(60vw - 2.5rem)'
+      else
+        assign mobile_sizes = 'calc(100vw - 2.5rem)'
+      endif
+    else
+      assign desktop_sizes = item.settings.desktop_slide_width | append: 'vw'
+
+      if mobile_slide_width == 'w-3/5'
+        assign mobile_sizes = '60vw'
+      else
+        assign mobile_sizes = '100vw'
+      endif
+    endif
+  endif
+
+  if layout == 'grid'
+    assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', (min-width: 768px) ' | append: tablet_sizes | append: ', ' | append: mobile_sizes
+  else
+    assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', ' | append: mobile_sizes
+  endif
+
+  assign will_transform = false
+  if layout == 'carousel'
+    assign will_transform = true
+  endif
+-%}
+
+{%- render 'collection-shape-defs',
+  shape: image_shape,
+  section_id: item.id,
+  item_count: item.settings.no_products
+-%}
+
+{%- capture view_all_button -%}
+<a href="{{ collection.url }}" class="push-btn inline-block">
+  <span class="push-btn__surface">{{ 'collections.general.all_of_collection' | t: collection: collection.title }}</span>
+</a>
+{%- endcapture -%}
+<div
+  {% if layout == 'carousel' %}
+    id="slideshow-{{ section.id }}-{{ index }}"
+  {% endif %}
+  class="{% if item.settings.title != '' %}section-content-top-margin{% endif %} {% if layout == 'carousel' %}splide overflow-hidden{% endif %}"
+>
+  <div class="{% if layout == 'carousel' %}splide__track overflow-visible {% if settings.product_tiles_scatter %}splide__track--scattered{% endif %} {% if item.settings.display_on_card %}{% if settings.card_shadow_direction contains 'top' %}with-top-card-shadow{% else %}with-bottom-card-shadow{% endif %}{% endif %}{% endif %}">
+    <ul class="{% if layout == 'carousel' %}splide__list{% endif %} {% if layout == 'grid' %}featured-collection-grid-{{ item.id }} grid gap-theme {% if mobile_grid_cols == '2' %}grid-cols-2{% else %}grid-cols-1{% endif %} {{ tablet_grid_cols }} {{ desktop_grid_cols }}{% endif %}">
+      {%- for product in collection.products
+        limit: item.settings.no_products
+      -%}
+        <li class="{% if layout == 'carousel' %}splide__slide {{ mobile_slide_width }}{% endif %}">
+          {%- liquid
+            if settings.product_tiles_scatter
+              if layout == 'carousel'
+                capture class
+                  cycle '-mt-4 ', 'mt-4 '
+                endcapture
+                capture scatter_position
+                  cycle 'up', 'down'
+                endcapture
+              else
+                capture class
+                  case item.settings.products_per_row_mobile
+                    when '2'
+                      cycle 'max-md:-mt-4 ', 'max-md:mt-4 '
+                  endcase
+                  case item.settings.products_per_row_tablet
+                    when '2'
+                      cycle 'md:mt-4 ', 'md:-mt-4 '
+                    when '3'
+                      cycle 'md:mt-4 ', 'md:-mt-4 ', 'md:mt-4 '
+                  endcase
+                  case item.settings.products_per_row_desktop
+                    when 3
+                      cycle 'lg:mt-4 ', 'lg:-mt-4 ', 'lg:mt-4 '
+                    when 2, 4
+                      cycle 'lg:-mt-4 ', 'lg:mt-4 '
+                    when 5
+                      cycle 'lg:mt-4 ', 'lg:-mt-4 ', 'lg:mt-4 ', 'lg:-mt-4 ', 'lg:mt-4 '
+                    when 6
+                      cycle 'lg:-mt-4 ', 'lg:mt-4 ', 'lg:-mt-4 ', 'lg:mt-4 ', 'lg:-mt-4 ', 'lg:mt-4 '
+                  endcase
+                endcapture
+              endif
+            endif
+            capture odd_even
+              cycle 'odd', 'even'
+            endcapture
+
+            assign shape_id = item.id
+            if image_shape == 'blob'
+              assign shape_id = item.id | append: '-' | append: forloop.index0
+            endif
+
+            if item.index <= 3 and forloop.index <= eager_loading_limit
+              assign loading = 'eager'
+            else
+              assign loading = 'lazy'
+            endif
+
+            if item.index == 1 and forloop.first and index == blank or index < 2
+              assign preload = true
+            else
+              assign preload = false
+            endif
+          -%}
+          {%- render 'product-tile',
+            product: product,
+            crop: item.settings.product_tiles_aspect_ratio,
+            shape: image_shape,
+            shape_id: shape_id,
+            display_on_card: item.settings.display_on_card,
+            class: class,
+            odd_even: odd_even,
+            index: forloop.index0,
+            products_per_row_mobile: section.settings.products_per_row_mobile,
+            enable_quick_buy: section.settings.enable_quick_buy,
+            scatter_position: scatter_position,
+            loading: loading,
+            preload: preload,
+            sizes: sizes,
+            will_transform: will_transform,
+            fc_second_image_as_featured: item.settings.show_second_image_as_featured
+          -%}
+        </li>
+      {%- else -%}
+        {% for i in (1..item.settings.no_products) %}
+          <li class="{% if layout == 'carousel' %}splide__slide {{ mobile_slide_width }}{% endif %}">
+            {%- liquid
+              if settings.product_tiles_scatter
+                if layout == 'carousel'
+                  capture class
+                    cycle '-translate-y-4 ', 'translate-y-4 '
+                  endcapture
+                else
+                  capture class
+                    case item.settings.products_per_row_mobile
+                      when '2'
+                        cycle 'max-md:-translate-y-4 ', 'max-md:translate-y-4 '
+                    endcase
+                    case item.settings.products_per_row_tablet
+                      when '2'
+                        cycle 'md:translate-y-4 ', 'md:-translate-y-4 '
+                      when '3'
+                        cycle 'md:translate-y-4 ', 'md:-translate-y-4 ', 'md:translate-y-4 '
+                    endcase
+                    case item.settings.products_per_row_desktop
+                      when 3
+                        cycle 'lg:translate-y-4 ', 'lg:-translate-y-4 ', 'lg:translate-y-4 '
+                      when 2, 4
+                        cycle 'lg:-translate-y-4 ', 'lg:translate-y-4 '
+                      when 5
+                        cycle 'lg:translate-y-4 ', 'lg:-translate-y-4 ', 'lg:translate-y-4 ', 'lg:-translate-y-4 ', 'lg:translate-y-4 '
+                      when 6
+                        cycle 'lg:-translate-y-4 ', 'lg:translate-y-4 ', 'lg:-translate-y-4 ', 'lg:translate-y-4 ', 'lg:-translate-y-4 ', 'lg:translate-y-4 '
+                    endcase
+                  endcapture
+                endif
+              endif
+              capture odd_even
+                cycle 'odd', 'even'
+              endcapture
+              assign shape_id = item.id
+              if image_shape == 'blob'
+                assign shape_id = item.id | append: '-' | append: forloop.index0
+              endif
+            -%}
+            {%- render 'product-tile',
+              product: blank,
+              crop: item.settings.product_tiles_aspect_ratio,
+              shape: section.settings.image_shape,
+              shape_id: shape_id,
+              display_on_card: item.settings.display_on_card,
+              class: class,
+              odd_even: odd_even,
+              index: forloop.index0,
+              will_transform: will_transform
+            -%}
+          </li>
+        {%- endfor -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- if layout == 'carousel' -%}
+    <div class="splide__arrows mt-5 flex items-center justify-between px-section">
+      {%- if collection != blank -%}
+        <div>
+          {%- if collection.all_products_count > item.settings.no_products
+            and item.settings.show_view_all
+          -%}
+            {{ view_all_button }}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- render 'splide-navigation' %}
+    </div>
+    <script class="slideshow-options" type="application/json">
+      {
+        "mediaQuery": "min",
+        "arrows": true,
+        "pagination": false,
+        "rewind": true,
+        "autoWidth": true,
+        "gap": "1.25rem",
+        "focus": {{ item.settings.slideshow_focus | json }},
+        "type": "loop",
+        "autoScroll": {
+          "autoStart": {% if item.settings.autoscroll_mode == '0' or item.settings.autoscroll_mode == blank %}false{% else %}true{% endif %},
+          "speed": {% if item.settings.autoscroll_mode == blank %}0{% else %}{{ item.settings.autoscroll_mode | plus: 0 | json }}{% endif %}
+        },
+        "padding": {
+          "left": "1.25rem",
+          "right": "1.25rem"
+        },
+        "breakpoints": {
+          "990": {
+            "gap": "2.5rem",
+            "padding": {
+              "left": "2.5rem",
+              "right": "2.5rem"
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @media (min-width: 550px) and (max-width: 989px) {
+        #slideshow-{{ item.id }}-{{ index }} .splide__slide {
+          width: {{ item.settings.slide_width_medium | default: 20 }}%;
+        }
+      }
+      @media (min-width: 990px) {
+        #slideshow-{{ item.id }}-{{ index }} .splide__slide {
+          width: {{ item.settings.desktop_slide_width }}%;
+        }
+      }
+    </style>
+  {%- endif -%}
+</div>
+
+{%- if collection != blank and layout == 'grid' -%}
+  {%- if collection.all_products_count > item.settings.no_products
+    and item.settings.show_view_all
+  -%}
+    <div class="mt-5 text-center lg:mt-10">
+      {{ view_all_button }}
+    </div>
+  {%- endif -%}
+{%- endif -%}

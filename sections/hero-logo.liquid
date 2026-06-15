@@ -1,0 +1,253 @@
+{%- liquid
+  assign logo = ''
+
+  assign enable_overlay = section.settings.enable_overlay
+
+  if section.settings.logo == blank
+    assign logo = settings.logo
+  else
+    assign logo = section.settings.logo
+  endif
+
+  if logo != blank
+    case section.settings.alignment
+      when 'left'
+        assign alignment_classes = 'mr-auto'
+      when 'right'
+        assign alignment_classes = 'ml-auto'
+      when 'center'
+        assign alignment_classes = 'mx-auto'
+    endcase
+
+    assign sizes = section.settings.logo_max_width | append: 'vw'
+  else
+    case section.settings.alignment
+      when 'left'
+        assign alignment_classes = 'text-left'
+      when 'right'
+        assign alignment_classes = 'text-right'
+      when 'center'
+        assign alignment_classes = 'text-center'
+    endcase
+  endif
+
+  if enable_overlay
+    assign mobile_offset = section.settings.overlay_offset | times: 0.5
+    assign desktop_offset = section.settings.overlay_offset
+  endif
+
+  case section.location
+    when 'header'
+      assign border_classes = 'border-b-section border-section-border'
+    when 'footer'
+      assign border_classes = 'border-t-section border-section-border'
+  endcase
+-%}
+
+{%- if enable_overlay -%}
+  {%- style -%}
+    #{{ section.id }} {
+      --overlay-offset: {{ mobile_offset }}px;
+    }
+
+    @media (min-width: 990px) {
+      #{{ section.id }} {
+        --overlay-offset: {{ desktop_offset }}px;
+      }
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{%- if section.settings.home_page_only == false or template.name == 'index' -%}
+  <section
+    id="{{ section.id }}"
+    class="relative bg-scheme-background text-scheme-text {% if section.settings.use_gradient_background %}bg-scheme-gradient{% endif %} {{ border_classes }}"
+    data-color-scheme="{{ section.settings.color_scheme }}"
+    role="complementary"
+  >
+    <div
+      {% if enable_overlay %}
+        class="relative z-20"
+        style="height: var(--overlay-offset);"
+      {% endif %}
+    >
+      <div class="section-content px-section {% unless section.settings.disable_vertical_spacing %}py-half-section-vertical-spacing{% endunless %} {% if enable_overlay %} absolute top-0 left-0 right-0 pointer-events-none z-20{% endif %}">
+        <div class="mx-auto max-w-site">
+          {%- if logo != blank -%}
+            {%- liquid
+              assign logo_alt = logo.alt | default: shop.name | escape
+
+              if section.location == 'header'
+                assign preload = true
+              else
+                assign preload = false
+              endif
+            -%}
+            <div
+              class="{{ alignment_classes }}"
+              style="max-width: {{ section.settings.logo_max_width }}%"
+            >
+              {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+              {{
+                logo
+                | image_url: width: 3000
+                | image_tag:
+                  class: 'w-full',
+                  width: logo.width,
+                  sizes: sizes,
+                  alt: logo_alt,
+                  preload: preload
+              }}
+            </div>
+          {%- else -%}
+            <div class="font-heading {% render 'type-scale-classes', mobile_text_scale: section.settings.mobile_text_scale, desktop_text_scale: section.settings.desktop_text_scale %} {{ alignment_classes }} break-word">
+              {{ shop.name }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{%- liquid
+  assign stickers = section.blocks | where: 'type', 'sticker'
+  assign shape_dividers = section.blocks | where: 'type', 'shape_divider'
+  for sticker in stickers
+    render 'block-sticker', block: sticker
+  endfor
+  for shape_divider in shape_dividers
+    render 'block-shape-divider', block: shape_divider
+  endfor
+-%}
+
+{% schema %}
+{
+  "name": "t:sections.hero_logo.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "t:common.settings.home_page_only.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.hero_logo.settings.header_plain_text"
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_scale",
+      "min": -2,
+      "max": 7,
+      "step": 1,
+      "label": "t:common.settings.mobile_text_scale.label",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "desktop_text_scale",
+      "min": -2,
+      "max": 10,
+      "step": 1,
+      "label": "t:common.settings.desktop_text_scale.label",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.logo.label"
+    },
+    {
+      "id": "logo",
+      "type": "image_picker",
+      "label": "t:common.settings.logo_image.label"
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.header_layout"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:sections.hero_logo.settings.alignment.label",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:common.options.left.label"
+        },
+        {
+          "value": "center",
+          "label": "t:common.options.center.label"
+        },
+        {
+          "value": "right",
+          "label": "t:common.options.right.label"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "t:sections.scrolling_logos.settings.max_width.label",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_vertical_spacing",
+      "label": "t:sections.hero_logo.settings.disable_vertical_spacing.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.hero_logo.settings.header_overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "t:sections.hero_logo.settings.enable_overlay.label",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "overlay_offset",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "unit": "px",
+      "label": "t:sections.hero_logo.settings.overlay_offset.label",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.header_color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme1",
+      "label": "t:common.settings.color_scheme.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_gradient_background",
+      "label": "t:common.settings.use_gradient_background.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.hero_logo.name"
+    }
+  ],
+  "enabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

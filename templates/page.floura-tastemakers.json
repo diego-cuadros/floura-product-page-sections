@@ -1,0 +1,101 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "max_width": "medium",
+        "display_on_card": false,
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "rich_text_CFURiM": {
+      "type": "rich-text",
+      "settings": {
+        "title": "Apply to be a Floura Tastemaker",
+        "heading_size": "heading-standard",
+        "rich_text": "<p>The Floura Tastemaker Ambassador Program is our community building initiative that allows us to gauge interest, test flavors and connect with our community on topics such as gut health, wellness, and changing the food system. </p><p>We’re on a mission to make fiber crave-able & delicious. This community only flourishes with your feedback, engagement, and loyalty. </p>",
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-2/3",
+        "button_link": "shopify://pages/contact",
+        "button_label": "",
+        "color_scheme": "scheme-e99d08dd-7f05-4038-91fd-31f073e97cfa",
+        "use_gradient_background": false
+      }
+    },
+    "shapes_with_text_overlay_gL4AkT": {
+      "type": "shapes-with-text-overlay",
+      "blocks": {
+        "shape_EAqbwC": {
+          "type": "shape",
+          "settings": {
+            "title": "",
+            "text": "<p>Access to our Flourishing community forum</p>",
+            "shape": "scalloped_circle_2",
+            "override_section_color_scheme": false,
+            "color_scheme": ""
+          }
+        },
+        "shape_8p3dXK": {
+          "type": "shape",
+          "settings": {
+            "title": "",
+            "text": "<p>First to test, try, and taste new Floura products </p>",
+            "shape": "scalloped_circle_3",
+            "override_section_color_scheme": false,
+            "color_scheme": ""
+          }
+        },
+        "shape_pKBWzJ": {
+          "type": "shape",
+          "settings": {
+            "title": "",
+            "text": "<p>Exclusive events & wellness programming</p>",
+            "shape": "scalloped_circle_4",
+            "override_section_color_scheme": false,
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "shape_EAqbwC",
+        "shape_8p3dXK",
+        "shape_pKBWzJ"
+      ],
+      "name": "t:sections.shapes_with_text_overlay.name",
+      "settings": {
+        "slideshow_on_mobile": true,
+        "title": "What to expect",
+        "shape_padding": 2,
+        "disable_shape_style": true,
+        "background_color": "bg-scheme-accent-2 text-scheme-accent-2-contrast",
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "custom_liquid_D6WmWU": {
+      "type": "custom-liquid",
+      "settings": {
+        "title": "",
+        "custom_liquid": "<div data-tf-live=\"01JSJCMSNC5R0M3EDGPBVPD2AG\"></div><script src=\"//embed.typeform.com/next/embed.js\"></script>",
+        "full_width": false,
+        "color_scheme": "scheme6"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_CFURiM",
+    "shapes_with_text_overlay_gL4AkT",
+    "custom_liquid_D6WmWU"
+  ]
+}

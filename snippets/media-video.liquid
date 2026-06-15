@@ -1,0 +1,468 @@
+{%- liquid
+  if mode == 'autoplay'
+    assign controls = false
+    assign muted = true
+    assign loop = true
+  else
+    assign controls = true
+    assign muted = false
+    assign loop = false
+  endif
+
+  assign media_id = container_id | append: '-' | append: media.id
+  assign disable_media_style = disable_media_style | default: false
+  assign media_class = 'w-full media__styled-element'
+  assign clip_path_media_class = 'clip-path-media absolute inset-0 w-full h-full object-cover'
+
+  unless loading
+    assign loading = 'lazy'
+  endunless
+
+  unless preload
+    assign preload = false
+  endunless
+
+  unless widths
+    assign widths = '200, 350, 450, 750, 850, 960, 1280, 1440, 1536, 1706, 1782, 1920, 2560, 2880, 3000'
+  endunless
+
+  unless sizes
+    assign sizes = '100vw'
+  endunless
+
+  if crop == '' or crop == blank or crop == 'natural'
+    assign crop = 'aspect-w-1'
+
+    if media
+      assign tw_aspect_h = media.sources[0].height | times: 1.00000000 | divided_by: media.sources[0].width
+    else
+      assign tw_aspect_h = 0.5625
+    endif
+  endif
+
+  assign preview_media_class = media_class | append: ' pointer-events-none'
+  assign media_class = media_class | append: ' z-20'
+
+  assign preview_clip_path_media_class = clip_path_media_class
+  assign clip_path_media_class = clip_path_media_class | append: ' z-20'
+
+  if settings.media_drop_shadow_size > 0
+    assign preview_clip_path_media_class = preview_clip_path_media_class | append: ' bg-scheme-card'
+    assign preview_media_class = preview_media_class | append: ' bg-scheme-card'
+  endif
+
+  assign video_modal_id = 'video-modal-' | append: section.id | append: '-' | append: media_id | replace: '_', '-' | handleize
+
+  if rotate == null
+    assign rotate = 0
+  endif
+-%}
+{%- if shape contains 'default' or shape == '' or shape == blank -%}
+  <div
+    class="media media--css-only media-{{ media_id }} {% if disable_media_style %}media--disable-styles{% endif %} {{ shape | split: '_' | last }} {% unless crop == '' or crop == blank or crop == 'natural' %}object-wrapper {{ crop }}{% endunless %}"
+    {% if tw_aspect_h %}
+      style="--tw-aspect-h: {{ tw_aspect_h }};"
+    {% endif %}
+  >
+    {% if mode == 'preview' %}
+      {% capture video_preview %}
+        {% if media %}
+          {{
+            media
+            | image_url: width: 2000
+            | image_tag:
+              class: preview_media_class,
+              onerror: 'this.style.color="currentColor"',
+              onload: 'this.style.color="currentColor"',
+              preload: preload,
+              loading: loading,
+              widths: widths,
+              sizes: sizes
+          }}
+        {% else %}
+          {% liquid
+            assign placeholder_svg_class = preview_media_class | append: '  block relative h-full w-full object-cover text-scheme-placeholder-foreground fill-current bg-neutral-100'
+            %}
+          {{
+            'lifestyle-1'
+            | placeholder_svg_tag: placeholder_svg_class
+          }}
+        {% endif %}
+        <div class="absolute inset-0 z-10 grid h-full w-full place-content-center">
+          <span class="sr-only">{{ 'general.video.play' | t }}</span>
+          <div class="push-btn">
+            <div class="push-btn__surface p-2 align-bottom">
+              <div class="p-2.5">
+                <div class="relative h-10 w-10">
+                  {% render 'icon-play' %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endcapture %}
+      {% if playback == 'modal' %}
+        <button
+          x-data
+          class="relative h-full w-full cursor-pointer"
+          type="button"
+          title="{{ 'general.video.play' | t }}{% if video.alt %}, {{ video.alt | escape }}{% endif %}"
+          @click="$store.modals.open('{{ video_modal_id }}')"
+        >
+          {{ video_preview }}
+        </button>
+      {% else %}
+        <data-island
+          id="video-{{ media_id }}"
+          x-data="Video('inline')"
+          class="contents"
+          x-intersect:leave="pause"
+        >
+          <button
+            class="relative h-full w-full cursor-pointer"
+            type="button"
+            title="{{ 'general.video.play' | t }}{% if video.alt %}, {{ video.alt | escape }}{% endif %}"
+            @click="enabled = true"
+          >
+            {{ video_preview }}
+          </button>
+          <template x-if="enabled">
+            <div
+              class="contents"
+              x-data="HTMLVideo"
+              @play="play"
+              @pause="pause"
+            >
+              {% if media %}
+                {{
+                  media
+                  | video_tag:
+                    controls: controls,
+                    autoplay: true,
+                    loop: loop,
+                    muted: muted,
+                    class: media_class,
+                    x-ref: video
+                }}
+              {% else %}
+                <video
+                  x-ref="video"
+                  {% if controls %}
+                    controls
+                  {% endif %}
+                  {% if loop %}
+                    loop
+                  {% endif %}
+                  {% if muted %}
+                    muted
+                  {% endif %}
+                  autoplay
+                  playsinline
+                  class="{{ media_class }}"
+                >
+                  <source
+                    src="{{ 'placeholder-video.mp4' | asset_url }}"
+                    type="video/mp4"
+                  >
+                  Your browser does not support the video tag.
+                </video>
+              {% endif %}
+            </div>
+          </template>
+        </data-island>
+      {% endif %}
+    {% else %}
+      <data-island
+        id="video-{{ media_id }}"
+        x-data="Video('inline', 'autoplay')"
+        class="contents"
+        x-intersect:leave="pause"
+        x-intersect:enter="play"
+      >
+        <data-island
+          class="contents"
+          x-data="HTMLVideo"
+          @play="play"
+          @pause="pause"
+        >
+          {% if media %}
+            {{
+              media
+              | video_tag:
+                controls: controls,
+                autoplay: true,
+                loop: loop,
+                muted: muted,
+                class: media_class,
+                x-ref: video
+            }}
+          {% else %}
+            <video
+              x-ref="video"
+              {% if controls %}
+                controls
+              {% endif %}
+              {% if loop %}
+                loop
+              {% endif %}
+              {% if muted %}
+                muted
+              {% endif %}
+              autoplay
+              playsinline
+              class="{{ media_class }}"
+            >
+              <source
+                src="{{ 'placeholder-video.mp4' | asset_url }}"
+                type="video/mp4"
+              >
+              Your browser does not support the video tag.
+            </video>
+          {% endif %}
+        </data-island>
+      </data-island>
+    {% endif %}
+  </div>
+{%- else -%}
+  <div
+    class="media media-{{ media_id }} media--shape"
+  >
+    <div class="media__shape-container">
+      {%- comment -%}
+        Image shape
+      {%- endcomment -%}
+      <div
+        class="media__shape-wrapper z-10"
+        style="clip-path:url(#clip-{{ shape_id }})"
+      >
+        {% if mode == 'preview' %}
+          {% capture video_preview %}
+            {% if media %}
+              {{
+                media
+                | image_url: width: 2000
+                | image_tag:
+                  class: preview_clip_path_media_class,
+                  onerror: 'this.style.color="currentColor"',
+                  onload: 'this.style.color="currentColor"',
+                  preload: preload,
+                  loading: loading,
+                  widths: widths,
+                  sizes: sizes
+              }}
+            {% else %}
+              {% liquid
+                assign placeholder_svg_class = preview_clip_path_media_class | append: '  block text-scheme-accent-1 bg-scheme-accent-1 [background-image:linear-gradient(to_bottom,rgba(var(--color-scheme-text),1),rgba(var(--color-scheme-text),.6))] fill-current scale-[2.25]'
+                %}
+              {{
+                'lifestyle-1'
+                | placeholder_svg_tag: placeholder_svg_class
+              }}
+            {% endif %}
+            <div class="absolute inset-0 z-10 grid h-full w-full place-content-center">
+              <span class="sr-only">{{ 'general.video.play' | t }}</span>
+              <div class="push-btn">
+                <div class="push-btn__surface p-2 align-bottom">
+                  <div class="p-2.5">
+                    <div class="relative h-10 w-10">
+                      {% render 'icon-play' %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endcapture %}
+          {% if playback == 'modal' %}
+            <button
+              x-data
+              class="relative h-full w-full cursor-pointer"
+              type="button"
+              title="{{ 'general.video.play' | t }}{% if video.alt %}, {{ video.alt | escape }}{% endif %}"
+              @click="$store.modals.open('{{ video_modal_id }}')"
+            >
+              {{ video_preview }}
+            </button>
+          {% else %}
+            <data-island
+              id="video-{{ media_id }}"
+              x-data="Video('inline')"
+              class="contents"
+              x-intersect:leave="pause"
+            >
+              <button
+                class="relative h-full w-full cursor-pointer"
+                type="button"
+                title="{{ 'general.video.play' | t }}{% if video.alt %}, {{ video.alt | escape }}{% endif %}"
+                @click="enabled = true"
+              >
+                {{ video_preview }}
+              </button>
+              <template x-if="enabled">
+                <div
+                  class="contents"
+                  x-data="HTMLVideo"
+                  @play="play"
+                  @pause="pause"
+                >
+                  {% if media %}
+                    {{
+                      media
+                      | video_tag:
+                        controls: controls,
+                        autoplay: true,
+                        muted: muted,
+                        loop: loop,
+                        class: clip_path_media_class,
+                        x-ref: 'video'
+                    }}
+                  {% else %}
+                    <video
+                      x-ref="video"
+                      {% if controls %}
+                        controls
+                      {% endif %}
+                      {% if loop %}
+                        loop
+                      {% endif %}
+                      {% if muted %}
+                        muted
+                      {% endif %}
+                      autoplay
+                      playsinline
+                      class="{{ clip_path_media_class }}"
+                    >
+                      <source
+                        src="{{ 'placeholder-video.mp4' | asset_url }}"
+                        type="video/mp4"
+                      >
+                      Your browser does not support the video tag.
+                    </video>
+                  {% endif %}
+                </div>
+              </template>
+            </data-island>
+          {% endif %}
+        {% else %}
+          <data-island
+            id="video-{{ media_id }}"
+            x-data="Video('inline', 'autoplay')"
+            class="contents"
+            x-intersect:leave="pause"
+            x-intersect:enter="play"
+          >
+            <data-island
+              class="contents"
+              x-data="HTMLVideo"
+              @play="play"
+              @pause="pause"
+            >
+              {% if media %}
+                {{
+                  media
+                  | video_tag:
+                    controls: controls,
+                    autoplay: true,
+                    loop: loop,
+                    muted: muted,
+                    class: clip_path_media_class,
+                    x-ref: video
+                }}
+              {% else %}
+                <video
+                  x-ref="video"
+                  {% if controls %}
+                    controls
+                  {% endif %}
+                  {% if loop %}
+                    loop
+                  {% endif %}
+                  {% if muted %}
+                    muted
+                  {% endif %}
+                  autoplay
+                  playsinline
+                  class="{{  clip_path_media_class  }}"
+                >
+                  <source
+                    src="{{ 'placeholder-video.mp4' | asset_url }}"
+                    type="video/mp4"
+                  >
+                  Your browser does not support the video tag.
+                </video>
+              {% endif %}
+            </data-island>
+          </data-island>
+        {% endif %}
+      </div>
+
+      {%- comment -%}
+        Image shape outline
+      {%- endcomment -%}
+      <svg
+        class="media__svg absolute inset-0"
+        viewBox="0 0 200 200"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        {%- unless disable_media_style -%}
+          <use style="fill: none;" href="#outline-{{ shape_id }}" />
+        {%- endunless -%}
+      </svg>
+    </div>
+
+    {%- comment -%}
+      Drop shadow and border
+    {%- endcomment -%}
+    {%- if settings.media_drop_shadow_size > 0
+      and is_card == false
+      and disable_media_style == false
+    -%}
+      <div class="media__drop-shadow-container">
+        {%- unless settings.media_shadow_color == 'color-scheme-gradient' -%}
+          <svg
+            class="media__svg media__drop-shadow  media__drop-shadow--shape"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            role="presentation"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <use class="media__drop-shadow-fill stroke-none"  href="#outline-{{ shape_id }}" />
+          </svg>
+        {%- else -%}
+          <div class="media__svg media__drop-shadow media__drop-shadow--shape">
+            <div
+              class="absolute inset-0 bg-scheme-gradient"
+              style="clip-path:url(#clip-{{ shape_id }})"
+            ></div>
+          </div>
+        {%- endunless -%}
+
+        {%- if settings.media_show_border_on_shadow -%}
+          <svg
+            class="media__svg media__drop-shadow-stroke"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <use class="media__drop-shadow-stroke-path"  href="#outline-{{ shape_id }}" />
+          </svg>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+{%- unless rotate == 0 -%}
+  <style>
+    .media-{{ media_id }} {
+      transform: rotate({{ rotate }}deg);
+    }
+  </style>
+{%- endunless -%}
+
+{%- liquid
+  if section.settings.mode == 'preview' and section.settings.playback == 'modal'
+    render 'video-modal', video: media, video_modal_id: video_modal_id
+  endif
+-%}

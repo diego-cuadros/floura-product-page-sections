@@ -1,0 +1,79 @@
+/*
+ * bundle-subscription-pdp.css
+ *
+ * General PDP layout and gallery styles for the bundle subscription
+ * product template. Loaded in layout/theme.liquid only when
+ * template.suffix == 'bundle-subscription', so no body-class scope
+ * is needed — these rules are already template-specific by load condition.
+ *
+ * Unlike bundle-subscription.css (scoped to .bundle-subscription-buybox),
+ * rules here target the broader page structure: media gallery, thumbnails, etc.
+ *
+ * Gallery: variant “cart” images can live in product media with alt text containing
+ * hide-from-pdp (any case). snippets/product-template.liquid omits those from the
+ * main carousel and thumbnails on template bundle-subscription only; they remain on
+ * the product for variant assignment / cart line items. Initial gallery focus is set
+ * in product-template.liquid (bundle_alpine_featured_media_id); no JS clamp needed.
+ */
+
+
+/* ================================================================
+   MAIN GALLERY — featured carousel images
+   ================================================================ */
+
+/* Remove border-radius from all main carousel media elements */
+.feature-media-item .media__styled-element {
+  border-radius: 0;
+  border: none; 
+}
+
+
+/* ================================================================
+   THUMBNAILS
+   ================================================================ */
+
+/* All thumbnail borders: thin black rule, no radius */
+.product-thumbnail-list-item .media__styled-element {
+  border: 0.2px solid #000000;
+  border-radius: 0;
+}
+.product-thumbnail-list-item.product-thumbnail-list-item--active{
+  border: 1px solid #000000;
+}
+/* Active / currently-shown thumbnail: remove border entirely */
+.product-thumbnail-list-item--active .media__styled-element {
+  border: none;
+}
+
+
+/* ================================================================
+   POPUP TRIGGER LINK — Nutrition Facts (and any product-popup block)
+   ================================================================ */
+
+.product-popup .secondary-text-link {
+  font-size: 20px;
+  font-weight: 500;
+}
+#popup-slot .font-heading{
+  font-family: 'Founders Grotesk';
+  font-weight: 500;
+}
+
+h1.heading-feature {
+  margin-bottom: -.4rem;
+  font-size: 36px;
+}
+
+@media (min-width: 990px) {
+  h1.heading-feature {
+    font-size: 28px;
+  }
+}
+#popup-slot .lg\:p-8, 
+#popup-slot data-island{
+  margin: 0;
+  padding: 0;
+}
+#popup-slot h2{
+  display: none;  
+}

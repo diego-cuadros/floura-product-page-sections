@@ -1,0 +1,170 @@
+{% unless product.has_only_default_variant %}
+  <div
+    class="{{ block_base_classes }} space-y-2.5"
+    {{ block.shopify_attributes }}
+  >
+    {% assign option_style = block.settings.option_style %}
+    {% for option in product.options_with_values %}
+      {% liquid
+        assign is_color = false
+        if block.settings.enable_color_swatches
+          assign swatch_trigger = 'products.product.color_swatch_trigger' | t | downcase
+          assign option_downcase = option.name | downcase
+          if option_downcase contains swatch_trigger
+            assign is_color = true
+          elsif swatch_trigger == 'color' and option_downcase contains 'colour'
+            assign is_color = true
+          endif
+        endif
+
+        assign swatches_count = option.values | map: 'swatch' | compact | size
+      %}
+
+      <fieldset class="product-variant-picker-block {% if is_color or swatches_count > 0 %}-mx-color-fieldset-offset {% endif %} js-enabled">
+        {%- if is_color == false
+          and option_style != 'buttons'
+          and swatches_count <= 0
+        -%}
+          <div class="my-1 lg:flex lg:items-center lg:justify-start">
+            <label
+              class="{{ label_class }} break-words pr-2.5 lg:w-1/4 lg:shrink-0 xl:w-1/5"
+              for="Option{{ option.position }}-{{ section.id }}"
+            >
+              {{ option.name }}
+            </label>
+            <select
+              id="Option{{ option.position }}-{{ section.id }}"
+              name="options[{{ option.name | escape }}]"
+              @change="optionChange"
+              class="single-option-selector font-body input mt-2.5 w-full appearance-none text-base lg:mt-0 "
+              data-single-option-selector
+              data-position="{{ option.position }}"
+            >
+              {% for value in option.values %}
+                <option
+                  value="{{ value | escape }}"
+                  {% if option.selected_value == value %}
+                    selected="selected"
+                  {% endif %}
+                >
+                  {{ value }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {%- else -%}
+          <div class="my-1 lg:flex lg:items-center lg:justify-start">
+            <legend class="{{ label_class }} pr-2.5 lg:w-1/4 lg:shrink-0 xl:w-1/5">
+              {{ option.name -}}
+              {%- if is_color or swatches_count > 0 -%}
+                :<br>
+                <span
+                  class="mt-1 inline-block"
+                  x-text="options[{{ forloop.index0 }}]"
+                ></span>
+              {%- endif %}
+            </legend>
+            {%- liquid
+              assign container_class = 'flex flex-wrap gap-2.5'
+              assign button_class = 'inline-block'
+              assign button_label_class = ''
+
+              if block.settings.full_width_buttons and is_color == false and swatches_count <= 0
+                assign container_class = 'grid grid-cols-2 gap-2.5'
+                assign button_class = 'w-full'
+                assign button_label_class = 'block w-full'
+                assign values_size = option.values.size
+                assign divisible_by_2 = values_size | modulo: 2
+                assign divisible_by_3 = values_size | modulo: 3
+                if divisible_by_2 == 0
+                  assign container_class = 'grid grid-cols-2 gap-2.5'
+                elsif divisible_by_3 == 0
+                  assign container_class = 'grid grid-cols-3 gap-2.5'
+                endif
+              endif
+            -%}
+            <div class="mt-2.5 {{ container_class }} lg:flex-1">
+              {% for value in option.values %}
+                {%- liquid
+                  assign variant_label_state = true
+                  if product.options.size == 1
+                    unless product.variants[forloop.index0].available
+                      assign variant_label_state = false
+                    endunless
+                  endif
+                  assign color_image = value | handle | append: '.' | append: 'png' | file_img_url: '120x' | prepend: 'https:'
+                  assign color_swatch_fallback = value | split: ' ' | last | handle
+                -%}
+                <div class="variant-input relative break-words {{ button_class }}">
+                  <input
+                    class="{% if is_color or swatches_count > 0 %}color-swatch{% endif %} custom-button peer absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
+                    @change="optionChange"
+                    type="radio"
+                    id="Section-{{ section.id }}-Option{{ option.position }}-{{ value | escape }}"
+                    name="Section-{{ section.id }}-options[{{ option.name }}]"
+                    value="{{ value | escape }}"
+                    data-handle="{{ value | handleize }}"
+                    {% if option.selected_value == value %}
+                      checked
+                    {% endif %}
+                    data-single-option-selector
+                    data-position="{{ option.position }}"
+                  >
+                  <label
+                    class="
+                      {% if is_color or swatches_count > 0 %}
+                        block rounded-button bg-scheme-secondary-background
+                      {% else %}
+                        btn after:hidden {{ button_label_class }}
+                        bg-scheme-secondary-background text-scheme-text peer-checked:bg-scheme-text peer-checked:text-scheme-text-contrast
+                        px-2 lg:px-4
+                      {% endif %}
+                      cursor-pointer
+                      {% unless variant_label_state %}
+                        line-through
+                      {% endunless %}
+                      cursor-pointer
+                    "
+                    for="Section-{{ section.id }}-Option{{ option.position }}-{{ value | escape }}"
+                    title="{{ option.value }}"
+                  >
+                    {%- if is_color or swatches_count > 0 %}
+                      {%- unless variant_label_state -%}
+                        <span
+                          class="absolute bottom-0 left-0 top-1/2 z-10 h-[var(--input-border-width)] w-full -translate-y-1/2 -rotate-45 bg-scheme-text"
+                        ></span>
+                      {%- endunless -%}
+                      {%- if swatches_count > 0 -%}
+                        {%- liquid
+                          assign swatch = value.swatch
+                          assign swatch_image = swatch.image
+                          assign swatch_color = swatch.color
+                        -%}
+                        <span
+                          class="block h-8 w-8 rounded-button bg-cover"
+                          style="background-position: {{ swatch_image.presentation.focal_point | default: 'center' }};{% if swatch_image != blank %} background-image: url({{ swatch_image | image_url: width: 160 }});{% else %}{% endif %}{% if swatch_color != blank %} background-color: rgb({{ swatch_color.rgb }});{% endif %}"
+                        ></span>
+                      {%- elsif is_color -%}
+                        <span
+                          class="block h-8 w-8 rounded-button bg-cover"
+                          style="background-image: url({{ color_image }}); background-color: {{ color_swatch_fallback }};"
+                        ></span>
+                      {%- endif -%}
+                    {%- endif -%}
+                    <span
+                      {% if is_color or swatches_count > 0 %}
+                        class="sr-only"
+                      {% endif %}
+                    >
+                      {{- value -}}
+                    </span>
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {%- endif -%}
+      </fieldset>
+    {% endfor %}
+  </div>
+{% endunless %}

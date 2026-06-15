@@ -1,0 +1,441 @@
+{%- liquid
+  assign crop = crop | default: settings.product_tiles_aspect_ratio
+  assign shape = shape | default: settings.product_tile_media_shape
+
+  case text_alignment
+    when 'center'
+      assign text_align_class = 'text-center'
+    else
+      assign text_align_class = 'text-left'
+  endcase
+
+  if enable_quick_buy
+    assign product_form_id = 'product-form-' | append: section.id | append: '-' | append: product.id
+    assign current_variant = variant
+    assign featured_media = variant.featured_media | default: product.featured_media
+  endif
+  assign target = variant
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 1999
+  if compare_at_price > price
+    assign on_sale = true
+  else
+    assign on_sale = false
+  endif
+  assign available = target.available | default: false
+
+  if available
+    assign sold_out = false
+  else
+    assign sold_out = true
+  endif
+
+  case badge_color
+    when 'accent_2'
+      assign badge_color_class = 'bg-scheme-accent-2 text-scheme-accent-2-contrast'
+    when 'text'
+      assign badge_color_class = 'bg-scheme-text text-scheme-text-contrast'
+    else
+      assign badge_color_class = 'bg-scheme-accent-1 text-scheme-accent-1-contrast'
+  endcase
+
+  assign fpv_badge_custom_bg = blank
+  assign fpv_badge_custom_text_color = blank
+  if from_featured_product_variants
+    if badge_custom_background != blank
+      assign fpv_badge_custom_bg = badge_custom_background
+    endif
+    if badge_custom_text != blank
+      assign fpv_badge_custom_text_color = badge_custom_text
+    endif
+  endif
+
+  if display_on_card
+    assign badge_top_offset = 5
+    assign badge_bottom_offset = 75
+  else
+    assign badge_top_offset = 15
+    assign badge_bottom_offset = 85
+  endif
+
+  case badge_placement
+    when 'top_left'
+      assign badge_vertical_position = badge_top_offset
+      assign badge_horizontal_position = 10
+    when 'bottom_left'
+      assign badge_vertical_position = badge_bottom_offset
+      assign badge_horizontal_position = 10
+    when 'bottom_right'
+      assign badge_vertical_position = badge_bottom_offset
+      assign badge_horizontal_position = 90
+    else
+      assign badge_vertical_position = badge_top_offset
+      assign badge_horizontal_position = 90
+  endcase
+  assign money_price = variant.price | money
+  if settings.currency_code_enabled
+    assign money_price = variant.price | money_with_currency
+  endif
+
+  if target == product and product.price_varies
+    assign money_price = money_price | append: '+'
+  endif
+
+  if odd_even == 'odd'
+    assign rotate = 5
+  else
+    assign rotate = -5
+  endif
+
+  if variant.image != blank
+    assign featured_media = variant.image
+  else
+    assign featured_media = product.featured_media
+  endif
+
+  assign hover_image = blank
+  assign hover_desktop_only = false
+  if enable_lifestyle_hover_image and lifestyle_image_metafield != blank
+    assign lifestyle_namespace = lifestyle_image_metafield | split: '.' | first
+    assign lifestyle_key = lifestyle_image_metafield | split: '.' | last
+    assign lifestyle_image = variant.metafields[lifestyle_namespace][lifestyle_key].value
+
+    if lifestyle_image != blank
+      assign hover_image = featured_media
+      assign featured_media = lifestyle_image
+      assign hover_desktop_only = true
+    endif
+  endif
+
+  unless loading
+    assign loading = 'lazy'
+  endunless
+
+  unless preload
+    assign preload = false
+  endunless
+
+  unless sizes
+    assign sizes = '100vw'
+  endunless
+-%}
+{%- if product and product != empty -%}
+  <div
+    class="product-tile relative {{ class }} {% if display_on_card %}text-scheme-text card{% endif %}"
+  >
+    {% if enable_quick_buy %}
+      <data-island
+        class="contents"
+        x-data="
+          QuickBuy({
+            product: {{ product | json | escape }},
+            variant: {{ current_variant | json | escape }},
+            featuredMediaID: {{ featured_media.id | json }}
+          })
+        "
+        src="{{ 'island-quick-buy.bundle.js' | asset_url }}"
+        data-product-root="{{ section.id }}-{{ product.id }}-{{ variant.id }}"
+      >
+    {% endif %}
+    {%- liquid
+      assign fpv_from_section = false
+      if from_featured_product_variants
+        assign fpv_from_section = true
+      endif
+
+      assign fpv_rect_badge_root = ''
+      if fpv_from_section and badge_shape == 'rectangle'
+        assign fpv_rect_badge_root = 'fpv-rect-badge-root'
+      endif
+
+      assign use_card_image_bleed = false
+      if fpv_from_section and display_on_card and card_image_full_bleed
+        assign use_card_image_bleed = true
+      endif
+
+      assign card_inner_classes = 'group'
+      if display_on_card
+        assign card_inner_classes = 'bg-scheme-card card__surface group'
+        if use_card_image_bleed
+          # Block layout only (no flex/h-full on card): flex column + % height was collapsing media in carousel.
+          assign card_inner_classes = card_inner_classes | append: ' overflow-hidden fpv-card--bleed'
+        else
+          assign card_inner_classes = card_inner_classes | append: ' h-full'
+          if fpv_from_section
+            if products_per_row_mobile == '2'
+              assign card_inner_classes = card_inner_classes | append: ' px-5 py-6 sm:px-6 sm:py-7 lg:px-7 lg:py-7'
+            else
+              assign card_inner_classes = card_inner_classes | append: ' px-7 py-7'
+            endif
+          else
+            if products_per_row_mobile == '2'
+              assign card_inner_classes = card_inner_classes | append: ' p-2.5 lg:p-5'
+            else
+              assign card_inner_classes = card_inner_classes | append: ' p-5'
+            endif
+          endif
+        endif
+      endif
+    -%}
+    <div class="{{ card_inner_classes }}">
+      {%- if featured_media -%}
+        <div class="product-media-object relative w-full {% unless display_on_card %}{% if settings.media_shadow_direction contains 'top' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}{% endunless %}">
+          {%- render 'product-tile-media-image',
+            media: featured_media,
+            hover_image: hover_image,
+            hover_desktop_only: hover_desktop_only,
+            shape_id: shape_id,
+            shape: shape,
+            is_card: display_on_card,
+            crop: crop,
+            container_id: section.id,
+            quick_buy: false,
+            product: product,
+            index: index,
+            loading: loading,
+            preload: preload,
+            sizes: sizes,
+            will_transform: will_transform
+          -%}
+        </div>
+      {%- endif -%}
+      {%- if fpv_from_section -%}
+        <div class="fpv-text-box">
+      {%- endif -%}
+      <div class="product-tile {% if fpv_from_section %}mt-0{% else %}mt-5{% endif %} break-words {{ text_align_class }}">
+        <a
+          href="{{ product.url | within: collection }}"
+          class="absolute left-0 top-0 z-10 block h-full w-full"
+        >
+          <span class="visually-hidden">{{ product.title }}</span>
+        </a>
+        {%- liquid
+          if product.has_only_default_variant
+            assign tile_heading = product.title
+          else
+            assign tile_heading = variant.title
+          endif
+        -%}
+        {%- if product.metafields.reviews.rating.value != blank -%}
+          <div class="mb-1">
+            {%- render 'star-rating', product: product -%}
+          </div>
+        {%- endif -%}
+        <h3 class="font-body text-base">{{ tile_heading | escape }}</h3>
+
+        {%- if enable_quick_buy -%}
+          <span
+            class="mt-1 inline-block"
+            x-html="formatMoney(currentPrice)"
+            :class="
+              {
+                'invisible': !currentVariant
+              }
+            "
+            data-product-price
+          >
+            {{ current_variant.price | money }}
+          </span>
+          {% if product.compare_at_price_max > product.price %}
+            <span x-show="currentVariant && product.compare_at_price_max && currentVariant.compare_at_price > currentVariant.price">
+              <span class="{{ price_text_size }}">
+                <span class="sr-only">
+                  {{- 'products.general.sale_price' | t -}}
+                </span>
+                <s
+                  data-compare-price
+                  class="text-scheme-text"
+                  x-html="formatMoney(currentVariant.compare_at_price)"
+                >
+                  {% if current_variant.compare_at_price > current_variant.price
+                  %}
+                    {{ current_variant.compare_at_price | money }}
+                  {% endif %}
+                </s>
+              </span>
+            </span>
+          {% endif %}
+        {%- else -%}
+          {%- render 'variant-price',
+            variant: variant,
+            price_class: 'mt-1',
+            compare_at_price: variant.compare_at_price,
+            price: variant.price,
+            money_price: money_price,
+            on_sale: on_sale
+          -%}
+        {%- endif -%}
+
+        {%- liquid
+          assign metafield_namespace = settings.product_tiles_metafield_content | split: '.' | first
+          assign metafield_key = settings.product_tiles_metafield_content | split: '.' | last
+          assign metafield = variant.metafields[metafield_namespace][metafield_key]
+          if metafield == blank
+            assign metafield = product.metafields[metafield_namespace][metafield_key]
+          endif
+        -%}
+        <div class="mt-2.5 text-scheme-text rte normal-case">
+          {{ metafield | metafield_tag }}
+        </div>
+
+        {%- if settings.product_tiles_show_vendor -%}
+          <p class="mt-1">{{ product.vendor }}</p>
+        {%- endif -%}
+      </div>
+      {%- if enable_quick_buy -%}
+        <div>
+          {%- render 'product-tile-quick-buy',
+            section: section,
+            product: product,
+            product_form_id: product_form_id,
+            current_variant: current_variant,
+            current_variant_only: true,
+            is_card: display_on_card,
+            center_quick_buy_max_width: fpv_from_section
+          -%}
+        </div>
+      {%- endif -%}
+      {%- if fpv_from_section -%}
+        </div>
+      {%- endif -%}
+      {%- if settings.show_on_sale_badge and on_sale -%}
+        {%- liquid
+          assign text = 'products.product.on_sale' | t
+          assign id = 'on-sale-sticker-' | append: product.id
+          assign sticker_shape = settings.on_sale_badge_shape
+          if from_featured_product_variants and badge_shape == 'rectangle'
+            assign sticker_shape = 'fit_to_text'
+          endif
+          assign vertical_position = badge_vertical_position
+          assign horizontal_position = badge_horizontal_position
+          if fpv_from_section and badge_shape == 'rectangle'
+            assign rotate = 0
+          elsif rotate > 0
+            assign rotate = -5
+          else
+            assign rotate = 5
+          endif
+        -%}
+        {%- render 'static-sticker',
+          static_id: 'on-sale',
+          shape: sticker_shape,
+          id: id,
+          text: text,
+          vertical_position: vertical_position,
+          horizontal_position: horizontal_position,
+          rotate: rotate,
+          width: 100,
+          font_size: settings.badge_font_size,
+          color: badge_color_class,
+          will_transform: will_transform,
+          sticker_custom_background: fpv_badge_custom_bg,
+          sticker_custom_text: fpv_badge_custom_text_color,
+          extra_root_class: fpv_rect_badge_root
+        %}
+      {%- endif -%}
+      {%- if settings.show_sold_out_badge and available == false -%}
+        {%- liquid
+          assign text = 'products.product.sold_out' | t
+          assign id = 'sold-out-sticker-' | append: product.id
+          assign sticker_shape = settings.sold_out_badge_shape
+          if from_featured_product_variants and badge_shape == 'rectangle'
+            assign sticker_shape = 'fit_to_text'
+          endif
+          assign vertical_position = badge_vertical_position
+          assign horizontal_position = badge_horizontal_position
+          if fpv_from_section and badge_shape == 'rectangle'
+            assign rotate = 0
+          elsif rotate > 0
+            assign rotate = -5
+          else
+            assign rotate = 5
+          endif
+        -%}
+        {%- render 'static-sticker',
+          static_id: 'sold-out',
+          shape: sticker_shape,
+          id: id,
+          text: text,
+          vertical_position: vertical_position,
+          horizontal_position: horizontal_position,
+          rotate: rotate,
+          width: 100,
+          font_size: settings.badge_font_size,
+          color: badge_color_class,
+          will_transform: will_transform,
+          sticker_custom_background: fpv_badge_custom_bg,
+          sticker_custom_text: fpv_badge_custom_text_color,
+          extra_root_class: fpv_rect_badge_root
+        %}
+      {%- endif -%}
+      {%- liquid
+        assign metafield_namespace = settings.product_tile_metafield_badge | split: '.' | first
+        assign metafield_key = settings.product_tile_metafield_badge | split: '.' | last
+        assign metafield = product.metafields[metafield_namespace][metafield_key]
+      -%}
+      {% if metafield != blank %}
+        {%- liquid
+          assign text = metafield.value
+          assign id = 'metafield-sticker-' | append: product.id
+          assign sticker_shape = settings.metafield_badge_shape
+          if from_featured_product_variants and badge_shape == 'rectangle'
+            assign sticker_shape = 'fit_to_text'
+          endif
+          assign vertical_position = badge_vertical_position
+          assign horizontal_position = badge_horizontal_position
+          if on_sale and sold_out
+            assign vertical_position = vertical_position | plus: 25
+          endif
+          if fpv_from_section and badge_shape == 'rectangle'
+            assign rotate = 0
+          elsif rotate > 0
+            assign rotate = -5
+          else
+            assign rotate = 5
+          endif
+        -%}
+        {%- render 'static-sticker',
+          static_id: 'metafield-badge',
+          shape: sticker_shape,
+          id: id,
+          text: text,
+          vertical_position: vertical_position,
+          horizontal_position: horizontal_position,
+          rotate: rotate,
+          width: 100,
+          font_size: settings.badge_font_size,
+          color: badge_color_class,
+          will_transform: will_transform,
+          sticker_custom_background: fpv_badge_custom_bg,
+          sticker_custom_text: fpv_badge_custom_text_color,
+          extra_root_class: fpv_rect_badge_root
+        %}
+      {% endif %}
+    </div>
+    {% if enable_quick_buy %}
+      </data-island>
+    {% endif %}
+  </div>
+{%- else -%}
+  <div class="product-tile {{ class }} {% if display_on_card %}text-scheme-text card{% endif %}">
+    <div class="{% if display_on_card %}bg-scheme-card card__surface p-5 h-full{% endif %}">
+      <div class="relative {% unless display_on_card %}{% if settings.media_shadow_direction contains 'top' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}{% endunless %}">
+        {%- render 'media-image-placeholder',
+          shape_id: shape_id,
+          container_id: section.id,
+          index: index,
+          shape: shape,
+          crop: crop,
+          is_card: section.settings.display_on_card
+        -%}
+      </div>
+      <div class="product-tile mt-5 text-center">
+        <h3 class="font-body text-base">
+          {{ 'sections.onboarding.product_title' | t }}
+        </h3>
+        {% render 'price', price_class: 'mt-2' %}
+      </div>
+    </div>
+  </div>
+{%- endif -%}

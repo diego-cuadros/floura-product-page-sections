@@ -1,0 +1,53 @@
+<script
+  type="module"
+>
+  const calculateHeaderHeights = () => {
+    const headerGroupHeights = [];
+
+    document
+      .querySelectorAll(
+        '.shopify-section-group-header-group:not(.has-no-height)'
+      )
+      .forEach((headerGroupSectionEl, i, list) => {
+        window.requestAnimationFrame(() => {
+          headerGroupHeights.push(
+            headerGroupSectionEl.getBoundingClientRect().height
+          );
+
+          if (i === list.length - 1) {
+            document.documentElement.style.setProperty(
+              '--header-group-height',
+              `${headerGroupHeights.reduce((subtotal, a) => subtotal + a, 0)}px`
+            );
+          }
+        });
+      });
+  };
+
+  calculateHeaderHeights();
+
+  const debouncedCalculateHeaderHeights = debounce(calculateHeaderHeights, 300);
+
+  window.addEventListener('resize', debouncedCalculateHeaderHeights);
+</script>
+{% if request.design_mode %}
+  <script type="module">
+    document.body.addEventListener('shopify:section:select', (e) => {
+      if (!e.target.matches('.shopify-section-group-header-group')) return;
+
+      window.dispatchEvent(new Event('resize'));
+    });
+
+    document.body.addEventListener('shopify:section:load', (e) => {
+      if (!e.target.matches('.shopify-section-group-header-group')) return;
+
+      window.dispatchEvent(new Event('resize'));
+    });
+
+    document.body.addEventListener('shopify:section:unload', (e) => {
+      if (!e.target.matches('.shopify-section-group-header-group')) return;
+
+      window.dispatchEvent(new Event('resize'));
+    });
+  </script>
+{% endif %}

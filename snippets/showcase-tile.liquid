@@ -1,0 +1,40 @@
+{%- liquid
+  unless loading
+    assign loading = 'lazy'
+  endunless
+
+  unless preload
+    assign preload = false
+  endunless
+
+  unless widths
+    # assign widths = '200, 350, 450, 750, 850, 960, 1280, 1440, 1536, 1706, 1782, 1920, 2560, 2880, 3000'
+    assign widths = '200, 350, 450, 750, 850, 960'
+  endunless
+
+  unless sizes
+    assign sizes = '100vw'
+  endunless
+-%}
+
+<div class="showcase-tile">
+  <a href="{{ object.url }}" class="block h-full w-full">
+    {%- if object.featured_image != blank -%}
+      <div class="{% unless crop == '' or crop == blank %}object-wrapper {{ crop }}{% endunless %}">
+        {{
+          object.featured_image
+          | image_url: width: 3000
+          | image_tag:
+            class: 'media__styled-element',
+            loading: loading,
+            preload: preload,
+            widths: widths,
+            sizes: sizes
+        }}
+      </div>
+    {%- endif -%}
+    <div class="mt-2.5 text-center">
+      {{ object.title }}
+    </div>
+  </a>
+</div>

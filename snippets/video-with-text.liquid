@@ -1,0 +1,126 @@
+{%- liquid
+  if display_on_card
+    assign desktop_sizes_base = 'calc(100vw - 5rem)'
+    assign mobile_sizes_base = 'calc(100vw - 2.5rem)'
+  else
+    assign desktop_sizes_base = '100vw'
+    assign mobile_sizes_base = '100vw'
+  endif
+
+  case video_size
+    when 'third'
+      assign text_width_desktop = 'lg:col-span-8'
+      assign desktop_sizes = 'calc(' | append: desktop_sizes_base | append: ' / 3)'
+
+      if video_position == 'right'
+        assign video_width_desktop = 'lg:col-start-9 lg:col-end-13'
+      else
+        assign video_width_desktop = 'lg:col-span-4'
+      endif
+    when 'half'
+      assign text_width_desktop = 'lg:col-span-6'
+      assign desktop_sizes = 'calc(' | append: desktop_sizes_base | append: ' / 2)'
+
+      if video_position == 'right'
+        assign video_width_desktop = 'lg:col-start-7 lg:col-end-13'
+      else
+        assign video_width_desktop = 'lg:col-span-6'
+      endif
+    when 'three_fifths'
+      assign text_width_desktop = 'lg:col-span-5'
+      assign desktop_sizes = 'calc((' | append: desktop_sizes_base | append: ' / 12) * 7)'
+
+      if video_position == 'right'
+        assign video_width_desktop = 'lg:col-start-6 lg:col-end-13'
+      else
+        assign video_width_desktop = 'lg:col-span-7'
+      endif
+    when 'two_thirds'
+      assign text_width_desktop = 'lg:col-span-4'
+      assign desktop_sizes = 'calc((' | append: desktop_sizes_base | append: ' / 12) * 8)'
+
+      if video_position == 'right'
+        assign video_width_desktop = 'lg:col-start-5 lg:col-end-13'
+      else
+        assign video_width_desktop = 'lg:col-span-8'
+      endif
+  endcase
+
+  assign mobile_sizes = mobile_sizes_base
+
+  assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', ' | append: mobile_sizes
+
+  unless loading
+    assign loading = 'lazy'
+
+    if section.index <= 3
+      assign loading = 'eager'
+    endif
+  endunless
+
+  unless preload
+    assign preload = false
+  endunless
+
+  assign muted = muted
+
+  if autoplay
+    assign muted = true
+  endif
+-%}
+
+{%- render 'shape-defs',
+  shape: video_shape,
+  shape_id: section_id,
+  index: index,
+  blob_type: blob_type
+-%}
+
+<div class="relative z-10 mx-auto max-w-site px-section">
+  <div class="{% if display_on_card %}card{% endif %}">
+    <div class="{% if display_on_card %}card__surface p-5 lg:p-10{% endif %} section-content text_alignment relative z-10 mx-auto">
+      <div class="grid grid-flow-row-dense grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
+        <div
+          class="{{ video_width_desktop }}"
+        >
+          {%- render 'media-video',
+            media: video,
+            mode: section.settings.mode,
+            playback: section.settings.playback,
+            shape_id: section_id,
+            shape: video_shape,
+            crop: crop,
+            rotate: rotate_video,
+            is_card: display_on_card,
+            container_id: container_id,
+            disable_media_style: disable_media_style,
+            preload: preload,
+            loading: loading,
+            sizes: sizes
+          -%}
+        </div>
+        <div class="flex items-center {{ text_width_desktop }}">
+          <div class="{{ text_alignment }}">
+            {% if title != '' %}
+              <h2 class="inline-heading-rte font-heading {{ heading_size }} heading-style {{ settings.heading_drop_shadow_style }}">
+                {{ title }}
+              </h2>
+            {% endif %}
+
+            <div class="inline-rte mt-5 max-w-2xl {% if text_alignment contains 'center' %}mx-auto{% elsif text_alignment contains 'right' %}ml-auto{% endif %}">
+              {{ richtext }}
+            </div>
+
+            {%- if button_link != blank and button_label != '' -%}
+              <div class="mt-5">
+                <a href="{{ button_link }}" class="push-btn inline-block">
+                  <span class="push-btn__surface">{{ button_label }}</span>
+                </a>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

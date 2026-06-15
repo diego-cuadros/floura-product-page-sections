@@ -1,0 +1,515 @@
+{% liquid
+  if section.settings.background_color == 'bg-transparent text-scheme-text' and section.settings.show_border == false
+    assign icon_margin = 'mr-1'
+  else
+    assign icon_margin = 'mr-2'
+  endif
+
+  assign icon_size = section.settings.icon_size
+  assign gap = section.settings.gap
+
+  capture content
+    echo '<div class="flex items-center ' | append: gap | append: '">'
+    for block in section.blocks
+      render 'scrolling-text-with-icons-block', block: block, icon_margin: icon_margin, icon_size: icon_size
+    endfor
+    echo '</div>'
+  endcapture
+%}
+
+{% if section.blocks.size > 0 %}
+  <section
+    class="bg-scheme-background text-scheme-text {% if section.settings.use_gradient_background %}bg-scheme-gradient{% endif %}"
+    data-color-scheme="{{ section.settings.color_scheme }}"
+  >
+    {%- render 'scrolling-text', text: content, class: 'py-2.5', gap: gap %}
+  </section>
+
+  {% style %}
+    #shopify-section-{{ section.id }} {
+      --icon-thickness: {{ section.settings.icon_thickness }};
+    }
+  {% endstyle %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:sections.scrolling_text_with_icons.name",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:common.settings.paragraph_if_a_user"
+    },
+    {
+      "type": "checkbox",
+      "id": "repeat_text",
+      "default": true,
+      "label": "t:common.settings.repeat_text.label",
+      "info": "t:common.settings.repeat_text.info"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:common.settings.link.label"
+    },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "t:common.settings.font.label",
+      "options": [
+        {
+          "value": "font-heading heading-secondary",
+          "label": "t:common.options.heading.label"
+        },
+        {
+          "value": "body",
+          "label": "t:common.options.body.label"
+        }
+      ],
+      "default": "font-heading heading-secondary"
+    },
+    {
+      "type": "select",
+      "id": "gap",
+      "label": "t:sections.scrolling_text_with_icons.settings.gap.label",
+      "options": [
+        {
+          "value": "gap-20",
+          "label": "t:common.options.small.label"
+        },
+        {
+          "value": "gap-36",
+          "label": "t:common.options.medium.label"
+        },
+        {
+          "value": "gap-44",
+          "label": "t:common.options.large.label"
+        }
+      ],
+      "default": "gap-36"
+    },
+    {
+      "type": "select",
+      "id": "icon_size",
+      "label": "t:sections.scrolling_text_with_icons.settings.icon_size.label",
+      "options": [
+        {
+          "value": "size-6",
+          "label": "t:common.options.small.label"
+        },
+        {
+          "value": "size-8",
+          "label": "t:common.options.medium.label"
+        },
+        {
+          "value": "size-10",
+          "label": "t:common.options.large.label"
+        }
+      ],
+      "default": "size-8"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 400,
+      "step": 10,
+      "label": "t:common.settings.speed.label",
+      "default": 120
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "t:common.settings.direction.label",
+      "options": [
+        {
+          "value": "",
+          "label": "t:common.options.right_to_left.label"
+        },
+        {
+          "value": "reverse",
+          "label": "t:common.options.left_to_right.label"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.header_icon_style"
+    },
+    {
+      "type": "range",
+      "id": "icon_thickness",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "t:common.settings.thickness.label",
+      "default": 1.5
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "t:common.settings.background_color.label",
+      "default": "bg-transparent text-scheme-text",
+      "options": [
+        {
+          "value": "bg-transparent text-scheme-text",
+          "label": "Transparent"
+        },
+        {
+          "value": "bg-scheme-accent-1 text-scheme-accent-1-contrast",
+          "label": "Accent 1"
+        },
+        {
+          "value": "bg-scheme-accent-2 text-scheme-accent-2-contrast",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-scheme-card text-scheme-card-text",
+          "label": "Card"
+        },
+        {
+          "value": "bg-scheme-text text-scheme-background",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border",
+      "label": "t:common.settings.show_border.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.header_color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme1",
+      "label": "t:common.settings.color_scheme.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_gradient_background",
+      "label": "t:common.settings.use_gradient_background.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "t:common.blocks.text.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Text block",
+          "label": "t:common.blocks.text.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:common.settings.icon.label",
+          "options": [
+            {
+              "value": "none",
+              "label": "t:common.options.none.label"
+            },
+            {
+              "value": "box",
+              "label": "t:common.options.box.label"
+            },
+            {
+              "value": "chat_bubble",
+              "label": "t:common.options.chat_bubble.label"
+            },
+            {
+              "value": "check_mark",
+              "label": "t:common.options.check_mark.label"
+            },
+            {
+              "value": "coat_hanger",
+              "label": "t:common.options.coat_hanger.label"
+            },
+            {
+              "value": "clock",
+              "label": "t:common.options.clock.label"
+            },
+            {
+              "value": "dryer",
+              "label": "t:common.options.dryer.label"
+            },
+            {
+              "value": "eye",
+              "label": "t:common.options.eye.label"
+            },
+            {
+              "value": "globe",
+              "label": "t:common.options.globe.label"
+            },
+            {
+              "value": "heart",
+              "label": "t:common.options.heart.label"
+            },
+            {
+              "value": "iron",
+              "label": "t:common.options.iron.label"
+            },
+            {
+              "value": "leaf",
+              "label": "t:common.options.leaf.label"
+            },
+            {
+              "value": "leather",
+              "label": "t:common.options.leather.label"
+            },
+            {
+              "value": "like",
+              "label": "t:common.options.like.label"
+            },
+            {
+              "value": "lock",
+              "label": "t:common.options.lock.label"
+            },
+            {
+              "value": "map_pin",
+              "label": "t:common.options.map_pin.label"
+            },
+            {
+              "value": "pants",
+              "label": "t:common.options.pants.label"
+            },
+            {
+              "value": "people",
+              "label": "t:common.options.people.label"
+            },
+            {
+              "value": "person",
+              "label": "t:common.options.person.label"
+            },
+            {
+              "value": "plane",
+              "label": "t:common.options.plane.label"
+            },
+            {
+              "value": "price_tag",
+              "label": "t:common.options.price_tag.label"
+            },
+            {
+              "value": "question_mark",
+              "label": "t:common.options.question_mark.label"
+            },
+            {
+              "value": "recycle",
+              "label": "t:common.options.recycle.label"
+            },
+            {
+              "value": "return",
+              "label": "t:common.options.return.label"
+            },
+            {
+              "value": "ruler",
+              "label": "t:common.options.ruler.label"
+            },
+            {
+              "value": "shirt",
+              "label": "t:common.options.shirt.label"
+            },
+            {
+              "value": "shoe",
+              "label": "t:common.options.shoe.label"
+            },
+            {
+              "value": "star",
+              "label": "t:common.options.star.label"
+            },
+            {
+              "value": "truck",
+              "label": "t:common.options.truck.label"
+            },
+            {
+              "value": "washing",
+              "label": "t:common.options.washing.label"
+            },
+            {
+              "value": "gluten_free",
+              "label": "t:common.options.gluten_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "soy_free",
+              "label": "t:common.options.soy_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "sugar_free",
+              "label": "t:common.options.sugar_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "nut_free",
+              "label": "t:common.options.nut_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "corn_free",
+              "label": "t:common.options.corn_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "dairy_free",
+              "label": "t:common.options.dairy_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "no_additives",
+              "label": "t:common.options.no_additives.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "no_artificial_colors",
+              "label": "t:common.options.no_artificial_colors.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "non_gmo",
+              "label": "t:common.options.non_gmo.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "vegan",
+              "label": "t:common.options.vegan.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "halal",
+              "label": "t:common.options.halal.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "organic",
+              "label": "t:common.options.organic.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "kosher",
+              "label": "t:common.options.kosher.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "keto",
+              "label": "t:common.options.keto.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "paleo",
+              "label": "t:common.options.paleo.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "cruelty_free",
+              "label": "t:common.options.cruelty_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "paraben_free",
+              "label": "t:common.options.paraben_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "alcohol_free",
+              "label": "t:common.options.alcohol_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "palm_oil_free",
+              "label": "t:common.options.palm_oil_free.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "anti_bacterial",
+              "label": "t:common.options.anti_bacterial.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "probiotic",
+              "label": "t:common.options.probiotic.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "antioxidants",
+              "label": "t:common.options.antioxidants.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "low_salt",
+              "label": "t:common.options.low_salt.label",
+              "group": "Food and health"
+            },
+            {
+              "value": "low_carb",
+              "label": "t:common.options.low_carb.label",
+              "group": "Food and health"
+            }
+          ],
+          "default": "star"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.scrolling_text_with_icons.name",
+      "settings": {
+        "font": "body",
+        "show_border": true
+      },
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "text": "Free shipping worldwide",
+            "icon": "globe"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "Environmentally friendly",
+            "icon": "leaf"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "24/7 support",
+            "icon": "chat_bubble"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "Food org certified",
+            "icon": "check_mark"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "Good for you",
+            "icon": "heart"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "aside"
+    ]
+  }
+}
+{% endschema %}

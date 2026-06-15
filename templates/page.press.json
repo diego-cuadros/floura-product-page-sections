@@ -1,0 +1,176 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "max_width": "medium",
+        "display_on_card": true,
+        "color_scheme": "scheme-6c3d44eb-acc8-48df-8fae-7b22ab978a32",
+        "use_gradient_background": false
+      }
+    },
+    "rich_text_mttrRW": {
+      "type": "rich-text",
+      "settings": {
+        "title": "In the News",
+        "heading_size": "heading-standard",
+        "rich_text": "",
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-2/3",
+        "button_link": "",
+        "button_label": "Shop Now",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "image_with_text_gYVxeB": {
+      "type": "image-with-text",
+      "settings": {
+        "display_on_card": false,
+        "section-class": "",
+        "image": "shopify://shop_images/inc-jeni-britton-floura-vertical.webp",
+        "crop": "aspect-w-3 aspect-h-4",
+        "image_shape": "default",
+        "blob_type": 1,
+        "rotate_image": 0,
+        "image_position": "right",
+        "image_size": "third",
+        "disable_media_style": false,
+        "title": "Inc Magazine: Why Jeni of Jeni’s Splendid Ice Creams Won’t Stop Talking About Fiber",
+        "heading_size": "heading-feature",
+        "richtext": "<p>Ice cream queen Jeni Britton’s latest venture upcycles fruit trimmings into gut-healthy snack bars.</p>",
+        "text_alignment": "text-left",
+        "button_link": "https://www.inc.com/jennifer-conrad/why-jeni-of-jenis-splendid-ice-creams-wont-stop-talking-about-fiber/91034412",
+        "button_label": "Read More",
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "image_with_text_h8UL8Q": {
+      "type": "image-with-text",
+      "settings": {
+        "display_on_card": false,
+        "section-class": "",
+        "image": "shopify://shop_images/Screenshot_2025-01-20_at_7.41.48_PM.png",
+        "crop": "aspect-w-3 aspect-h-4",
+        "image_shape": "default",
+        "blob_type": 1,
+        "rotate_image": 0,
+        "image_position": "left",
+        "image_size": "third",
+        "disable_media_style": false,
+        "title": "Fast Company: Jeni’s Ice Cream is known for its fun flavors. Now, its founder is using food waste to create high-fiber snacks.",
+        "heading_size": "heading-feature",
+        "richtext": "<p>A new brand called Floura aims to tackle two problems: the fact that most Americans don’t eat enough fiber, and the 80 million tons of food waste thrown out each year.</p>",
+        "text_alignment": "text-left",
+        "button_link": "https://www.fastcompany.com/91261083/jenis-ice-cream-is-known-for-its-fun-flavors-now-its-founder-is-using-food-waste-to-create-high-fiber-snacks",
+        "button_label": "Read More",
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "image_with_text_yfXGXq": {
+      "type": "image-with-text",
+      "settings": {
+        "display_on_card": false,
+        "section-class": "",
+        "image": "shopify://shop_images/Screenshot_2025-01-20_at_7.46.40_PM.png",
+        "crop": "aspect-w-3 aspect-h-4",
+        "image_shape": "default",
+        "blob_type": 1,
+        "rotate_image": 0,
+        "image_position": "right",
+        "image_size": "third",
+        "disable_media_style": false,
+        "title": "NOSH: Jeni’s Splendid Ice Creams Founder Launches Fiber-Focused Brand",
+        "heading_size": "heading-feature",
+        "richtext": "<p>Jeni Britton, founder of Jeni’s Splendid Ice Creams, today debuted a new snack brand focused on gut health and sustainability called Floura & Co.</p>",
+        "text_alignment": "text-left",
+        "button_link": "https://www.nosh.com/news/2025/jenis-splendid-ice-creams-founder-launches-fiber-focused-brand?fbclid=IwY2xjawH7zRdleHRuA2FlbQIxMAABHSmQIrCfaR9HILJUjVi8ozHx-HNtbSrW51AyxB0IcudO5V7s8usi_CrCMg_aem_umpDQwwNSQfchkGqSIOXhw",
+        "button_label": "Read More",
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "image_with_text_MEYDRC": {
+      "type": "image-with-text",
+      "settings": {
+        "display_on_card": false,
+        "section-class": "",
+        "image": "shopify://shop_images/Untitled_design_13_8b3613d4-af52-4c54-86f6-14f9997d070b.png",
+        "crop": "",
+        "image_shape": "default",
+        "blob_type": 1,
+        "rotate_image": 0,
+        "image_position": "left",
+        "image_size": "third",
+        "disable_media_style": false,
+        "title": "Floura & Co. by Jeni Britton Revolutionizes the Fiber Category with Sustainable and Delicious New Products",
+        "heading_size": "heading-feature",
+        "richtext": "<p>VINELAND, N.J.,Jan. 16, 2025--<a href=\"https://c212.net/c/link/?t=0&l=en&o=4342451-1&h=244435631&u=https%3A%2F%2Fwww.floura.com%2F&a=Floura\" target=\"_blank\"><span style=\"text-decoration:underline\">Floura</span></a>, the next gen fiber company created byJeni Britton, founder of Jeni's Splendid Ice Creams, is setting a new standard in gut health and sustainability with the launch of its first product, the groundbreaking high-fiber <em>Fruit Crush Bar.</em></p>",
+        "text_alignment": "text-left",
+        "button_link": "https://www.prnewswire.com/news-releases/floura--co-by-jeni-britton-revolutionizes-the-fiber-category-with-sustainable-and-delicious-new-products-302353335.html",
+        "button_label": "Read More",
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "featured_product_variants_pre8zd": {
+      "type": "featured-product-variants",
+      "name": "t:sections.featured_product_variants.name",
+      "settings": {
+        "title": "Featured product variants",
+        "subheading": "",
+        "text_alignment": "left",
+        "product": "floura-daily-fiber-bars",
+        "variant_limit": 25,
+        "enable_quick_buy": true,
+        "display_on_card": true,
+        "allow_full_width": true,
+        "layout": "carousel",
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 5,
+        "slideshow_focus": "center",
+        "mobile_slide_width": "three_fifths",
+        "tablet_slide_width": 33,
+        "desktop_slide_width": 27,
+        "autoscroll_mode": "0",
+        "enable_lifestyle_hover_image": true,
+        "lifestyle_image_metafield": "custom.lifestyle_image",
+        "badge_placement": "top_left",
+        "badge_color": "accent_1",
+        "badge_custom_background": "#c5273c",
+        "badge_custom_text": "#ffffff",
+        "badge_shape": "rectangle",
+        "product_tiles_aspect_ratio": "",
+        "image_shape": "",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#000000",
+        "button_outline_color": "#000000",
+        "button_hover_bg_color": "#000000",
+        "button_hover_text_color": "#ffffff",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_mttrRW",
+    "image_with_text_gYVxeB",
+    "image_with_text_h8UL8Q",
+    "image_with_text_yfXGXq",
+    "image_with_text_MEYDRC",
+    "featured_product_variants_pre8zd"
+  ]
+}

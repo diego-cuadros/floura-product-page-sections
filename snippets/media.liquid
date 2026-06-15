@@ -1,0 +1,209 @@
+{%- liquid
+  assign container_id = 'FeatureMedia-' | append: section.id
+
+  unless loading
+    assign loading = 'lazy'
+  endunless
+
+  unless preload
+    assign preload = false
+  endunless
+-%}
+<div
+  class="{% if settings.media_shadow_direction contains 'left' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}"
+  {% if scroll_to == true %}
+    @media-visible.camel="!isUsingSlideshowToDisplayMedia && scrollToTopOf($el)"
+  {% endif %}
+  data-product-single-media-wrapper="{{ media.id }}"
+>
+  {% case media.media_type %}
+    {% when 'video', 'external_video' %}
+      {% liquid
+        comment
+          Shopify rounds 16/9 aspect ratios too much,
+          resulting in some horizontal bars peeking through
+        endcomment
+
+        assign rounded_media_aspect_ratio_as_string = media.aspect_ratio | round: 2 | append: ''
+
+        if rounded_media_aspect_ratio_as_string contains '1.77' or rounded_media_aspect_ratio_as_string contains '1.78'
+          assign media_aspect_ratio = 1.77777778
+        else
+          assign media_aspect_ratio = media.aspect_ratio
+        endif
+
+        assign autoplay = section.settings.autoplay_videos_on_desktop
+      %}
+      <div class="media media--css-only">
+        <data-island
+          x-data="Video{% if autoplay %}('inline', 'autoplay'){% endif %}"
+          id="video-{{ section.id }}-{{ media.id }}"
+          class="media-style relative w-full overflow-hidden"
+          style="padding-top: {{ 100.00 | divided_by: media_aspect_ratio }}%;"
+          x-intersect:leave="pause"
+        >
+          <template x-if="enabled">
+            <div
+              class="media__styled-element absolute inset-0 h-full w-full bg-scheme-card transition-opacity duration-500"
+              :class="{ 'opacity-0 pointer-events-none' : !shown }"
+            >
+              {% liquid
+                assign video_object_class = 'video absolute inset-0 w-full h-full scale-[1.01]'
+              %}
+              {% case media.media_type %}
+                {% when 'video' %}
+                  <div
+                    class="contents"
+                    x-data="HTMLVideo"
+                    @play="play"
+                    @pause="pause"
+                  >
+                    {{
+                      media
+                      | video_tag:
+                        class: video_object_class,
+                        image_size: '2000x',
+                        controls: true,
+                        autoplay: autoplay,
+                        loop: section.settings.enable_video_looping,
+                        x-ref: 'video'
+                    }}
+                  </div>
+                {% when 'external_video' %}
+                  {% assign video_object_class = video_object_class
+                    | append: ' js-'
+                    | append: media.host
+                  %}
+                  {% case media.host %}
+                    {% when 'youtube' %}
+                      {% assign player_id = 'youtube-player-'
+                        | append: section.id
+                        | append: '-'
+                        | append: media.id
+                      %}
+                      <data-island
+                        class="contents"
+                        x-data="YouTubeEmbed"
+                        @play="play"
+                        @pause="pause"
+                        src="{{ 'island-youtube-embed.bundle.js' | asset_url }}"
+                      >
+                        {{
+                          media
+                          | external_video_url:
+                            enablejsapi: 1,
+                            autoplay: true,
+                            loop: section.settings.enable_video_looping,
+                            playlist: media.external_id
+                          | external_video_tag:
+                            id: player_id,
+                            class: video_object_class,
+                            loading: loading,
+                            x-ref: 'video',
+                            alpineonloadattr: 'onIFrameLoad'
+                          | replace: 'alpineonloadattr', 'x-on:load'
+                        }}
+                      </data-island>
+                    {% when 'vimeo' %}
+                      <data-island
+                        class="contents"
+                        x-data="VimeoEmbed"
+                        @play="play"
+                        @pause="pause"
+                        src="{{ 'island-vimeo-embed.bundle.js' | asset_url }}"
+                      >
+                        {{
+                          media
+                          | external_video_url:
+                            autoplay: true,
+                            loop: section.settings.enable_video_looping
+                          | external_video_tag:
+                            class: video_object_class,
+                            loading: loading,
+                            x-ref: 'video'
+                        }}
+                      </data-island>
+                  {% endcase %}
+              {% endcase %}
+            </div>
+          </template>
+          <div
+            class="media__styled-element group absolute inset-0 cursor-pointer transition-opacity duration-300"
+            :class="{ 'opacity-0 pointer-events-none' : shown }"
+            @click="enabled = true"
+          >
+            <div class="absolute inset-0 h-full w-full">
+              {{
+                media
+                | image_url: width: 2000
+                | image_tag:
+                  sizes: sizes,
+                  preload: preload,
+                  class: 'absolute inset-0 w-full h-full'
+              }}
+            </div>
+            <div class="absolute inset-0 h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-30">
+              <div class="h-full w-full bg-scheme-background"></div>
+            </div>
+            <button class="absolute inset-0 grid h-full w-full place-content-center">
+              <span class="sr-only">{{ 'general.video.play' | t }}</span>
+              <div class="relative z-10">
+                <div class="push-btn">
+                  <div class="push-btn__surface p-2 align-bottom">
+                    <div class="p-2.5">
+                      <div class="h-10 w-10">
+                        {% render 'icon-play' %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </data-island>
+      </div>
+    {% when 'model' %}
+      <div class="media media--css-only">
+        <data-island
+          x-data="ProductModel"
+          class="media__styled-element relative w-full"
+          style="padding-top: 100%;"
+          src="product-model"
+        >
+          {{
+            media
+            | model_viewer_tag:
+              image_size: '1000x',
+              reveal: 'interaction',
+              toggleable: true,
+              data-model-id: media.id,
+              class: 'absolute inset-0 w-full h-full',
+              background-color: 'white'
+          }}
+        </data-island>
+
+        <link
+          id="ModelViewerStyle"
+          rel="stylesheet"
+          href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css"
+          media="print"
+          onload="this.media='all'"
+        >
+        {{ 'shopify-model-viewer-ui.css' | asset_url | stylesheet_tag }}
+      </div>
+    {% else %}
+      {%- render 'media-image',
+        media: media,
+        shape_id: shape_id,
+        shape: image_shape,
+        crop: crop,
+        container_id: container_id,
+        index: index,
+        sizes: sizes,
+        is_card: false,
+        loading: loading,
+        preload: preload,
+        product: product
+      -%}
+  {% endcase %}
+</div>

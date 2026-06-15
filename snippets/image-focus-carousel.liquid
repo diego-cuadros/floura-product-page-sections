@@ -1,0 +1,281 @@
+{%- liquid
+  assign block_heading_level = 'h2'
+  assign mobile_grid_cols = section.settings.products_per_row_mobile
+
+  if section.settings.title != ''
+    assign block_heading_level = 'h3'
+  endif
+
+  assign items = section.blocks | where: 'type', 'image'
+
+  case section.settings.mobile_slide_width
+    when 'three_fifths'
+      assign mobile_slide_width = 'w-3/5'
+      assign mobile_max_width = 'max-w-[60vw]'
+    when 'full_width'
+      assign mobile_slide_width = 'w-full'
+      assign mobile_max_width = 'max-w-full'
+  endcase
+
+  assign products_count = 0
+  for product in collection.products limit: section.settings.no_products
+    assign products_count = products_count | plus: 1
+  endfor
+
+  assign eager_loading_limit = mobile_grid_cols | plus: 0 | default: 1
+
+  assign desktop_sizes = section.settings.desktop_slide_width | append: 'vw'
+
+  if mobile_slide_width == 'w-3/5'
+    assign mobile_sizes = '60vw'
+  else
+    assign mobile_sizes = '100vw'
+  endif
+
+  assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', ' | append: mobile_sizes
+
+  assign list_items = ''
+  assign description_items = ''
+-%}
+
+{%- for block in items -%}
+  {%- render 'shape-defs',
+    shape: block.settings.image_shape,
+    shape_id: block.id,
+    index: forloop.index0
+  -%}
+
+  {%- capture list_item -%}
+  <li
+    class="splide__slide {{ mobile_slide_width }} lg:w-[var(--desktop-slide-width)]"
+    aria-describedby="Section-{{ section.id }}-CaptionContainer-label-{{ forloop.index0 }}"
+    {{ block.shopify_attributes }}
+  >
+    {%- liquid
+      assign shape_id = block.id
+      if image_shape == 'blob'
+        assign shape_id = block.id | append: '-' | append: forloop.index0
+      endif
+
+      if section.index <= 3 and forloop.index <= eager_loading_limit
+        assign loading = 'eager'
+      else
+        assign loading = 'lazy'
+      endif
+
+      if section.index == 1 and forloop.first and index == blank or index < 2
+        assign preload = true
+      else
+        assign preload = false
+      endif
+    -%}
+    <div
+      data-slide-scale-container
+      class="relative {% if section.settings.enlarge_active_slide %}{% if forloop.first %}scale-100{% else%}scale-[0.8]{% endif %} transition-transform{% endif %}"
+    >
+      {%- if block.settings.image != blank -%}
+        <div class="relative {% if settings.media_shadow_direction contains 'top' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}">
+          {%- render 'media-image',
+            media: block.settings.image,
+            shape_id: shape_id,
+            shape: block.settings.image_shape,
+            is_card: false,
+            crop: block.settings.crop,
+            index: forloop.index0,
+            disable_media_style: section.settings.disable_media_style,
+            preload: preload,
+            loading: loading,
+            sizes: sizes,
+            will_transform: true
+          %}
+          {%- if block.settings.url != blank -%}
+            <a href="{{ block.settings.url }}" class="absolute inset-0 z-10"></a>
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="relative {% if settings.media_shadow_direction contains 'top' %}pt-media-shadow{% else %}pb-media-shadow{% endif %}">
+          <div class="relative w-full">
+            {%- render 'media-image-placeholder',
+              shape_id: shape_id,
+              container_id: section.id,
+              index: forloop.index0,
+              shape: block.settings.image_shape,
+              crop: block.settings.crop,
+              disable_media_style: section.settings.disable_media_style,
+              is_card: false,
+              will_transform: true
+            -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </li>
+  {%- endcapture -%}
+  {%- assign list_items = list_items | append: list_item -%}
+
+  {%- if block.settings.heading != ''
+    or block.settings.caption != ''
+    or block.settings.button_text != ''
+  -%}
+    {%- capture description_item -%}
+    <div
+      :class="{ 'invisible': slideIndex !== {{ forloop.index0 }} }"
+      aria-hidden="slideIndex !== {{ forloop.index0 }} ? 'true' : false"
+      data-slide-highlight-text
+      class="relative col-start-1 row-start-1 text-center{% unless forloop.first %} invisible{% endunless %}"
+      id="Section-{{ section.id }}-CaptionContainer-label-{{ forloop.index0 }}"
+    >
+      {% if block.settings.heading != '' %}
+        <{{ block_heading_level }} class="font-heading heading-secondary break-words">
+          {{- block.settings.heading -}}
+        </{{ block_heading_level }}>
+      {% endif %}
+      {%- if block.settings.caption != '' -%}
+        <div class="inline-rte {% if block.settings.heading != '' %}mt-2.5{% endif %}">
+          {{ block.settings.caption }}
+        </div>
+      {%- endif -%}
+      {%- if block.settings.url != blank
+        and block.settings.button_text == blank
+      -%}
+        <a href="{{ block.settings.url }}" class="absolute inset-0 z-10"></a>
+      {%- endif -%}
+      {% if block.settings.url and block.settings.button_text != '' %}
+        <div class="relative z-10 mt-5">
+          <a
+            href="{{ block.settings.url }}"
+            class="push-btn inline-block"
+          >
+            <span class="push-btn__surface">
+              {{- block.settings.button_text -}}
+            </span>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    {%- endcapture -%}
+    {%- assign description_items = description_items
+      | append: description_item
+    -%}
+  {%- endif -%}
+
+{%- else -%}
+  {% for i in (1..10) %}
+    {%- capture list_item -%}
+    <li class="splide__slide {{ mobile_slide_width }} lg:w-[var(--desktop-slide-width)]">
+      <div
+        data-slide-scale-container
+        class="{% if section.settings.enlarge_active_slide %}{% if forloop.first %}scale-100{% else%}scale-[0.8]{% endif %} transition-transform{% endif %}"
+      >
+        <div class="relative w-full">
+          {%- render 'media-image-placeholder',
+            shape_id: shape_id,
+            container_id: section.id,
+            index: forloop.index0,
+            shape: block.settings.image_shape,
+            crop: block.settings.crop,
+            is_card: false
+          -%}
+        </div>
+      </div>
+    </li>
+    {%- endcapture -%}
+    {%- assign list_items = list_items | append: list_item -%}
+
+    {%- if block.settings.heading != ''
+      or block.settings.caption != ''
+      or block.settings.button_text != ''
+    -%}
+      {%- capture description_item -%}
+      <div
+        :class="{ 'invisible': slideIndex !== {{ forloop.index0 }} }"
+        aria-hidden="slideIndex !== {{ forloop.index0 }} ? 'true' : false"
+        data-slide-highlight-text
+        class="relative col-start-1 row-start-1 text-center{% unless forloop.first %} invisible{% endunless %}"
+      >
+        {{ 'sections.onboarding.no_content' | t }}
+      </div>
+      {%- endcapture -%}
+      {%- assign description_items = description_items
+        | append: description_item
+      -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+
+<data-island
+  x-data="FocusCarousel('slideshow-{{ section.id }}-{{ index }}')"
+  role="banner"
+  id="slideshow-{{ section.id }}-{{ index }}"
+  class="{% if section.settings.title != '' %}section-content-top-margin{% endif %} splide"
+  data-focus-carousel
+  {% if section.settings.enlarge_active_slide %}
+    data-enlarge-active-slide
+  {% endif %}
+  style="--desktop-slide-width: {{ section.settings.desktop_slide_width }}%;"
+>
+  <div class="splide__track {% if section.settings.display_on_card %}{% if settings.card_shadow_direction contains 'top' %}pt-card-shadow{% else %}pb-card-shadow{% endif %}{% endif %}">
+    <ul
+      class="splide__list items-center"
+    >
+      {{ list_items }}
+    </ul>
+  </div>
+  <div class="splide__arrows items-top mt-5 px-section">
+    <div class="grid gap-5 lg:gap-0 {% if section.settings.focused_slide_source != 'none' %} lg:grid-cols-[1fr_var(--desktop-slide-width)_1fr] {%  endif %}">
+      {%- if section.settings.focused_slide_source != 'none' -%}
+        <div
+          class="flex flex-col lg:col-start-2"
+        >
+          <div
+            id="Section-{{ section.id }}-CaptionContainer"
+            class="mx-auto {{ mobile_max_width }} lg:mx-0 lg:max-w-full"
+            :class="
+              {
+                'opacity-100 transition-opacity duration-200': !isTransitioning,
+                'opacity-0  transition-opacity duration-200': isTransitioning
+              }
+            "
+          >
+            <div class="grid">
+              {{ description_items }}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+      <div class="flex justify-end">
+        {%- render 'splide-navigation', mode: 'focus_carousel' %}
+      </div>
+    </div>
+  </div>
+  <script class="slideshow-options" type="application/json">
+    {
+      "mediaQuery": "min",
+      "arrows": true,
+      "pagination": false,
+      "rewind": true,
+      "autoWidth": true,
+      "gap": "1.25rem",
+      "focus": "center",
+      "type": "loop",
+      "speed": 500,
+      "autoScroll": {
+        "autoStart": {% if section.settings.autoscroll_mode == '0' or section.settings.autoscroll_mode == blank %}false{% else %}true{% endif %},
+        "speed": {% if section.settings.autoscroll_mode == blank %}0{% else %}{{ section.settings.autoscroll_mode | plus: 0 | json }}{% endif %}
+      },
+      "padding": {
+        "left": "1.25rem",
+        "right": "1.25rem"
+      },
+      "breakpoints": {
+        "990": {
+          "gap": "2.5rem",
+          "padding": {
+            "left": "2.5rem",
+            "right": "2.5rem"
+          }
+        }
+      }
+    }
+  </script>
+</data-island>

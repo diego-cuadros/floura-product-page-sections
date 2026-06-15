@@ -1,0 +1,90 @@
+<div class="sticker-{{ id }} pointer-events-none absolute z-20 origin-top-left will-change-transform{% if extra_root_class != blank %} {{ extra_root_class }}{% endif %}">
+  {%- if shape == 'fit_to_text' -%}
+    <div
+      class="sticker sticker--fit-to-test {{ color }} whitespace-nowrap"
+      {% if sticker_custom_background != blank or sticker_custom_text != blank %}
+        style="{% if sticker_custom_background != blank %}background-color: rgb({{ sticker_custom_background.red }}, {{ sticker_custom_background.green }}, {{ sticker_custom_background.blue }}) !important;{% endif %}{% if sticker_custom_text != blank %}color: rgb({{ sticker_custom_text.red }}, {{ sticker_custom_text.green }}, {{ sticker_custom_text.blue }}) !important;{% endif %}"
+      {% endif %}
+    >
+      {{ text }}
+    </div>
+  {%- else -%}
+    <div class="sticker__container rotate-anim relative">
+      <div class="relative max-w-none">
+        <div
+          class="absolute inset-0 {{ color }}"
+          style="clip-path: url(#clip-{{ static_id }});{% if sticker_custom_background != blank %} background-color: rgb({{ sticker_custom_background.red }}, {{ sticker_custom_background.green }}, {{ sticker_custom_background.blue }}) !important;{% endif %}{% if sticker_custom_text != blank %} color: rgb({{ sticker_custom_text.red }}, {{ sticker_custom_text.green }}, {{ sticker_custom_text.blue }}) !important;{% endif %}"
+        >
+          <div class="sticker__text sticker-text-{{ static_id }} absolute inset-0 flex items-center justify-center text-center {{ settings.sticker_font }}">
+            <div>{{ text | newline_to_br }}</div>
+          </div>
+        </div>
+        <svg
+          class="sticker__width-container relative max-w-none {{ color | split: ' ' | last }}"
+          viewBox="0 0 200 200"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <use class="sticker__svg fill-transparent" href="#outline-{{ static_id }}" />
+        </svg>
+        {%- if settings.sticker_drop_shadow_size > 0 -%}
+          {%- if settings.sticker_shadow_color == 'color-scheme-gradient' -%}
+            <div class="sticker__svg sticker__drop-shadow">
+              <div
+                class="aspect-h-1 aspect-w-1 absolute h-full w-full bg-scheme-gradient"
+                style="clip-path: url(#clip-{{ static_id }})"
+              ></div>
+            </div>
+            <svg
+              class="sticker__svg sticker__drop-shadow"
+              viewBox="0 0 200 200"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              {% if settings.sticker_show_border_on_shadow %}
+              <use class="sticker__drop-shadow-border-only"  href="#outline-{{ static_id }}" />
+              {% endif %}
+            </svg>
+          {%- else -%}
+            <svg
+              class="sticker__svg sticker__drop-shadow"
+              viewBox="0 0 200 200"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <use class="sticker__drop-shadow-path"  href="#outline-{{ static_id }}" />
+            </svg>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+<style>
+  .sticker-{{ id }} {
+    top: {{ vertical_position }}%;
+    left: {{ horizontal_position }}%;
+    transform: rotate({{ rotate }}deg){% unless no_translate %} translate(-50%, -50%){% endunless %};
+  }
+
+  .sticker-{{ id }} img,
+  .sticker-{{ id }} svg,
+  .sticker-{{ id }} .sticker-text-container {
+    width: calc({{ width }} * 0.75px);
+
+    @media (min-width: 640px) {
+      width: {{ width }}px;
+    }
+  }
+
+  .sticker-text-{{ static_id }} {
+    padding: calc(2rem * {{ width }} / 300);
+  }
+
+  .sticker-text-{{ static_id }},
+  .sticker-{{ id }} .sticker__fit-to-text  {
+    --adjusted-sticker-font-size: calc({{ font_size }} * 1.5);
+    font-size: calc(var(--adjusted-sticker-font-size) * {{ width }} / 300);
+    line-height: 1;
+  }
+</style>

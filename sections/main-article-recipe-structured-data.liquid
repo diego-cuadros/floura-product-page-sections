@@ -1,0 +1,68 @@
+{% liquid
+  assign tags = article.tags | join: ', '
+
+  assign serves_metafield_namespace = section.settings.metafield_serves | split: '.' | first
+  assign serves_metafield_key = section.settings.metafield_serves | split: '.' | last
+  assign serves_metafield = article.metafields[serves_metafield_namespace][serves_metafield_key]
+
+  assign total_time_metafield_namespace = section.settings.total_time_metafield | split: '.' | first
+  assign total_time_metafield_key = section.settings.total_time_metafield | split: '.' | last
+  assign total_time_metafield = article.metafields[total_time_metafield_namespace][total_time_metafield_key]
+
+  assign ingredients_metafield_namespace = section.settings.metafield_ingredients | split: '.' | first
+  assign ingredients_metafield_key = section.settings.metafield_ingredients | split: '.' | last
+  assign ingredients_metafield = article.metafields[ingredients_metafield_namespace][ingredients_metafield_key]
+%}
+
+<title>{{ article.title }}</title>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Recipe",
+    "name": {{- article.title | json  -}},
+    "image": {{ article.image | image_url: width: 1200 | json }},
+    "description": {% if article.excerpt.size > 0 %}{{ article.excerpt | json }}{% else %}{{ article.content | strip_html | truncatewords: 20 | json }}{% endif %},
+    "author": {
+      "@type": "Person",
+      "name": {{- article.author | json -}}
+    },
+    {% if tags %}"keywords": {{ tags | json }},{% endif %}
+    {% if serves_metafield != blank %}"recipeYield": [{{ serves_metafield | plus: 0 | json }}],{% endif %}
+    {% if ingredients_metafield != blank %}"recipeIngredient": {{ ingredients_metafield }}{% endif %},
+    {% if total_time_metafield %}"totalTime": {{ total_time_metafield | json }},{% endif %}
+    "datePublished": {{ article.published_at | date: "%Y-%m-%d" | json }}
+  }
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.article_recipe_structured_data.short_name",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.article_recipe_structured_data.settings.paragraph_info"
+    },
+    {
+      "type": "text",
+      "id": "metafield_ingredients",
+      "label": "t:sections.article_recipe_structured_data.settings.metafield_ingredients.label",
+      "default": "custom.ingredients",
+      "info": "t:sections.article_recipe_structured_data.settings.metafield_ingredients.info"
+    },
+    {
+      "type": "text",
+      "id": "metafield_serves",
+      "label": "t:sections.article_recipe_structured_data.settings.metafield_serves.label",
+      "default": "custom.serves",
+      "info": "t:sections.article_recipe_structured_data.settings.metafield_serves.info"
+    },
+    {
+      "type": "text",
+      "id": "total_time_metafield",
+      "label": "t:sections.article_recipe_structured_data.settings.total_time_metafield.label",
+      "default": "custom.total_time_iso_format",
+      "info": "t:sections.article_recipe_structured_data.settings.total_time_metafield.info"
+    }
+  ]
+}
+{% endschema %}

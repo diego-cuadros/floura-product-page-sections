@@ -1,0 +1,132 @@
+{%- liquid
+  assign image_position = image_position
+
+  if display_on_card
+    assign desktop_sizes_base = 'calc(100vw - 5rem)'
+    assign mobile_sizes_base = 'calc(100vw - 2.5rem)'
+  else
+    assign desktop_sizes_base = '100vw'
+    assign mobile_sizes_base = '100vw'
+  endif
+
+  case image_size
+    when 'third'
+      assign text_width_desktop = 'lg:col-span-8'
+      assign desktop_sizes = 'calc(' | append: desktop_sizes_base | append: ' / 3)'
+
+      if image_position == 'right'
+        assign image_width_desktop = 'lg:col-start-9 lg:col-end-13'
+      else
+        assign image_width_desktop = 'lg:col-span-4'
+      endif
+    when 'half'
+      assign text_width_desktop = 'lg:col-span-6'
+      assign desktop_sizes = 'calc(' | append: desktop_sizes_base | append: ' / 2)'
+
+      if image_position == 'right'
+        assign image_width_desktop = 'lg:col-start-7 lg:col-end-13'
+      else
+        assign image_width_desktop = 'lg:col-span-6'
+      endif
+    when 'three_fifths'
+      assign text_width_desktop = 'lg:col-span-5'
+      assign desktop_sizes = 'calc((' | append: desktop_sizes_base | append: ' / 12) * 7)'
+
+      if image_position == 'right'
+        assign image_width_desktop = 'lg:col-start-6 lg:col-end-13'
+      else
+        assign image_width_desktop = 'lg:col-span-7'
+      endif
+    when 'two_thirds'
+      assign text_width_desktop = 'lg:col-span-4'
+      assign desktop_sizes = 'calc((' | append: desktop_sizes_base | append: ' / 12) * 8)'
+
+      if image_position == 'right'
+        assign image_width_desktop = 'lg:col-start-5 lg:col-end-13'
+      else
+        assign image_width_desktop = 'lg:col-span-8'
+      endif
+  endcase
+
+  assign mobile_sizes = mobile_sizes_base
+
+  assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', ' | append: mobile_sizes
+
+  unless loading
+    assign loading = 'lazy'
+    if section.index <= 3
+      assign loading = 'eager'
+    endif
+  endunless
+
+  unless preload
+    assign preload = false
+  endunless
+-%}
+
+{%- render 'shape-defs',
+  shape: image_shape,
+  shape_id: section_id,
+  index: index,
+  blob_type: blob_type
+-%}
+
+<div class="relative z-10 mx-auto max-w-site">
+  <div class="{% if display_on_card %}card{% endif %}">
+    <div class="{% if display_on_card %}card__surface p-5 lg:p-10{% endif %} section-content text_alignment relative z-10 mx-auto">
+      <div class="grid grid-flow-row-dense grid-cols-1 gap-6 lg:grid-cols-12">
+        {%- if image != blank -%}
+          <div class="{{ image_width_desktop }} my-auto">
+            {%- render 'media-image',
+              media: image,
+              shape_id: section_id,
+              container_id: container_id,
+              shape: image_shape,
+              crop: crop,
+              rotate: rotate_image,
+              is_card: display_on_card,
+              blob_type: blob_type,
+              disable_media_style: disable_media_style,
+              loading: loading,
+              preload: preload,
+              sizes: sizes
+            -%}
+          </div>
+        {%- endif -%}
+        <div class="lg:flex lg:items-center {% if image != blank %}{{ text_width_desktop }}{% else %}lg:col-span-12 max-w-2xl mx-auto{%- endif -%}">
+          <div class="text-center {{ text_alignment }} flex w-full flex-col gap-6">
+            {% if title != '' %}
+              <h1 class="font-heading {{ heading_size }} heading-style {{ settings.heading_drop_shadow_style }} break-words">
+                {{ title }}
+              </h1>
+            {% endif %}
+
+            <ul class="recipe__meta flex flex-wrap justify-center gap-x-4 gap-y-2.5 lg:gap-x-5 {% if text_alignment contains 'left' %}lg:justify-start lg:pr-8{% elsif text_alignment contains 'center' %}lg:justify-center lg:px-4{% elsif text_alignment contains 'right' %}lg:justify-end lg:pl-8{% endif %}">
+              {% for i in (1..5) %}
+                {% assign icon_key = 'icon_' | append: i %}
+                {% assign text_key = 'text_' | append: i %}
+
+                {% assign icon_value = icons_with_text_block.settings[icon_key] %}
+                {% assign text_value = icons_with_text_block.settings[text_key] %}
+
+                {% if text_value != blank %}
+                  <li class="recipe__icons flex items-center gap-1.5">
+                    <span
+                      style="--icon-thickness: {{ icons_with_text_block.settings.icon_thickness }};"
+                      class="inline-block {{  icons_with_text_block.settings.icon_size }} rounded-full {% if icons_with_text_block.settings.show_border %}border-[calc(var(--icon-thickness)_*_1px)]{% else %}border-0{% endif %} border-current {{ icons_with_text_block.settings.background_color }}"
+                    >
+                      {% render 'theme-icon', icon: icon_value %}
+                    </span>
+                    <p class="text-left leading-[1em]">
+                      {{ text_value }}
+                    </p>
+                  </li>
+                {%- endif -%}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

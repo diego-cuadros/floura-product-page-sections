@@ -1,0 +1,79 @@
+{% schema %}
+{
+  "name": "Featured pw Skio",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured pw Skio"
+    }
+  ]
+}
+{% endschema %}
+
+{% assign featured_product = all_products[section.settings.product] %}
+
+{% if featured_product %}
+  <div class="featured-product" id="featured-product-{{ section.id }}">
+    <h2 class="featured-product__title">{{ featured_product.title }}</h2>
+
+    <div class="featured-product__media">
+      {% if featured_product.featured_image %}
+        <img
+          src="{{ featured_product.featured_image | image_url: width: 800 }}"
+          alt="{{ featured_product.featured_image.alt | escape }}">
+      {% endif %}
+    </div>
+
+    <div class="featured-product__details">
+      <div class="featured-product__price">
+        {{ featured_product.price | money }}
+      </div>
+
+      <form id="product-form-{{ section.id }}">
+        <skio-plan-picker
+          product='{{ featured_product | json | escape }}'
+          selectedvariant='{{ featured_product.selected_or_first_available_variant | json | escape }}'
+          formid="product-form-{{ section.id }}"
+          currency="{{ shop.currency }}">
+        </skio-plan-picker>
+
+        <button type="submit" class="btn">
+          Add to cart
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      function initSkioPickers() {
+        if (window.Skio && window.Skio.PlanPicker) {
+          document.querySelectorAll("skio-plan-picker").forEach(picker => {
+            if (!picker.hasAttribute("data-skio-init")) {
+              try {
+                window.Skio.PlanPicker.init(picker);
+                picker.setAttribute("data-skio-init", "true");
+              } catch (e) {
+                console.error("Skio init failed", e);
+              }
+            }
+          });
+        }
+      }
+
+      // run once
+      initSkioPickers();
+
+      // re-run when customizing in theme editor
+      document.addEventListener("shopify:section:load", initSkioPickers);
+    });
+  </script>
+{% else %}
+  <p>Please select a product in the section settings.</p>
+{% endif %}

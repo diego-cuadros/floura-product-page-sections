@@ -1,0 +1,159 @@
+{%- liquid
+  assign media_id = container_id | append: '-' | append: media.id
+  assign disable_media_style = disable_media_style | default: false
+  assign media_element_class = 'media__styled-element '
+  assign clip_path_media_class = 'clip-path-media w-full h-full object-cover '
+
+  unless loading
+    assign loading = 'lazy'
+  endunless
+
+  unless preload
+    assign preload = false
+  endunless
+
+  unless widths
+    assign widths = '200, 350, 450, 750, 850, 960, 1280, 1440, 1536, 1706, 1782, 1920, 2560, 2880, 3000'
+  endunless
+
+  unless sizes
+    assign sizes = '100vw'
+  endunless
+
+  if settings.media_drop_shadow_size > 0
+    assign clip_path_media_class = clip_path_media_class | append: 'bg-scheme-card'
+    assign media_element_class = media_element_class | append: 'bg-scheme-card'
+  endif
+
+  if rotate == null
+    assign rotate = 0
+  endif
+
+  if product.media.size == 1
+    if shape == 'blob'
+      assign shape_id = shape_id | append: '-' | append: index
+    endif
+  endif
+-%}
+
+{%- if shape contains 'default' or shape == '' or shape == blank -%}
+  <div class="media {% if is_card == false %}media--css-only{% endif %} media-{{ media_id }} {% if disable_media_style %}media--disable-styles{% endif %} {{ shape | split: '_' | last }} {% unless crop == '' or crop == blank or crop == 'natural' %}object-wrapper {{ crop }}{% endunless %}">
+    {%- unless media == blank -%}
+      {{
+        media
+        | image_url: width: 3000
+        | image_tag:
+          class: media_element_class,
+          loading: loading,
+          widths: widths,
+          sizes: sizes,
+          onerror: 'this.style.color="currentColor"',
+          onload: 'this.style.color="currentColor"',
+          preload: preload
+      }}
+    {%- endunless -%}
+  </div>
+{%- else -%}
+  <div class="media media-{{ media_id }} media--shape">
+    <div class="media__shape-container">
+      {%- comment -%}
+        Image shape
+      {%- endcomment -%}
+      <div
+        class="media__shape-wrapper"
+        style="clip-path:url(#clip-{{ shape_id }})"
+      >
+        {%- unless media == blank -%}
+          {{
+            media
+            | image_url: width: 2000
+            | image_tag:
+              class: clip_path_media_class,
+              loading: loading,
+              sizes: sizes,
+              onerror: 'this.style.color="currentColor"',
+              onload: 'this.style.color="currentColor"',
+              preload: preload
+          }}
+        {%- endunless -%}
+      </div>
+
+      {%- comment -%}
+        Image shape outline
+      {%- endcomment -%}
+      <svg
+        class="media__svg absolute inset-0 {% if will_transform %}will-change-transform{% endif %}"
+        viewBox="0 0 200 200"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        {%- unless disable_media_style -%}
+          <use style="fill: none;" href="#outline-{{ shape_id }}" />
+        {%- endunless -%}
+      </svg>
+    </div>
+
+    {%- comment -%}
+      Drop shadow and border
+    {%- endcomment -%}
+    {%- if settings.media_drop_shadow_size > 0
+      and is_card == false
+      and disable_media_style == false
+    -%}
+      <div class="media__drop-shadow-container">
+        {%- unless settings.media_shadow_color == 'color-scheme-gradient' -%}
+          <svg
+            class="media__svg media__drop-shadow  media__drop-shadow--shape {% if will_transform %}will-change-transform{% endif %}"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            role="presentation"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <use class="media__drop-shadow-fill stroke-none"  href="#outline-{{ shape_id }}" />
+          </svg>
+        {%- else -%}
+          <div class="media__svg media__drop-shadow media__drop-shadow--shape">
+            <div
+              class="absolute inset-0 bg-scheme-gradient"
+              style="clip-path:url(#clip-{{ shape_id }})"
+            ></div>
+          </div>
+        {%- endunless -%}
+
+        {%- if settings.media_show_border_on_shadow -%}
+          <svg
+            class="media__svg media__drop-shadow-stroke {% if will_transform %}will-change-transform{% endif %}"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <use class="media__drop-shadow-stroke-path"  href="#outline-{{ shape_id }}" />
+          </svg>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+{%- unless rotate == 0 -%}
+  <style>
+    .media-{{ media_id }} {
+      transform: rotate({{ rotate }}deg);
+    }
+  </style>
+{%- endunless -%}
+
+{% if image_width_mobile and image_width_desktop %}
+  {% style %}
+    .media-{{ media_id }} {
+      width: {{ image_width_mobile }}vw;
+    }
+
+    @media (min-width: 990px) {
+      .media-{{ media_id }} {
+        width: {{ image_width_desktop }}vw;
+      }
+    }
+  {% endstyle %}
+{% endif %}

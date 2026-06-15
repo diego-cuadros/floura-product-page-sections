@@ -1,0 +1,58 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "aside",
+  "name": "Overlay",
+  "sections": {
+    "call-to-action": {
+      "type": "call-to-action",
+      "disabled": true,
+      "settings": {
+        "home_page_only": true,
+        "animate_in": true,
+        "hide_when_scrolling_up": false,
+        "text": "Get 10% off Your First Order",
+        "url": "",
+        "shape": "star_2",
+        "width": 150,
+        "half_width_on_mobile": false,
+        "sticker_position": "right",
+        "sticker_font_size": "1.563rem",
+        "rotate": 0,
+        "animate_rotation": false,
+        "show_sticker_on_mobile": true,
+        "color_scheme": "scheme-6c3d44eb-acc8-48df-8fae-7b22ab978a32",
+        "color": "bg-scheme-accent-1 text-scheme-accent-1-overlay"
+      }
+    },
+    "age-check": {
+      "type": "age-check",
+      "settings": {
+        "enable": false,
+        "logo_max_width": 100,
+        "title": "Age verification",
+        "text": "Are you over 21 years of age?",
+        "display_on_card": true,
+        "mode": "buttons",
+        "yes_button_text": "Yes",
+        "no_button_text": "No",
+        "date_format": "mm-dd-yyyy",
+        "minimum_age": 18,
+        "redirect_link": "",
+        "color_scheme": "primary",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "call-to-action",
+    "age-check"
+  ]
+}

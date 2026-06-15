@@ -1,0 +1,24 @@
+/**
+ * Featured product variants section — overrides for theme defaults.
+ * Parent: `.featured-product-variants` on the section root.
+ */
+
+.featured-product-variants .product-tile .push-btn,
+.featured-product-variants .product-tile .push-btn .push-btn__surface {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize !important;
+}
+
+@media (min-width: 990px) {
+  .featured-product-variants .product-tile .push-btn,
+  .featured-product-variants .product-tile .push-btn .push-btn__surface {
+    font-size: 17px;
+  }
+}
+
+.featured-product-variants h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 8px 0 0;
+}

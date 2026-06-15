@@ -1,0 +1,39 @@
+{% liquid
+  assign collection = link.object
+  assign layout_classes = 'grid grid-flow-row-dense grid-cols-1 lg:grid-cols-12 lg:gap-10'
+%}
+
+<ul class="{{ layout_classes }}">
+  {%- for product in collection.products limit: 6 -%}
+    <li class="showcase-tile lg:col-span-2">
+      <a href="{{ product.url }}" class="block h-full w-full">
+        {%- if product.featured_media -%}
+          <div class="{% unless crop == '' or crop == blank %}object-wrapper {{ crop }}{% endunless %}">
+            {{
+              product.featured_media
+              | image_url: width: 1400
+              | image_tag:
+                class: 'media__styled-element',
+                sizes: 'calc(100vw / 12 * 2)'
+            }}
+          </div>
+        {%- endif -%}
+        <div class="mt-2 text-center">
+          {{ product.title }}
+        </div>
+      </a>
+    </li>
+  {%- endfor -%}
+</ul>
+<div class="mt-5 text-center">
+  {%- if collection.all_products_count > 6 -%}
+    <a href="{{ collection.url }}" class="push-btn inline-block">
+      <span class="push-btn__surface">
+        {{-
+          'collections.general.all_of_collection'
+          | t: collection: collection.title
+        -}}
+      </span>
+    </a>
+  {%- endif -%}
+</div>

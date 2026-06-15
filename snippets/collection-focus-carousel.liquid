@@ -1,0 +1,341 @@
+{%- liquid
+  assign image_shape = image_shape | default: settings.product_tile_media_shape
+  assign mobile_grid_cols = item.settings.products_per_row_mobile
+
+  case item.settings.mobile_slide_width
+    when 'three_fifths'
+      assign mobile_slide_width = 'w-3/5'
+      assign mobile_max_width = 'max-w-[60vw]'
+    when 'full_width'
+      assign mobile_slide_width = 'w-full'
+      assign mobile_max_width = 'max-w-full'
+  endcase
+
+  assign products_count = 0
+  for product in collection.products limit: item.settings.no_products
+    assign products_count = products_count | plus: 1
+  endfor
+
+  assign eager_loading_limit = mobile_grid_cols | plus: 0 | default: 1
+
+  if item.settings.display_on_card
+    assign desktop_sizes = 'calc(' | append: item.settings.desktop_slide_width | append: 'vw - 2.5rem)'
+
+    if mobile_slide_width == 'w-3/5'
+      assign mobile_sizes = 'calc(60vw - 2.5rem)'
+    else
+      assign mobile_sizes = 'calc(100vw - 2.5rem)'
+    endif
+  else
+    assign desktop_sizes = item.settings.desktop_slide_width | append: 'vw'
+
+    if mobile_slide_width == 'w-3/5'
+      assign mobile_sizes = '60vw'
+    else
+      assign mobile_sizes = '100vw'
+    endif
+  endif
+
+  assign sizes = '(min-width: 990px) ' | append: desktop_sizes | append: ', ' | append: mobile_sizes
+
+  assign list_items = ''
+  assign description_items = ''
+
+  assign item_count = item.settings.no_products
+  if collection == blank
+    assign item_count = 10
+  endif
+-%}
+
+{%- render 'collection-shape-defs',
+  shape: image_shape,
+  section_id: item.id,
+  item_count: item_count
+-%}
+
+{%- for product in collection.products limit: item.settings.no_products -%}
+  {%- capture list_item -%}
+  <li
+    class="splide__slide {{ mobile_slide_width }} lg:w-[var(--desktop-slide-width)]"
+    {% if item.settings.focused_slide_source != 'none' %}
+    aria-describedby="Section-{{ section.id }}-CaptionContainer-label-{{ forloop.index0 }}"
+    {% endif %}
+  >
+    {%- liquid
+      capture odd_even
+        cycle 'odd', 'even'
+      endcapture
+
+      assign shape_id = item.id
+      if image_shape == 'blob'
+        assign shape_id = item.id | append: '-' | append: forloop.index0
+      endif
+
+      if item.index <= 3 and forloop.index <= eager_loading_limit
+        assign loading = 'eager'
+      else
+        assign loading = 'lazy'
+      endif
+
+      if item.index == 1 and forloop.first and index == blank or index < 2
+        assign preload = true
+      else
+        assign preload = false
+      endif
+    -%}
+    <div
+      data-slide-scale-container
+      class="{% if section.settings.enlarge_active_slide %}{% if forloop.first %}scale-100{% else%}scale-[0.8]{% endif %} transition-transform{% endif %}"
+    >
+      {%- render 'product-tile',
+        product: product,
+        crop: item.settings.product_tiles_aspect_ratio,
+        shape: image_shape,
+        shape_id: shape_id,
+        display_on_card: item.settings.display_on_card,
+        class: class,
+        odd_even: odd_even,
+        index: forloop.index0,
+        products_per_row_mobile: section.settings.products_per_row_mobile,
+        scatter_position: scatter_position,
+        loading: loading,
+        preload: preload,
+        sizes: sizes,
+        focus_mode: true,
+        will_transform: true
+      -%}
+    </div>
+  </li>
+  {%- endcapture -%}
+  {%- assign list_items = list_items | append: list_item -%}
+
+  {%- if item.settings.focused_slide_source != 'none' or item.settings.enable_focused_quick_buy == true -%}
+    {%- capture description_item -%}
+    <div
+      :class="{ 'invisible': slideIndex !== {{ forloop.index0 }} }"
+      aria-hidden="slideIndex !== {{ forloop.index0 }} ? 'true' : false"
+      data-slide-highlight-text
+      class="relative col-start-1 row-start-1 text-center{% unless forloop.first %} invisible{% endunless %}"
+      id="Section-{{ section.id }}-CaptionContainer-label-{{ forloop.index0 }}"
+    >
+      {%- if item.settings.focused_slide_source == 'description' -%}
+        {{ product.description | strip_html | truncatewords: 20 }}
+      {%- endif -%}
+      {%- if item.settings.focused_slide_source == 'metafield' -%}
+        {%- liquid
+          assign metafield_namespace = item.settings.focused_slide_metafield | split: '.' | first
+          assign metafield_key = item.settings.focused_slide_metafield | split: '.' | last
+          assign metafield = product.metafields[metafield_namespace][metafield_key]
+        -%}
+        {% if metafield != blank %}
+          {{ metafield.value }}
+        {% endif %}
+      {%- endif -%}
+      <a href="{{ product.url }}" class="absolute inset-0"></a>
+
+      {%- if item.settings.enable_focused_quick_buy == true -%}
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        <data-island
+          class="contents"
+          x-data="
+            FocusedQuickBuy({
+              product: {{ product | json | escape }},
+              variant: {{ current_variant | json | escape }},
+            })
+          "
+          src="{{ 'island-focused-quick-buy.bundle.js' | asset_url }}"
+          data-product-root="{{ section.id }}-{{ product.id }}"
+        >
+          <div class="relative z-20 mt-5{% unless section.settings.display_on_card %} max-w-xs mx-auto{% endunless %}">
+            {%- form 'product',
+              product,
+              id: product_form_id,
+              data-product-form: '',
+              data-product-handle: product.handle,
+              data-product-form: '',
+              x-ref: 'productForm',
+              class: 'quick-buy-product-form'
+            -%}
+              <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+              <div
+                class="font-secondary mb-2.5 rounded-button bg-scheme-accent-1 px-3 py-2 text-xs text-scheme-accent-1-contrast empty:hidden"
+                x-text="cartAddErrorMessage"
+              ></div>
+
+              <div class="relative z-10 text-center {% unless product.available %}cursor-not-allowed{% endunless %} {% if settings.button_shadow_direction contains 'top' %}pt-button-shadow{% else %}pb-button-shadow{% endif %}">
+                <button
+                  class="{% if product.available %}push-btn {% else %}btn text-sm lg:text-base after:hidden bg-scheme-secondary-background text-scheme-text {% endif %} {% if is_card %}w-full{% endif %} disabled:opacity-40{% unless current_variant.available %} cursor-not-allowed{% endunless %}"
+                  type="submit"
+                  {% unless current_variant.available %}disabled="disabled"{% endunless %}
+                >
+                  <span
+                    class="{% if product.available %}push-btn__surface{% endif %} {% if is_card %}w-full{% endif %}"
+                    x-text="addToCartText"
+                  >
+                    {% if current_variant.available %}
+                      {{ 'products.product.add_to_cart' | t -}}
+                    {%- else -%}
+                      {{- 'products.product.sold_out' | t -}}
+                    {%- endif %}
+                  </span>
+                  <span class="visually-hidden">, {{ product.title }}</span>
+                </button>
+              </div>
+
+              {%- if settings.cart_type == 'page'
+              or settings.open_modal_on_add_to_cart == false
+              -%}
+                <div
+                  class=" rte mt-2.5 text-center text-sm"
+                  tabindex="-1"
+                >
+                  <div class="text-sm">
+                    {{ 'products.product.added_to_cart' | t }}!
+                    {{
+                      'products.product.add_to_cart_confirm_html'
+                      | t:
+                        cart_url: routes.cart_url,
+                        link_url: routes.all_products_collection_url
+                    -}}
+                    .
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endform -%}
+          </div>
+        </data-island>
+      {%- endif -%}
+    </div>
+    {%- endcapture -%}
+    {%- assign description_items = description_items
+      | append: description_item
+    -%}
+  {%- endif -%}
+
+{%- else -%}
+  {% for i in (1..10) %}
+    {%- capture list_item -%}
+    <li class="splide__slide {{ mobile_slide_width }} lg:w-[var(--desktop-slide-width)]">
+      <div
+        data-slide-scale-container
+        class="{% if section.settings.enlarge_active_slide %}{% if forloop.first %}scale-100{% else%}scale-[0.8]{% endif %} transition-transform{% endif %}"
+      >
+        {%- liquid
+          capture odd_even
+            cycle 'odd', 'even'
+          endcapture
+          assign shape_id = item.id
+          if image_shape == 'blob'
+            assign shape_id = item.id | append: '-' | append: forloop.index0
+          endif
+        -%}
+        {%- render 'product-tile',
+          product: blank,
+          crop: item.settings.product_tiles_aspect_ratio,
+          shape: section.settings.image_shape,
+          shape_id: shape_id,
+          display_on_card: item.settings.display_on_card,
+          class: class,
+          odd_even: odd_even,
+          index: forloop.index0
+        -%}
+      </div>
+    </li>
+    {%- endcapture -%}
+    {%- assign list_items = list_items | append: list_item -%}
+
+    {%- if item.settings.focused_slide_source != 'none' -%}
+      {%- capture description_item -%}
+      <div
+        :class="{ 'invisible': slideIndex !== {{ forloop.index0 }} }"
+        aria-hidden="slideIndex !== {{ forloop.index0 }} ? 'true' : false"
+        data-slide-highlight-text
+        class="relative col-start-1 row-start-1 text-center{% unless forloop.first %} invisible{% endunless %}"
+      >
+        {{ 'sections.onboarding.product_description' | t }}
+      </div>
+      {%- endcapture -%}
+      {%- assign description_items = description_items
+        | append: description_item
+      -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+
+<data-island
+  x-data="FocusCarousel('slideshow-{{ section.id }}-{{ index }}')"
+  role="banner"
+  id="slideshow-{{ section.id }}-{{ index }}"
+  class="{% if item.settings.title != '' %}section-content-top-margin{% endif %} splide"
+  data-focus-carousel
+  {% if section.settings.enlarge_active_slide %}
+    data-enlarge-active-slide
+  {% endif %}
+  style="--desktop-slide-width: {{ item.settings.desktop_slide_width }}%;"
+>
+  <div class="splide__track splide__track--focus-carousel overflow-visible  {% if item.settings.display_on_card %}{% if settings.card_shadow_direction contains 'top' %}with-top-card-shadow{% else %}with-bottom-card-shadow{% endif %}{% endif %}">
+    <ul
+      class="splide__list items-center {% if settings.product_tiles_scatter %}py-4{% endif %}"
+    >
+      {{ list_items }}
+    </ul>
+  </div>
+  <div class="splide__arrows items-top mt-5 px-section">
+    <div class="grid gap-5 lg:gap-0 {% if item.settings.focused_slide_source != 'none' %} lg:grid-cols-[1fr_var(--desktop-slide-width)_1fr] {%  endif %}">
+      {%- if item.settings.focused_slide_source != 'none' -%}
+        <div
+          class="flex flex-col lg:col-start-2"
+        >
+          <div
+            id="Section-{{ section.id }}-CaptionContainer"
+            class="mx-auto {{ mobile_max_width }} lg:mx-0 lg:max-w-full"
+            :class="
+              {
+                'opacity-100 transition-opacity duration-200': !isTransitioning,
+                'opacity-0  transition-opacity duration-200': isTransitioning
+              }
+            "
+          >
+            <div class="grid">
+              {{ description_items }}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+      <div class="flex justify-end">
+        {%- render 'splide-navigation', mode: 'focus_carousel' %}
+      </div>
+    </div>
+  </div>
+  <script class="slideshow-options" type="application/json">
+    {
+      "mediaQuery": "min",
+      "arrows": true,
+      "pagination": false,
+      "rewind": true,
+      "autoWidth": true,
+      "gap": "1.25rem",
+      "focus": "center",
+      "type": "loop",
+      "speed": 500,
+      "autoScroll": {
+        "autoStart": {% if item.settings.autoscroll_mode == '0' or item.settings.autoscroll_mode == blank %}false{% else %}true{% endif %},
+        "speed": {% if item.settings.autoscroll_mode == blank %}0{% else %}{{ item.settings.autoscroll_mode | plus: 0 | json }}{% endif %}
+      },
+      "padding": {
+        "left": "1.25rem",
+        "right": "1.25rem"
+      },
+      "breakpoints": {
+        "990": {
+          "gap": "2.5rem",
+          "padding": {
+            "left": "2.5rem",
+            "right": "2.5rem"
+          }
+        }
+      }
+    }
+  </script>
+</data-island>

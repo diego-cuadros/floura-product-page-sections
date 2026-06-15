@@ -1,0 +1,284 @@
+{%- liquid
+  assign list_item_class = 'flex items-center gap-2'
+  assign link_class = 'text-scheme-text secondary-text-link'
+  case section.settings.active_text_color
+    when 'text'
+      assign active_link_class = 'text-scheme-text secondary-text-link'
+    when 'accent_1'
+      assign active_link_class = 'text-scheme-accent-1 secondary-text-link'
+    when 'accent_2'
+      assign active_link_class = 'text-scheme-accent-2 secondary-text-link'
+      assign link_class = 'text-scheme-text hover:text-scheme-accent-2'
+  endcase
+-%}
+{%- unless template == 'index'
+  or template == 'cart'
+  or template == 'list-collections'
+  or template == '404'
+-%}
+  {%- assign t = template | split: '.' | first -%}
+  {%- capture separator -%}
+  <span class="inline-block" role="presentation">{{ section.settings.separator }}</span>
+{%- endcapture -%}
+  <section
+    class="relative overflow-hidden bg-scheme-background text-scheme-text"
+    data-color-scheme="{{ section.settings.color_scheme }}"
+  >
+    <div class="section-content px-section py-4">
+      <nav role="navigation" aria-label="breadcrumbs" class="breadcrumbs">
+        <ol class="flex items-center {{ section.settings.text_alignment }} {{  section.settings.font_size }} gap-2">
+          <li class="{{ list_item_class  }}">
+            <a href="/">{{ 'general.breadcrumbs.home' | t }}</a>
+            {{ separator }}
+          </li>
+          {%- case t -%}
+            {%- when 'page' -%}
+              <li class="{{ list_item_class  }}">
+                <a
+                  href="{{ page.url }}"
+                  class="{{ active_link_class }}"
+                  aria-current="page"
+                >
+                  {{- page.title -}}
+                </a>
+              </li>
+            {%- when 'product' -%}
+              {%- if collection.url -%}
+                <li class="{{ list_item_class  }}">
+                  {{
+                    collection.title
+                    | link_to: collection.url, class: link_class
+                  }}
+                  {{ separator }}
+                </li>
+              {%- endif -%}
+              <li class="{{ list_item_class  }}">
+                <a
+                  href="{{ product.url }}"
+                  class="{{ active_link_class }}"
+                  aria-current="page"
+                >
+                  {{- product.title -}}
+                </a>
+              </li>
+            {%- when 'collection' and collection.handle -%}
+              {%- if current_tags -%}
+                <li class="{{ list_item_class  }}">
+                  {{
+                    collection.title
+                    | link_to: collection.url, class: link_class
+                  }}
+                  {{ separator }}
+                </li>
+                <li>
+                  {%- capture tag_url -%}{{ collection.url }}/{{ current_tags | join: "+"}}{%- endcapture -%}
+                  <a
+                    href="{{ tag_url }}"
+                    class="{{ active_link_class }}"
+                    aria-current="page"
+                  >
+                    {{- current_tags | join: ' + ' -}}
+                  </a>
+                </li>
+              {%- else -%}
+                <li class="{{ list_item_class  }}">
+                  <a
+                    href="{{ collection.url }}"
+                    class="{{ active_link_class }}"
+                    aria-current="page"
+                  >
+                    {{- collection.title -}}
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- when 'blog' -%}
+              {%- if current_tags -%}
+                <li class="{{ list_item_class  }}">
+                  {{ blog.title | link_to: blog.url, class: link_class }}
+                  {{ separator }}
+                </li>
+                <li class="{{ list_item_class  }}">
+                  {%- capture tag_url -%}{{blog.url}}/tagged/{{ current_tags | join: "+" }}{%- endcapture -%}
+                  <a
+                    href="{{ tag_url }}"
+                    class="{{ active_link_class }}"
+                    aria-current="page"
+                  >
+                    {{- current_tags | join: ' + ' -}}
+                  </a>
+                </li>
+              {%- else -%}
+                <li class="{{ list_item_class  }}">
+                  <a
+                    href="{{ blog.url }}"
+                    class="{{ active_link_class }}"
+                    aria-current="page"
+                  >
+                    {{- blog.title -}}
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- when 'article' -%}
+              <li class="{{ list_item_class  }}">
+                {{ blog.title | link_to: blog.url, class: link_class }}
+                {{ separator }}
+              </li>
+              <li class="{{ list_item_class  }}">
+                <a
+                  href="{{ article.url }}"
+                  class="{{ active_link_class }}"
+                  aria-current="page"
+                >
+                  {{- article.title -}}
+                </a>
+              </li>
+            {%- else -%}
+              <li class="{{ list_item_class  }}">
+                <a
+                  href="{{ request.path }}"
+                  class="{{ active_link_class }}"
+                  aria-current="page"
+                >
+                  {{- page_title -}}
+                </a>
+              </li>
+          {%- endcase -%}
+        </ol>
+      </nav>
+    </div>
+  </section>
+{%- endunless -%}
+{% schema %}
+{
+  "name": "t:sections.breadcrumbs.name",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.breadcrumbs.paragraph"
+    },
+    {
+      "type": "select",
+      "label": "Separator",
+      "id": "separator",
+      "default": "/",
+      "options": [
+        {
+          "label": "/",
+          "value": "/"
+        },
+        {
+          "label": "·",
+          "value": "&middot;"
+        },
+        {
+          "label": "•",
+          "value": "&bullet;"
+        },
+        {
+          "label": "→",
+          "value": "&rarr;"
+        },
+        {
+          "label": "<",
+          "value": "&lt;"
+        },
+        {
+          "label": ">",
+          "value": "&gt;"
+        },
+        {
+          "label": "|",
+          "value": "|"
+        },
+        {
+          "label": "–",
+          "value": "&ndash;"
+        },
+        {
+          "label": "—",
+          "value": "&mdash;"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "t:common.settings.text_alignment.label",
+      "options": [
+        {
+          "value": "justify-start",
+          "label": "t:common.options.left.label"
+        },
+        {
+          "value": "justify-center",
+          "label": "t:common.options.center.label"
+        },
+        {
+          "value": "justify-end",
+          "label": "t:common.options.right.label"
+        }
+      ],
+      "default": "justify-center"
+    },
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "t:common.settings.font_size.label",
+      "options": [
+        {
+          "value": "text-base",
+          "label": "t:common.options.base.label"
+        },
+        {
+          "value": "text-sm",
+          "label": "t:common.options.small.label"
+        }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "active_text_color",
+      "label": "t:sections.breadcrumbs.settings.active_text_color.label",
+      "default": "text",
+      "options": [
+        {
+          "value": "text",
+          "label": "t:common.options.text.label"
+        },
+        {
+          "value": "accent_1",
+          "label": "t:common.options.accent_1.label"
+        },
+        {
+          "value": "accent_2",
+          "label": "t:common.options.accent_2.label"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.header_color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme1",
+      "label": "t:common.settings.color_scheme.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.breadcrumbs.name"
+    }
+  ],
+  "disabled_on": {
+    "templates": [
+      "index",
+      "cart",
+      "list-collections",
+      "404"
+    ]
+  }
+}
+{% endschema %}

@@ -1,0 +1,73 @@
+<data-island
+  class="{{ block_base_classes }}"
+  x-data
+  data-color-scheme="{{ section_color }}"
+  x-init="
+    $store.modals.register('product-popup-{{ section.id }}-{{ block.id }}', 'popup');
+    initTeleport($root);
+  "
+>
+  <div class="js-enabled" {{ block.shopify_attributes }}>
+    <button
+      @click.prevent="$store.modals.open('product-popup-{{ section.id }}-{{ block.id }}')"
+      aria-haspopup="dialog"
+      class="product-popup font-body cursor-pointer {% if block.settings.icon != 'none' %}inline-flex justify-start items-center{% endif %}"
+    >
+      {% if block.settings.icon != 'none' -%}
+        <span class="pointer-events-none mr-2 inline-block h-8 w-8">
+          {%- render 'theme-icon', icon: block.settings.icon -%}
+        </span>
+      {%- endif %}
+      <span class="secondary-text-link py-0.5 text-sm ">
+        {{- block.settings.text -}}
+      </span>
+    </button>
+  </div>
+  <noscript>
+    <a
+      href="{{ block.settings.page.url }}"
+      class="{% if block.settings.icon != 'none' %}inline-flex justify-start items-center{% endif %}"
+    >
+      {% if block.settings.icon != 'none' -%}
+        <span class="mr-2 inline-block h-8 w-8">
+          {%- render 'theme-icon', icon: block.settings.icon -%}
+        </span>
+      {%- endif %}
+      <span class="secondary-text-link py-1 ">
+        {{- block.settings.text -}}
+      </span>
+    </a>
+  </noscript>
+  <div x-cloak>
+    <template data-should-teleport="#popup-slot">
+      <template x-if="$store.modals.popup.contents === 'product-popup-{{ section.id }}-{{ block.id }}'">
+        <div
+          data-modal-label="{{ block.settings.text }}"
+        >
+          <div class="sticky top-0">
+            <button
+              @click.prevent="$store.modals.close('popup')"
+              type="button"
+              class="absolute right-2 top-2 ml-auto block w-8 p-1"
+            >
+              <span class="visually-hidden">
+                {{- 'general.accessibility.close_modal' | t -}}
+              </span>
+              <span class="inline-block h-6 w-6">
+                {%- render 'icon-close' -%}
+              </span>
+            </button>
+          </div>
+          <div class="p-4 lg:p-8">
+            <h2 class="font-heading text-2xl">
+              {{ block.settings.page.title }}
+            </h2>
+            <data-island x-data="RTE" class="rte mt-8">
+              {{- block.settings.page.content -}}
+            </data-island>
+          </div>
+        </div>
+      </template>
+    </template>
+  </div>
+</data-island>

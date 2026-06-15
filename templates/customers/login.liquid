@@ -1,0 +1,173 @@
+<data-island
+  class="section-content px-section py-section-vertical-spacing"
+  x-data="AccountLogin"
+  data-color-scheme="scheme3"
+  src="{{ 'island-account-login.bundle.js' | asset_url }}"
+>
+  <div
+    class="card mx-auto max-w-md"
+    :class="{'hidden': state !== 'login'}"
+    data-state="login"
+  >
+    <div class="card relative z-shape-divider mx-auto text-center">
+      <div class="card__surface bg-scheme-card p-5 lg:p-10">
+        {% form 'customer_login', data-login-focus: true, tabindex: '-1' %}
+          <div class="items-center justify-between lg:flex">
+            <h1
+              class="font-heading heading-standard mb-2.5"
+              tabindex="-1"
+              data-should-focus
+            >
+              {{ 'customer.login.title' | t }}
+            </h1>
+            <a
+              class="font-secondary  text-sm"
+              href="{{ routes.account_register_url }}"
+            >
+              {{- 'layout.customer.create_account' | t -}}
+            </a>
+          </div>
+          {% if form.errors %}
+            <div class="mt-5" tabindex="-1" data-login-error>
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+          <label
+            class="font-secondary mb-1 mt-5 block text-left text-sm"
+            for="CustomerEmail"
+            class="label-hidden"
+          >
+            {{ 'customer.login.email' | t }}
+          </label>
+          <input
+            type="email"
+            name="customer[email]"
+            id="CustomerEmail"
+            class="w-full {% if form.errors contains 'email' %}border-scheme-accent-1{% endif %}"
+            spellcheck="false"
+            autocomplete="email"
+            autocapitalize="off"
+            {% unless form.errors %}
+              autofocus
+            {% endunless %}
+          >
+          {% if form.password_needed %}
+            <label
+              class="font-secondary mb-1 mt-5 block text-left text-sm"
+              for="CustomerPassword"
+              class="label-hidden"
+            >
+              {{ 'customer.login.password' | t }}
+            </label>
+            <input
+              type="password"
+              name="customer[password]"
+              id="CustomerPassword"
+              autocomplete="password"
+              class="w-full {% if form.errors contains 'password' %}border-scheme-accent-1{% endif %}"
+            >
+          {% endif %}
+          <div class="mt-5">
+            <button type="submit" class="push-btn  w-full">
+              <span class="push-btn__surface w-full">
+                {{- 'customer.login.sign_in' | t -}}
+              </span>
+            </button>
+          </div>
+          <div class="mt-5 text-center">
+            <a class="block text-sm" href="{{ routes.root_url }}">
+              {{- 'customer.login.cancel' | t -}}
+            </a>
+            {% if form.password_needed %}
+              <button
+                @click="state = 'recover'"
+                type="button"
+                class="mt-2.5 inline-block "
+              >
+                <span class="text-sm">
+                  {{- 'customer.login.forgot_password' | t -}}
+                </span>
+              </button>
+            {% endif %}
+          </div>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="card mx-auto max-w-md"
+    :class="{'hidden': state !== 'recover'}"
+    x-cloak
+    data-state="recover"
+  >
+    <div class="card relative z-shape-divider mx-auto text-center">
+      <div class="card__surface bg-scheme-card p-5 lg:p-10">
+        <h2
+          class="font-heading heading-standard mb-2.5"
+          data-should-focus
+          tabindex="-1"
+        >
+          {{ 'customer.recover_password.title' | t }}
+        </h2>
+        {% form 'recover_customer_password' %}
+          {% if form.errors %}
+            <div class="mt-5" tabindex="-1" data-login-error>
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+          {% if form.posted_successfully? %}
+            <p data-recover-success>
+              {{ 'customer.recover_password.success' | t }}
+            </p>
+          {% else %}
+            <p>{{ 'customer.recover_password.subtext' | t }}</p>
+            <label
+              for="RecoverEmail"
+              class="font-secondary mb-1 mt-5 block text-left text-sm"
+            >
+              {{ 'customer.recover_password.email' | t }}
+            </label>
+            <input
+              type="email"
+              class="border-text-width border-primary-border w-full bg-transparent"
+              name="email"
+              id="RecoverEmail"
+              spellcheck="false"
+              autocomplete="off"
+              autocapitalize="off"
+            >
+            <div class="mt-5 text-center">
+              <button type="submit" class="push-btn  block w-full">
+                <span class="push-btn__surface w-full">
+                  {{- 'customer.recover_password.submit' | t -}}
+                </span>
+              </button>
+              <button
+                class="mt-5 text-sm"
+                type="button"
+                @click="state = 'login'"
+              >
+                {{ 'customer.recover_password.cancel' | t }}
+              </button>
+            </div>
+          {% endif %}
+        {% endform %}
+      </div>
+    </div>
+  </div>
+
+  {% if shop.checkout.guest_login %}
+    <div class="mt-8">
+      <h2 class="mb-2 text-center">{{ 'customer.login.guest_title' | t }}</h2>
+
+      {% form 'guest_login' %}
+        <button type="submit" class="push-btn  w-full">
+          <span class="push-btn__surface w-full">
+            {{- 'customer.login.guest_continue' | t -}}
+          </span>
+        </button>
+      {% endform %}
+    </div>
+  {%- endif -%}
+</data-island>

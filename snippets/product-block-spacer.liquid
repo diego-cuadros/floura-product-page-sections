@@ -1,0 +1,10 @@
+{%- liquid
+  assign base_unit = 0.25
+  assign height = block.settings.height | plus: 0.00
+  assign total_space_in_rem = height | times: base_unit
+%}
+<div
+  style="--spacer-height: {{ total_space_in_rem }}rem;"
+  class="h-[var(--spacer-height)]"
+  {{ block.shopify_attributes }}
+></div>

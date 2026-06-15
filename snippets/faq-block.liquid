@@ -1,0 +1,19 @@
+<li class="faq-item" {{ block.shopify_attributes }}>
+  <div class="faq-header">
+    <button
+      class="faq-toggle"
+      aria-expanded="false"
+    > <span class="faq-items">
+      <span class="faq-number">{{ num }}.</span>
+      <span class="faq-title"><span class="contant-text-inner">{{ block.settings.title }}</span></span>
+      </span>
+      <span class="faq-icon">{% render 'chevdown' %}</span>
+    </button>
+    <div class="faq-content" hidden>
+      <div class="rte mt-4">
+        <span class="contant-inner-"></span>
+        <div class="contant-inner-des">{{ block.settings.answer }}</div>
+      </div>
+    </div>
+  </div>
+</li>

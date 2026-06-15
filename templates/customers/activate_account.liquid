@@ -1,0 +1,70 @@
+<div
+  class="section-content px-section py-section-vertical-spacing"
+  data-color-scheme="scheme1"
+>
+  <div class="card mx-auto max-w-md">
+    <div class="card__surface relative z-shape-divider mx-auto bg-scheme-card p-5 text-left lg:p-10">
+      <h1 class="font-heading heading-standard mb-2.5">
+        {{ 'customer.activate_account.title' | t }}
+      </h1>
+      <p>{{ 'customer.activate_account.subtext' | t }}</p>
+
+      {% form 'activate_customer_password' %}
+        {% if form.errors %}
+          <div
+            class="mt-4 text-scheme-accent-1"
+            tabindex="-1"
+            data-login-error
+          >
+            {{ form.errors | default_errors }}
+          </div>
+        {% endif %}
+
+        <label
+          class="font-secondary mb-1 mt-5 block text-sm"
+          for="CustomerPassword"
+        >
+          {{ 'customer.activate_account.password' | t }}
+        </label>
+        <input
+          type="password"
+          name="customer[password]"
+          id="CustomerPassword"
+          class="w-full"
+        >
+
+        <label
+          class="font-secondary mb-1 mt-5 block text-sm"
+          for="CustomerPasswordConfirmation"
+        >
+          {{ 'customer.activate_account.password_confirm' | t }}
+        </label>
+        <input
+          type="password"
+          name="customer[password_confirmation]"
+          id="CustomerPasswordConfirmation"
+          class="w-full"
+        >
+
+        <div class="mt-5">
+          <button type="submit" class="push-btn  w-full">
+            <span class="push-btn__surface w-full">
+              {{- 'customer.activate_account.submit' | t -}}
+            </span>
+          </button>
+        </div>
+        <div class="mt-5 text-center">
+          <button
+            type="submit"
+            class="push-btn push-btn--background w-full"
+            name="decline"
+          >
+            <span class="push-btn__surface w-full">
+              {{- 'customer.activate_account.cancel' | t -}}
+            </span>
+          </button>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</div>

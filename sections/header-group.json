@@ -1,0 +1,119 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_YrmNnH": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free Shipping on Subscription Orders",
+            "link": ""
+          }
+        },
+        "announcement_f4mEfY": {
+          "type": "announcement",
+          "settings": {
+            "text": "Subscribe & Save up to 20% OFF",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_YrmNnH",
+        "announcement_f4mEfY"
+      ],
+      "settings": {
+        "home_page_only": false,
+        "use_gradient_background": true,
+        "color_scheme": "scheme-d00b27f3-93c4-46a2-baa4-b520934c0813"
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "feature_desktop_link_88JP4m": {
+          "type": "feature_desktop_link",
+          "settings": {
+            "button_link": "",
+            "button_label": "Shop Now",
+            "position": "right_of_cart",
+            "button_color": "",
+            "hide_button_shadow": true
+          }
+        }
+      },
+      "block_order": [
+        "feature_desktop_link_88JP4m"
+      ],
+      "settings": {
+        "logo": "shopify://shop_images/2412_Floura_LOGO.png",
+        "logo_max_width": 210,
+        "main_linklist": "new-menu",
+        "nested_nav_style": "dropdown",
+        "showcase_top_level_collections": true,
+        "show_all_navigation_links": false,
+        "showcase_second_level_links": true,
+        "crop": "aspect-w-4 aspect-h-3",
+        "header_layout": "navigation_left_logo_center",
+        "header_show_search": true,
+        "sticky_header": true,
+        "show_icons": true,
+        "enable_overlay_on_homepage": false,
+        "enable_overlay_on_collection_pages": true,
+        "enable_overlay_on_product_pages": true,
+        "overlay_logo": "shopify://shop_images/2412_Floura_LOGO.png",
+        "overlay_color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "transparent_when_overlaid_and_stuck": false,
+        "overlay_show_separator_border": false,
+        "overlay_first_section_padding_top_desktop": 3,
+        "overlay_first_section_padding_top_mobile": 3,
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "active_color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "mobile_main_linklist": "new-menu",
+        "sidebar_menu_font_size": "heading-secondary",
+        "sidebar_show_footer_menu": false,
+        "sidebar_show_social_icons": false
+      }
+    },
+    "1764183032a85d553d": {
+      "type": "apps",
+      "blocks": {
+        "gsc_countdown_timer_countdown_HTcQBB": {
+          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
+          "disabled": true,
+          "settings": {
+            "widget_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "gsc_countdown_timer_countdown_HTcQBB"
+      ],
+      "disabled": true,
+      "settings": {
+        "apply_vertical_spacing": true,
+        "apply_horizontal_spacing": true,
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-full",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header",
+    "1764183032a85d553d"
+  ]
+}

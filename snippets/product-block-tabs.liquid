@@ -1,0 +1,114 @@
+{% liquid
+  assign button_classes = 'relative box-border inline-block py-0.5 text-center font-main aria-selected:[&:not(:focus)]:outline-none'
+
+  if block.settings.tab_style == 'border'
+    assign button_classes = button_classes | append: ' rounded-button border-solid border-general py-1 px-2'
+  else
+    assign button_classes = button_classes | append: ' after:h-general after:mt-0.5 after:block after:w-full after:content-empty'
+  endif
+
+  if block.settings.uppercase_heading
+    assign button_classes = button_classes | append: ' uppercase'
+  endif
+
+  if block.settings.tab_style == 'border'
+    assign inactive_color = 'border-transparent'
+  else
+    assign inactive_color = 'after:bg-transparent'
+  endif
+
+  case block.settings.tab_color
+    when 'text'
+      if block.settings.tab_style == 'border'
+        assign active_color = 'border-scheme-text'
+      else
+        assign active_color = 'after:bg-scheme-text'
+      endif
+    when 'accent-1'
+      if block.settings.tab_style == 'border'
+        assign active_color = 'border-scheme-accent-1'
+      else
+        assign active_color = 'after:bg-scheme-accent-1'
+      endif
+    when 'accent-2'
+      if block.settings.tab_style == 'border'
+        assign active_color = 'border-scheme-accent-2'
+      else
+        assign active_color = 'after:bg-scheme-accent-2'
+      endif
+    when 'card'
+      if block.settings.tab_style == 'border'
+        assign active_color = 'border-scheme-card'
+      else
+        assign active_color = 'after:bg-scheme-card'
+      endif
+  endcase
+%}
+
+<div
+  class="{{ block_base_classes }} flex flex-col items-start gap-5"
+  {{ block.shopify_attributes }}
+  x-data="{ tab: 'tab_1' }"
+>
+  <div
+    class="product-tabs__tabs flex flex-wrap justify-start gap-4 text-center text-scheme-text lg:justify-evenly"
+    role="tablist"
+    aria-labelledby="tablist_product_tabs"
+  >
+    {% for i in (1..3) %}
+      {% assign tab_key = 'tab_' | append: i %}
+      {% assign tabpanel_key = 'tabpanel_' | append: i %}
+      {% assign heading_key = 'heading_' | append: i %}
+      {% assign heading = block.settings[heading_key] %}
+
+      {% if heading != blank %}
+        <button
+          @click="tab = '{{ tab_key }}'"
+          :class="{ '{{ active_color }}': tab === '{{ tab_key }}', '{{ inactive_color }}': tab !== '{{ tab_key }}' }"
+          class="text-scheme-text lg:text-base {{ button_classes }}"
+          id="{{ tab_key }}"
+          type="button"
+          role="tab"
+          :aria-selected="tab === '{{ tab_key }}' ? 'true' : 'false'"
+          aria-controls="{{ tabpanel_key }}"
+          x-cloak
+        >
+          {{- heading -}}
+        </button>
+      {%- endif -%}
+    {% endfor %}
+  </div>
+
+  <div class="product-tabs__content">
+    {% for i in (1..3) %}
+      {%- capture content %}content_{{ i }}{%- endcapture -%}
+      {%- capture page_content %}page_content_{{ i }}{%- endcapture -%}
+      {%- liquid
+        assign content = block.settings[content]
+        assign page_content = block.settings[page_content]
+        assign tab_key = 'tab_' | append: i
+        assign tabpanel_id = 'tabpanel_' | append: i
+      -%}
+
+      <div
+        x-show="tab === '{{ tab_key }}'"
+        id="{{ tabpanel_id }}"
+        role="tabpanel"
+        aria-labelledby="{{ tab_key }}"
+        {% unless forloop.first %}
+          style="display: none;"
+        {% endunless %}
+      >
+        <data-island class="rte" x-data="RTE">
+          {% if page_content != blank %}
+            {{ page_content.content }}
+          {% else %}
+            {% if content != blank %}
+              {{ content }}
+            {% endif %}
+          {% endif %}
+        </data-island>
+      </div>
+    {% endfor %}
+  </div>
+</div>

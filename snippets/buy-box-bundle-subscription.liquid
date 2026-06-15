@@ -1,0 +1,474 @@
+{% comment %}
+  ================================================================
+  SNIPPET: buy-box-bundle-subscription.liquid
+  ================================================================
+
+  ⚠️  IMPORTANT — TEMPLATE RESTRICTION ⚠️
+  This snippet is designed exclusively for use with:
+  templates/product.bundle-subscription.json
+
+  The companion JavaScript (bundle-subscription.js) and CSS
+  (bundle-subscription-custom-buy-box-block.css) are scoped to the class:
+  .template-product-bundle-subscription
+
+  They will NOT initialise or function correctly on any other
+  product template. Do NOT add the bundle_sub_buy_box block to any
+  template other than product.bundle-subscription.
+
+  The buy box is added via the main-product block type
+  "bundle_sub_buy_box" (see sections/main-product.liquid schema).
+  Always rendered with {% render …, block: block %}. Block settings
+  control pack badges and copy; remaining product data uses bundle.*
+  metafields as listed below.
+
+  PDP gallery: assign flavor images to variants in the usual way, but add
+  hide-from-pdp to each image’s alt text in the media editor so those files
+  are omitted from the main carousel/thumbs on this template only (see
+  product-template.liquid + bundle-subscription-pdp.css header).
+
+  ================================================================
+  PRODUCT METAFIELDS REQUIRED (namespace: bundle)
+  ================================================================
+
+  | Key                          | Type                        | Purpose                              |
+  |------------------------------|-----------------------------|--------------------------------------|
+  | bundle.subscription_discount_percent_1 | number_integer              | Sub discount % for 1 pack (e.g. 10)             |
+  | bundle.subscription_discount_percent_2 | number_integer              | Sub discount % for 2 packs (e.g. 15)            |
+  | bundle.subscription_discount_percent_4 | number_integer              | Sub discount % for 3 packs tier (e.g. 20) — metafield key unchanged |
+  | bundle.onetime_discount_percent_2      | number_integer              | One-time qty discount % for 2 packs (e.g. 5)   |
+  | bundle.onetime_discount_percent_4      | number_integer              | One-time qty discount % for 3 packs tier (e.g. 10) — metafield key unchanged |
+  | bundle.subscription_perks              | list.single_line_text_field | Perks checklist items                           |
+
+  VARIANT METAFIELDS:
+  | custom.is_new | boolean | Show "New!" badge on this flavor |
+
+
+{% endcomment %}
+
+{%- comment -%} Assign metafield shortcuts to avoid verbose repetition {%- endcomment -%}
+{%- assign _pack_sizes = '1,2,3' | split: ',' -%}
+{%- assign _b = product.metafields.bundle -%}{%- assign _base_price = product.price -%}
+
+{%- comment -%} Per-pack subscription discount percentages (default 10 if unset) {%- endcomment -%}
+{%- assign _discount_pct_1 = _b.subscription_discount_percent_1.value | default: 10 -%}
+{%- assign _discount_pct_2 = _b.subscription_discount_percent_2.value | default: 10 -%}{%- assign _discount_pct_4 = _b.subscription_discount_percent_4.value | default: 10 -%}
+
+{%- comment -%} Pre-calculate discounted sub prices for all 3 pack tiers (prices stored in cents) {%- endcomment -%}
+{%- assign _discount_amt_1 = _base_price | times: _discount_pct_1 | divided_by: 100 -%}
+{%- assign _sub_price_1 = _base_price | minus: _discount_amt_1 -%}
+{%- assign _discount_amt_2 = _base_price | times: _discount_pct_2 | divided_by: 100 -%}
+{%- assign _sub_price_2 = _base_price | minus: _discount_amt_2 -%}
+{%- assign _discount_amt_4 = _base_price | times: _discount_pct_4 | divided_by: 100 -%}
+{%- assign _sub_price_4 = _base_price | minus: _discount_amt_4 -%}
+
+{%- comment -%} One-time quantity discounts: 1-pack = 0%; 2-pack; 3-pack tier uses onetime_discount_percent_4 {%- endcomment -%}
+{%- assign _onetime_discount_pct_2 = _b.onetime_discount_percent_2.value | default: 5 -%}
+{%- assign _onetime_discount_pct_4 = _b.onetime_discount_percent_4.value | default: 10 -%}
+{%- assign _ot_discount_amt_2 = _base_price | times: _onetime_discount_pct_2 | divided_by: 100 -%}
+{%- assign _ot_pack_price_2 = _base_price | minus: _ot_discount_amt_2 -%}
+{%- assign _ot_discount_amt_4 = _base_price | times: _onetime_discount_pct_4 | divided_by: 100 -%}
+{%- assign _ot_pack_price_4 = _base_price | minus: _ot_discount_amt_4 -%}
+{%- assign _bars_per_pack = 12 -%}
+{%- comment -%} Full catalog price per bar (for strikethrough next to tier discounts) {%- endcomment -%}
+{%- assign _gross_per_bar = _base_price | divided_by: _bars_per_pack -%}
+
+{%- comment -%} Order line totals (cents): 1, 2, or 3 packs × per-pack price {%- endcomment -%}
+{%- assign _compare_total_1 = _base_price -%}
+{%- assign _sub_total_1 = _sub_price_1 -%}
+{%- assign _ot_total_1 = _base_price -%}
+{%- assign _compare_total_2 = _base_price | times: 2 -%}
+{%- assign _sub_total_2 = _sub_price_2 | times: 2 -%}
+{%- assign _ot_total_2 = _ot_pack_price_2 | times: 2 -%}
+{%- assign _compare_total_3 = _base_price | times: 3 -%}
+{%- assign _sub_total_3 = _sub_price_4 | times: 3 -%}
+{%- assign _ot_total_3 = _ot_pack_price_4 | times: 3 -%}
+
+{%- assign _perks = _b.subscription_perks.value -%}
+{%- assign _has_selling_plans = false -%}
+{%- if product.selling_plan_groups.size > 0 -%}
+  {%- assign _has_selling_plans = true -%}{%- endif -%}{%- assign _first_variant = product.variants.first -%}
+
+{%- assign _accent_color = block.settings.accent_color | default: '#C5273C' -%}
+{%- assign _size_heading = block.settings.size_selector_heading | default: 'Choose Size (12 bars per pack)' -%}
+{%- assign _flavor_heading = block.settings.flavor_selector_heading | default: 'Choose Flavors' -%}
+{%- assign _atc_text = block.settings.atc_button_text | default: 'Add to Cart' -%}
+
+  <div
+    class="bundle-subscription-buybox"
+    style="--bs-red: {{ _accent_color }};"
+    data-has-selling-plans="{% if _has_selling_plans %}true{% else %}false{% endif %}"
+    {{ block.shopify_attributes }}>
+
+  {%- comment -%}
+    ── a) PACK QUANTITY SELECTOR ──────────────────────────────────
+    Radio buttons for 1 / 2 / 3+ packs (mix-and-match: exact total for 2; minimum 3 for 3+).
+    Default: 2 packs. JS reads [name="pack-count"] values 1, 2, 3.
+    Pack tile badges: pack_2_badge / pack_4_badge (3-pack tile; setting id unchanged).
+  {%- endcomment -%}
+  <fieldset class="pack-selector" aria-label="Choose pack size">
+    <legend class="pack-selector__heading">{{ _size_heading }}</legend>
+
+    <div class="pack-selector__options">
+      {%- for _size in _pack_sizes -%}
+        {%- assign _badge = '' -%}
+        {%- if _size == '2' -%}
+          {%- assign _badge = block.settings.pack_2_badge -%}
+        {%- elsif _size == '3' -%}
+          {%- assign _badge = block.settings.pack_4_badge -%}
+        {%- endif -%}
+
+        {%- liquid
+          assign _discounted_pack_sub = _sub_price_1
+          assign _discounted_pack_ot = _base_price
+          if _size == '2'
+            assign _discounted_pack_sub = _sub_price_2
+            assign _discounted_pack_ot = _ot_pack_price_2
+          elsif _size == '3'
+            assign _discounted_pack_sub = _sub_price_4
+            assign _discounted_pack_ot = _ot_pack_price_4
+          endif
+          # Per-bar: floor to whole cents (always round down; $35.99/12 → $2.99 not $3.00)
+          assign _per_bar_sub_cents = _discounted_pack_sub | divided_by: _bars_per_pack
+          assign _per_bar_ot_cents = _discounted_pack_ot | divided_by: _bars_per_pack
+          assign _show_per_bar_compare = false
+          if _has_selling_plans
+            if _gross_per_bar > _per_bar_sub_cents
+              assign _show_per_bar_compare = true
+            endif
+          else
+            if _gross_per_bar > _per_bar_ot_cents
+              assign _show_per_bar_compare = true
+            endif
+          endif
+        -%}
+
+        <label class="pack-selector__option{%- if _badge != blank %} pack-selector__option--has-badge{%- endif -%}" for="pack-count-{{ _size }}">
+          <input
+            class="pack-selector__radio"
+            type="radio"
+            id="pack-count-{{ _size }}"
+            name="pack-count"
+            value="{{ _size }}"
+            data-pack-count="{{ _size }}"
+            data-min-packs="{{ _size }}"
+            {%- if _size == '1' %}
+            checked{%- endif -%}>
+          {%- if _badge != blank -%}
+            <span
+              class="pack-selector__badge"
+              aria-label="{{ _badge }}">{{ _badge }}</span>
+          {%- endif -%}
+          <span class="pack-selector__label">
+            <span class="pack-selector__pack-name">
+              {%- if _size == '1' -%}
+                1 Pack
+              {%- elsif _size == '3' -%}
+                3+ Packs
+              {%- else -%}
+                {{ _size }} Packs
+              {%- endif -%}
+            </span>
+            <span class="pack-selector__per-bar-line">
+              <s
+                class="pack-selector__per-bar-gross"
+                data-gross-cents="{{ _gross_per_bar }}"
+                {%- unless _show_per_bar_compare %} hidden{% endunless %}>{{ _gross_per_bar | money }}</s>
+              <span class="pack-selector__per-bar-net">
+                <span
+                  class="pack-selector__per-bar"
+                  data-per-bar-subscribe="{{ _per_bar_sub_cents | money }}"
+                  data-per-bar-onetime="{{ _per_bar_ot_cents | money }}"
+                  data-sub-cents="{{ _per_bar_sub_cents }}"
+                  data-ot-cents="{{ _per_bar_ot_cents }}"
+                >{%- if _has_selling_plans -%}{{ _per_bar_sub_cents | money }}{%- else -%}{{ _per_bar_ot_cents | money }}{%- endif -%}</span><span class="pack-selector__per-bar-unit">/bar</span>
+              </span>
+            </span>
+          </span>
+        </label>
+      {%- endfor -%}
+    </div>
+  </fieldset>
+
+
+  {%- comment -%}
+    ── b) FLAVOR SELECTOR — single flavor for 1 PACK ────────────
+    Radio list matching the mix-match visual style.
+    Hidden on load (2 packs default). JS shows when pack = 1.
+  {%- endcomment -%}
+  <div
+    class="variant-selector"
+    data-variant-selector
+    style="display: none;"
+    aria-hidden="true">
+    <p class="variant-selector__label">{{ _flavor_heading }}</p>
+
+    <ul class="variant-selector__list">
+      {%- for _v in product.variants -%}
+        {%- assign _flavor_thumb = _v.featured_image -%}
+        <li class="variant-selector__item{%- unless _v.available %} variant-selector__item--oos{%- endunless -%}">
+          <label class="variant-selector__row" for="variant-1pack-{{ _v.id }}">
+            <input
+              class="variant-selector__radio"
+              type="radio"
+              id="variant-1pack-{{ _v.id }}"
+              name="variant-1pack"
+              value="{{ _v.id }}"
+              data-variant-radio
+              {%- if forloop.first %}
+              checked{%- endif -%}
+              {%- unless _v.available %}
+              disabled{%- endunless -%}>
+            {%- if _flavor_thumb -%}
+              <img
+                class="variant-selector__thumb"
+                src="{{ _flavor_thumb | image_url: width: 80 }}"
+                alt="{{ _v.title | escape }}"
+                width="44"
+                height="44"
+                loading="lazy">
+            {%- else -%}
+              <span class="variant-selector__thumb variant-selector__thumb--placeholder"></span>
+            {%- endif -%}
+            <span class="variant-selector__flavor-name">{{ _v.title }}</span>
+            {%- if _v.metafields.custom.is_new.value -%}
+              <span class="variant-selector__new-badge">New!</span>
+            {%- endif -%}
+            {%- unless _v.available -%}
+              <span class="variant-selector__oos-label">Out of Stock</span>
+            {%- endunless -%}
+            <span class="variant-selector__radio-indicator" aria-hidden="true"></span>
+          </label>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <input
+      type="hidden"
+      name="id"
+      data-selected-variant-id
+      value="{{ _first_variant.id }}">
+  </div>
+
+
+  {%- comment -%}
+    ── c) FLAVOR MIX-AND-MATCH — 2 or 3+ packs ─
+    Visible on load (2 packs default). +/- steppers per variant.
+    JS: exact total 2 (caps +); minimum 3 for 3+ (no cap).
+  {%- endcomment -%}
+  <div
+    class="mix-match-selector"
+    data-mix-match-selector
+    aria-label="Mix and match flavors">
+    <div class="mix-match-selector__header">
+      <p class="mix-match-selector__heading">{{ _flavor_heading }}</p>
+    </div>
+
+    <ul class="mix-match-selector__list" role="list">
+      {%- for _v in product.variants -%}
+        {%- assign _flavor_thumb = _v.featured_image -%}
+        <li
+          class="mix-match-selector__item{%- unless _v.available %} mix-match-selector__item--unavailable{%- endunless -%}"
+          data-variant-id="{{ _v.id }}"
+          data-available="{{ _v.available }}">
+          {%- if _flavor_thumb -%}
+            <img
+              class="mix-match-selector__thumb"
+              src="{{ _flavor_thumb | image_url: width: 80 }}"
+              alt="{{ _v.title | escape }}"
+              width="44"
+              height="44"
+              loading="lazy">
+          {%- else -%}
+            <span class="mix-match-selector__thumb mix-match-selector__thumb--placeholder"></span>
+          {%- endif -%}
+
+          <span class="mix-match-selector__flavor-name">{{ _v.title }}</span>
+
+          {%- if _v.metafields.custom.is_new.value -%}
+            <span class="variant-selector__new-badge">New!</span>
+          {%- endif -%}
+
+          {%- unless _v.available -%}
+            <span class="mix-match-selector__oos-badge">Out of Stock</span>
+          {%- endunless -%}
+
+          <div
+            class="mix-match-selector__stepper"
+            role="group"
+            aria-label="{{ _v.title }} quantity">
+            <button
+              type="button"
+              class="mix-match-selector__btn mix-match-selector__btn--minus"
+              data-action="decrease"
+              data-variant-id="{{ _v.id }}"
+              {%- unless _v.available %}
+              disabled
+              aria-disabled="true"
+              {%- endunless -%}
+              aria-label="Remove one {{ _v.title }}">&minus;</button>
+
+            <span
+              class="mix-match-selector__qty"
+              data-qty="{{ _v.id }}"
+              aria-label="{{ _v.title }} quantity">0</span>
+
+            <button
+              type="button"
+              class="mix-match-selector__btn mix-match-selector__btn--plus"
+              data-action="increase"
+              data-variant-id="{{ _v.id }}"
+              {%- unless _v.available %}
+              disabled
+              aria-disabled="true"
+              {%- endunless -%}
+              aria-label="Add one {{ _v.title }}">+</button>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+  </div>
+
+
+  {%- comment -%}
+    ── d) PURCHASE OPTIONS — Subscribe & Save / One Time ─────────
+    Custom radio tiles replace Skio's injected picker (which
+    only works for single-variant selection).
+    Phase 1: UI structure only. Skio selling_plan_id wiring
+    and real subscription pricing come in Phase 2.
+    Pricing shown here is calculated from product.price and
+    the per-pack bundle.subscription_discount_percent_X metafields.
+    JS reads the data-* attributes below to swap displayed price
+    when the customer changes pack count.
+  {%- endcomment -%}
+  <div
+    class="purchase-options"
+    data-purchase-options
+    data-compare-pack-cents="{{ _base_price }}"
+    data-sub-pack-cents-1="{{ _sub_price_1 }}"
+    data-sub-pack-cents-2="{{ _sub_price_2 }}"
+    data-sub-pack-cents-3="{{ _sub_price_4 }}"
+    data-onetime-pack-cents-1="{{ _base_price }}"
+    data-onetime-pack-cents-2="{{ _ot_pack_price_2 }}"
+    data-onetime-pack-cents-3="{{ _ot_pack_price_4 }}"
+    data-sub-total-1="{{ _sub_total_1 | money }}"
+    data-sub-total-2="{{ _sub_total_2 | money }}"
+    data-sub-total-3="{{ _sub_total_3 | money }}"
+    data-compare-total-1="{{ _compare_total_1 | money }}"
+    data-compare-total-2="{{ _compare_total_2 | money }}"
+    data-compare-total-3="{{ _compare_total_3 | money }}"
+    data-onetime-total-1="{{ _ot_total_1 | money }}"
+    data-onetime-total-2="{{ _ot_total_2 | money }}"
+    data-onetime-total-3="{{ _ot_total_3 | money }}"
+    data-discount-pct-1="{{ _discount_pct_1 }}"
+    data-discount-pct-2="{{ _discount_pct_2 }}"
+    data-discount-pct-3="{{ _discount_pct_4 }}">
+
+    {%- comment -%} ── Subscribe & Save tile — only rendered if selling plans exist on this product {%- endcomment -%}
+    {%- if _has_selling_plans -%}
+      <label class="purchase-option purchase-option--subscribe" for="purchase-type-subscribe">
+        <input
+          class="purchase-option__radio"
+          type="radio"
+          id="purchase-type-subscribe"
+          name="purchase-type"
+          value="subscribe"
+          data-purchase-type
+          checked>
+        <div class="purchase-option__inner">
+          <div class="purchase-option__content">
+            <div class="purchase-option__header">
+              <span class="purchase-option__title">Subscribe &amp; Save</span>
+              <span class="purchase-option__discount-badge" data-discount-badge aria-live="polite">Save {{ _discount_pct_2 }}%</span>
+              <div class="purchase-option__pricing">
+                <s class="purchase-option__compare-price" data-compare-price>{{ _compare_total_2 | money }}</s>
+                <span class="purchase-option__price" data-sub-price>{{ _sub_total_2 | money }}</span>
+              </div>
+            </div>
+
+            {%- comment -%} Frequency + perks: wrapped for CSS height animation when subscribe is selected {%- endcomment -%}
+            <div class="purchase-option__subscribe-expand">
+              <div class="purchase-option__subscribe-expand-inner">
+                {%- comment -%} Frequency dropdown — options sourced from product.selling_plan_groups {%- endcomment -%}
+                <div class="purchase-option__frequency-wrap" data-frequency-panel>
+                  <div class="frequency-select-wrap">
+                    <select
+                      class="frequency-select"
+                      data-frequency-select
+                      aria-label="Delivery frequency">
+                      {%- for _group in product.selling_plan_groups -%}
+                        {%- for _plan in _group.selling_plans -%}
+                          <option
+                            value="{{ _plan.id }}"
+                            {%- if forloop.parentloop.first and forloop.index == 2 %}
+                            selected{%- endif -%}>{{ _plan.name }}</option>
+                        {%- endfor -%}
+                      {%- endfor -%}
+                    </select>
+                    <span class="frequency-select__chevron" aria-hidden="true">
+                      <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.399903 0.399999L6.3999 6L12.3999 0.4" stroke="black" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                {%- comment -%} Perks checklist {%- endcomment -%}
+                <ul class="purchase-option__perks" data-perks-list>
+                  {%- if _perks != blank -%}
+                    {%- for _perk in _perks -%}
+                      <li class="purchase-option__perk">{{ _perk }}</li>
+                    {%- endfor -%}
+                  {%- else -%}
+                    <li class="purchase-option__perk">Buy More, Save More On Recurring Orders</li>
+                    <li class="purchase-option__perk">Free Shipping</li>
+                    <li class="purchase-option__perk">Exclusive Access to New Flavors</li>
+                    <li class="purchase-option__perk">Pause, Skip, or Cancel Anytime</li>
+                  {%- endif -%}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
+    {%- endif -%}
+
+    {%- comment -%} ── One Time Purchase tile ── {%- endcomment -%}
+    <label class="purchase-option purchase-option--onetime" for="purchase-type-onetime">
+      <input
+        class="purchase-option__radio"
+        type="radio"
+        id="purchase-type-onetime"
+        name="purchase-type"
+        value="onetime"
+        data-purchase-type
+        {%- unless _has_selling_plans %} checked{%- endunless -%}>
+      <div class="purchase-option__inner purchase-option__inner--row">
+        <span class="purchase-option__title">One Time Purchase</span>
+        <span class="purchase-option__price" data-onetime-price>{{ _ot_total_2 | money }}</span>
+      </div>
+    </label>
+
+  </div>
+
+
+  {%- comment -%}
+    ── ADD TO CART BUTTON ─────────────────────────────────────────
+    Disabled until selection is complete (enforced by JS).
+    AJAX /cart/add.js submission is Phase 3.
+  {%- endcomment -%}
+  <div class="bundle-subscription-buybox__actions">
+    <button
+      type="button"
+      class="bundle-atc-btn"
+      data-add-to-cart
+      disabled
+      aria-disabled="true"
+      aria-label="Add to cart — complete your selection first">
+      {{ _atc_text }}
+    </button>
+  </div>
+
+</div>
+
+<script src="{{ 'bundle-subscription.js' | asset_url }}" defer></script>

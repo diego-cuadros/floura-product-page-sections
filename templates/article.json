@@ -1,0 +1,61 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "featured-image": {
+      "type": "main-article-featured-image",
+      "settings": {
+        "style": "inset",
+        "height": "pt-two-thirds-screen-height",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "main": {
+      "type": "main-article",
+      "settings": {
+        "display_on_card": false,
+        "show_image": false,
+        "show_author": false,
+        "show_date": false,
+        "show_share_links": true,
+        "show_tags": true,
+        "show_next_previous_links": true,
+        "max_width": "medium",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "blog_posts_BRpfEK": {
+      "type": "blog-posts",
+      "disabled": true,
+      "settings": {
+        "display_on_card": false,
+        "posts_per_row_desktop": 3,
+        "title": "Blog posts",
+        "blog": "news",
+        "post_limit": 3,
+        "crop": "aspect-w-4 aspect-h-3",
+        "image_shape": "default",
+        "blog_show_author": false,
+        "blog_show_date": true,
+        "show_post_excerpt": true,
+        "show_view_all": true,
+        "color_scheme": "scheme-6c3d44eb-acc8-48df-8fae-7b22ab978a32",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "featured-image",
+    "main",
+    "blog_posts_BRpfEK"
+  ]
+}

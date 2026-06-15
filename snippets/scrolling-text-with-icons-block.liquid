@@ -1,0 +1,15 @@
+<div
+  {% if block.settings.icon != 'none' %}
+    class="flex items-center justify-start"
+  {% endif %}
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.icon != 'none' %}
+    <span class="{{ icon_margin }} inline-block {{ icon_size }} {% if section.settings.show_border %}border-[calc(var(--icon-thickness)_*_1px)]{% else %}border-0{% endif %} rounded-full border-current {{ section.settings.background_color }}">
+      {% render 'theme-icon', icon: block.settings.icon %}
+    </span>
+  {% endif %}
+  <span>
+    {{ block.settings.text }}
+  </span>
+</div>

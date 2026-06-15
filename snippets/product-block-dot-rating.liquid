@@ -1,0 +1,62 @@
+{% liquid
+  assign max_rating = 5
+  assign dot_classes = 'h-3.5 w-3.5 rounded-full border-general'
+
+  case block.settings.dot_color
+    when 'text'
+      assign dot_classes = dot_classes | append: ' border-scheme-text'
+      assign filled_class = 'bg-scheme-text'
+    when 'accent_1'
+      assign dot_classes = dot_classes | append: ' border-scheme-accent-1'
+      assign filled_class = 'bg-scheme-accent-1'
+    when 'accent_2'
+      assign dot_classes = dot_classes | append: ' border-scheme-accent-2'
+      assign filled_class = 'bg-scheme-accent-2'
+  endcase
+%}
+
+<div
+  class="{{ block_base_classes }}"
+  {{ block.shopify_attributes }}
+>
+  <ul
+    class="text-left"
+  >
+    {%- for i in (1..6) -%}
+      {%- capture title %}title_{{ i }}{%- endcapture -%}
+      {%- capture rating %}rating_{{ i }}{%- endcapture -%}
+      {%- capture dynamic_rating %}dynamic_rating_{{ i }}{%- endcapture -%}
+      {%- liquid
+        assign title = block.settings[title]
+        assign rating = block.settings[rating]
+        assign dynamic_rating = block.settings[dynamic_rating]
+      -%}
+      {%- if title != '' -%}
+        <li class="flex items-center justify-between gap-x-3 pb-[0.7em] last:pb-0 {% if block.settings.uppercase_text %}uppercase{%  endif %}">
+          {{ title }}
+          <div class="flex gap-x-1 pt-icon-center">
+            {% if dynamic_rating != blank %}
+              {%- assign rating_as_number = dynamic_rating | plus: 0 -%}
+              {% if rating_as_number <= max_rating %}
+                {%- assign rating = rating_as_number -%}
+              {% endif %}
+            {% endif %}
+
+            <span class="sr-only">
+              {{
+                'blocks.product_dot_rating.out_of'
+                | t: value: rating, max: max_rating
+              }}
+            </span>
+
+            {%- for i in (1..max_rating) -%}
+              <span
+                class="{{ dot_classes }} {% if i <= rating %}{{ filled_class }}{% endif %}"
+              ></span>
+            {%- endfor -%}
+          </div>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</div>

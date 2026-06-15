@@ -1,0 +1,202 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "video_with_text_TXD6rR": {
+      "type": "video-with-text",
+      "name": "t:sections.video_with_text.name",
+      "settings": {
+        "display_on_card": false,
+        "video": "shopify://files/videos/Transform Your Gut Health with Flora's Innovative Fiber Bars.mp4",
+        "mode": "preview",
+        "playback": "inline",
+        "crop": "aspect-w-3 aspect-h-4",
+        "video_shape": "default",
+        "blob_type": 1,
+        "rotate_video": 0,
+        "video_position": "right",
+        "video_size": "half",
+        "disable_media_style": false,
+        "title": "About Floura",
+        "heading_size": "heading-feature",
+        "richtext": "<strong>Our Process, Your Impact.</strong> We transform what most would consider “trimmings” from fruit into nutritional gold. That cut cantaloupe, pineapple, or apple slices in your grocery store? The rinds and cores are helping you bridge the fiber gap, one delicious bite at a time. While many bars use date paste, we begin with apple paste made from fruit grown in upstate New York.  Each FiberCrush bar is packed with <strong>13 grams of fiber</strong> and <strong>providing 40% of your recommended weekly fiber diversity from 12 plants</strong>, it’s <strong>the most concentrated and diverse fiber bar on the market</strong>!",
+        "text_alignment": "text-left",
+        "button_link": "",
+        "button_label": "Shop Now",
+        "color_scheme": "",
+        "use_gradient_background": false
+      }
+    },
+    "featured_collection_aFpakU": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "",
+        "subheading": "",
+        "collection": "super-bars",
+        "no_products": 5,
+        "show_view_all": false,
+        "enable_quick_buy": true,
+        "display_on_card": true,
+        "layout": "grid",
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 5,
+        "slideshow_focus": "center",
+        "mobile_slide_width": "three_fifths",
+        "desktop_slide_width": 40,
+        "autoscroll_mode": "1",
+        "product_tiles_aspect_ratio": "",
+        "image_shape": "",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "max_width": "medium",
+        "display_on_card": true,
+        "color_scheme": "scheme-6c3d44eb-acc8-48df-8fae-7b22ab978a32",
+        "use_gradient_background": false
+      }
+    },
+    "blog_posts_VhDkEH": {
+      "type": "blog-posts",
+      "settings": {
+        "display_on_card": false,
+        "posts_per_row_desktop": 3,
+        "title": "Explore the big benefits of fiber",
+        "blog": "gutsy",
+        "post_limit": 3,
+        "crop": "aspect-w-3 aspect-h-4",
+        "image_shape": "default",
+        "blog_show_author": false,
+        "blog_show_date": false,
+        "show_post_excerpt": true,
+        "show_view_all": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "faq_BaWttt": {
+      "type": "faq",
+      "blocks": {
+        "question_3zEcWq": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What is the Fiber Gap?",
+            "answer": "<p>Only 5% of Americans meet the recommended daily fiber intake of 25g for women and 38g for men. Floura Bars help bridge this gap with delicious, fiber-rich whole foods.</p>"
+          }
+        },
+        "question_hpPMNk": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "How much fiber do I need to eat?",
+            "answer": "<p>Experts recommend that adults aim for <strong>25-38 grams of fiber daily</strong>, depending on age and gender. But it’s not just about how much—you also need a variety of fiber to support a diverse and thriving gut microbiome. That’s why nutritionists suggest eating <strong>30 different plant-based foods each week</strong> to get the full benefits of fiber.</p><p>At Floura, we make it easy to boost your fiber intake and diversity. Each bar or bite packs 12 whole plants, giving you 40% of your weekly fiber diversity in one delicious, convenient snack. It’s a simple, tasty way to nourish your gut and feel your best!</p>"
+          }
+        },
+        "question_RXtkcM": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "Why does plant diversity matter?",
+            "answer": "<p>Did you know experts recommend eating 30 different plants each week to fuel a healthy gut? That’s because diverse fiber supports the diverse microbes that keep your gut thriving. </p><p>Floura makes it easier than ever to meet that goal. With 12 whole plants in every bar or bite, Floura delivers 40% of your weekly fiber diversity in one delicious snack. Nourish your gut, one bite at a time.</p>"
+          }
+        },
+        "question_McMGU9": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What ingredients are you using?",
+            "answer": "<p>At Floura, our proprietary ingredients are anything but ordinary. Take our Red Apple Paste and SuperFiber Prebiotic Flour—crafted from innovative components like Fermented Watermelon Rind Flour and Red Apple Flour. These exceptional ingredients are prepared from fresh fruit trimmings in our facility, minimizing waste while maximizing flavor and nutrition.</p><p>What sets us apart? All our flours are made entirely from fruit, making them naturally gluten-free. And that’s not all—our products are free from gluten, dairy, emulsifiers, refined sugars (including corn syrup), stabilizers, and synthetic flavorings. Pure, clean, and bursting with goodness—that’s the Floura difference.</p>"
+          }
+        },
+        "question_6QLd9C": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What is the nutritional profile of a Floura Bar?",
+            "answer": "<p>The official nutrition profile for each bar is available on each product page.</p>"
+          }
+        },
+        "question_faiYgQ": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "Where do your produce trimmings come from?",
+            "answer": "<p>We partner with F&S Fresh Produce to rescue and upcycle fresh, high-quality fruits and vegetables that might otherwise go to waste. Their trusted network of responsible farmers follows best-in-class agricultural practices to ensure every bite meets the highest standards. At F&S, the produce is meticulously cleaned and prepared, ready to be transformed by Floura into something extraordinary. Together, we're giving fresh produce a second life and creating something truly meaningful.</p>"
+          }
+        },
+        "question_mWqdcq": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "Is your produce conventional or organic?",
+            "answer": "<p>Our produce trimmings include a mix of conventional and organic produce that is thoroughly washed, processed and tested in the F&S GFSI certified facility.</p>"
+          }
+        },
+        "question_aVU3U7": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "How often should I eat Floura?",
+            "answer": "<p>Incorporating Floura into daily life is an easy step toward hitting daily fiber goals. Whether as a snack or part of a balanced meal, they make nourishing your gut effortless.</p>"
+          }
+        },
+        "question_DfVef8": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "Can kids eat Floura FiberCrush Bars?",
+            "answer": "<p>Yes - they're great for the whole family! Everyone can benefit from our fiber-fuel. Our bars are a delicious way to help meet daily fiber needs for all ages.</p>"
+          }
+        },
+        "question_ERBYfe": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "How soon will I receive my order?",
+            "answer": "<p>Lead times for shipment are between 1-2 weeks after placing an order. Click here to see our shipping terms.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_3zEcWq",
+        "question_hpPMNk",
+        "question_RXtkcM",
+        "question_McMGU9",
+        "question_6QLd9C",
+        "question_faiYgQ",
+        "question_mWqdcq",
+        "question_aVU3U7",
+        "question_DfVef8",
+        "question_ERBYfe"
+      ],
+      "settings": {
+        "display_on_card": true,
+        "heading_text_style": "body",
+        "two_columns_desktop": true,
+        "title": "FAQs",
+        "richtext": "",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "video_with_text_TXD6rR",
+    "featured_collection_aFpakU",
+    "main",
+    "blog_posts_VhDkEH",
+    "faq_BaWttt"
+  ]
+}

@@ -1,0 +1,113 @@
+{%- liquid
+  assign placeholder_id = container_id | append: '-' | append: media.id
+  assign disable_media_style = disable_media_style | default: false
+
+  if rotate == null
+    assign rotate = 0
+  endif
+-%}
+
+{%- if shape contains 'default' or shape == '' or shape == blank -%}
+  <div
+    id="media-{{ placeholder_id }}"
+    class="media media--css-only {% if disable_media_style %}media--disable-styles{% endif %} {{ shape | split: '_' | last }} {% unless crop == '' or crop == blank or crop == 'natural' %}object-wrapper {{ crop }}{% endunless %}"
+  >
+    {{
+      'image'
+      | placeholder_svg_tag: 'media__styled-element media__styled-element--placeholder-svg w-full h-full fill-current text-scheme-text !bg-neutral-100'
+    }}
+  </div>
+{%- else -%}
+  <div id="media-{{ placeholder_id }}" class="media media--shape">
+    <div class="media__shape-container">
+      {%- comment -%}
+        Image shape
+      {%- endcomment -%}
+      <div
+        class="media__shape-wrapper"
+        style="clip-path: url(#clip-{{ shape_id }})"
+      >
+        {{
+          'image'
+          | placeholder_svg_tag: 'w-full h-full fill-current bg-neutral-100 text-scheme-text stroke-01'
+        }}
+      </div>
+
+      {%- comment -%}
+        Image shape outline
+      {%- endcomment -%}
+      <svg
+        class="media__svg absolute inset-0 {% if will_transform %}will-change-transform{% endif %}"
+        viewBox="0 0 200 200"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        {%- unless disable_media_style -%}
+          <use style="fill: none;" href="#outline-{{ shape_id }}" />
+        {%- endunless -%}
+      </svg>
+    </div>
+    {%- comment -%}
+      Drop shadow and border
+    {%- endcomment -%}
+    {%- if settings.media_drop_shadow_size > 0
+      and is_card == false
+      and disable_media_style == false
+    -%}
+      <div class="media__drop-shadow-container">
+        {%- unless settings.media_shadow_color == 'color-scheme-gradient' -%}
+          <svg
+            class="media__svg media__drop-shadow  media__drop-shadow--shape {% if will_transform %}will-change-transform{% endif %}"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            role="presentation"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <use class="media__drop-shadow-fill stroke-none"  href="#outline-{{ shape_id }}" />
+          </svg>
+        {%- else -%}
+          <div class="media__svg media__drop-shadow media__drop-shadow--shape">
+            <div
+              class="absolute inset-0 bg-scheme-gradient"
+              style="clip-path:url(#clip-{{ shape_id }})"
+            ></div>
+          </div>
+        {%- endunless -%}
+
+        {%- if settings.media_show_border_on_shadow -%}
+          <svg
+            class="media__svg media__drop-shadow-stroke {% if will_transform %}will-change-transform{% endif %}"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <use class="media__drop-shadow-stroke-path"  href="#outline-{{ shape_id }}" />
+          </svg>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+{%- unless rotate == 0 -%}
+  <style>
+    #media-{{ placeholder_id }} {
+      transform: rotate({{ rotate }}deg);
+    }
+  </style>
+{%- endunless -%}
+
+{% if image_width_mobile and image_width_desktop %}
+  {% style %}
+    #media-{{ placeholder_id }} {
+      width: {{ image_width_mobile }}vw;
+    }
+
+    @media (min-width: 990px) {
+      #media-{{ placeholder_id }} {
+        width: {{ image_width_desktop }}vw;
+      }
+    }
+  {% endstyle %}
+{% endif %}

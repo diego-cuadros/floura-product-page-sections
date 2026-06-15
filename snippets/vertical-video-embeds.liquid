@@ -1,0 +1,278 @@
+{%- liquid
+  assign embed_blocks = item.blocks | where: 'type', 'video_embed'
+
+  assign desktop_slide_width = 325
+  assign youtube_short_embed_height = 560.0
+  assign youtube_short_embed_width = 315.0
+
+  assign youtube_padding_bottom = youtube_short_embed_height | divided_by: youtube_short_embed_width | times: 100
+  assign mobile_slide_width = 'w-full'
+
+  assign section_has_raw_embed_code = false
+-%}
+
+{%- capture view_all_button -%}
+<a href="{{ collection.url }}" class="push-btn inline-block">
+  <span class="push-btn__surface">{{ 'collections.general.all_of_collection' | t: collection: collection.title }}</span>
+</a>
+{%- endcapture -%}
+<div
+  id="slideshow-{{ section.id }}-{{ index }}"
+  class="{% if item.settings.title != '' %}section-content-top-margin{% endif %} splide"
+  style="--desktop-slide-width: {{ desktop_slide_width }}px;"
+>
+  <div class="splide__track">
+    <ul class="splide__list">
+      {%- for block in embed_blocks -%}
+        <li
+          class="splide__slide {{ mobile_slide_width }} lg:w-[var(--desktop-slide-width)]"
+          {{ block.shopify_attributes }}
+        >
+          {%- liquid
+            assign use_placeholder = true
+            assign embed_code = block.settings.video_embed_code
+            assign type = ''
+            if embed_code != blank
+              assign type = 'embed_code'
+              assign use_placeholder = false
+              assign section_has_raw_embed_code = true
+            else
+              assign video_url = block.settings.video_url
+              if video_url contains 'youtube.com/shorts/'
+                assign type = 'youtube_short'
+                assign use_placeholder = false
+              endif
+              if video_url contains 'tiktok.com'
+                assign type = 'tiktok_url'
+                assign use_placeholder = false
+              endif
+              if video_url contains 'instagram.com' or video_url contains 'instagram.com/reel/'
+                assign type = 'instagram_reel'
+                assign use_placeholder = false
+              endif
+            endif
+          -%}
+
+          {%- unless use_placeholder -%}
+            {%- case type -%}
+              {%- when 'youtube_short' -%}
+                {%- liquid
+                  assign video_id_with_params = block.settings.video_url | split: '/shorts/' | last
+                  assign video_id = video_id_with_params | split: '?' | first
+                  assign video_id = video_id | split: '/' | last
+                -%}
+                <div
+                  class="relative"
+                  style="padding-bottom: {{ youtube_padding_bottom }}%;"
+                >
+                  <iframe
+                    class="absolute inset-0 h-full w-full"
+                    width="315"
+                    height="560"
+                    src="https://www.youtube.com/embed/{{ video_id }}"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    {% unless section.index <= 3 %}
+                      loading="lazy"
+                    {% endunless %}
+                  ></iframe>
+                </div>
+              {%- when 'tiktok_url' -%}
+                <data-island
+                  x-data="TikTokEmbed('{{ block.settings.video_url }}')"
+                  class="relative [&>*]:!m-0"
+                  {% if section.index <= 3 %}
+                    on="before:visible"
+                  {% else %}
+                    on="load"
+                  {% endif %}
+                ></data-island>
+              {%- when 'instagram_reel' -%}
+                {%- liquid
+                  if video_url contains 'instagram.com'
+                    assign video_id_with_params = block.settings.video_url | split: '/reels/' | last
+                  else
+                    assign video_id_with_params = block.settings.video_url | split: '/reel/' | last
+                  endif
+                  assign video_id = video_id_with_params | split: '?' | first
+                  assign video_id = video_id | split: '/' | last
+                -%}
+                <div
+                  class="relative"
+                >
+                  <blockquote
+                      class="instagram-media minimal-reel"
+                      data-instgrm-permalink="https://www.instagram.com/reel/{{ video_id }}/?utm_source=ig_embed"
+                      data-instgrm-version="14"
+                      style="border: 0; padding: 0; margin: 0; max-width: 100%; width: 100%;"
+                    ></blockquote>
+                  
+                  {% if section.index <= 3 %}
+                    {% # theme-check-disable RemoteAsset %}
+                    <script async src="//www.instagram.com/embed.js"></script>
+                    {% # theme-check-enable RemoteAsset %}
+                  {% else %}
+                    <data-island
+                      x-data="AsyncScriptLoader"
+                      on="before:visible"
+                    >
+                      <template x-ref="scripts">
+                        {% # theme-check-disable RemoteAsset %}
+                        <script
+                          async
+                          src="//www.instagram.com/embed.js"
+                        ></script>
+                        {% # theme-check-enable RemoteAsset %}
+                      </template>
+                    </data-island>
+                  {% endif %}
+                </div>
+              {%- when 'embed_code' -%}
+                <div
+                  class="vertical-embed-wrapper relative"
+                  style="padding-bottom: {{ youtube_padding_bottom }}%;"
+                >
+                  {{ block.settings.video_embed_code }}
+                </div>
+            {%- endcase -%}
+          {%- else -%}
+            <div
+              class="relative"
+              style="padding-bottom: {{ youtube_padding_bottom }}%;"
+            >
+          <data-island
+              class="absolute inset-0 h-full w-full"
+              x-data="{
+                videoIndex: {{ forloop.index0 }},
+                togglePlay() {
+                  const video = this.$refs.video;
+
+                  // Pause all videos
+                  document.querySelectorAll('video').forEach((v) => {
+                    if (v !== video) {
+                      v.pause();
+                    }
+                  });
+
+                  if (video.paused) {
+                    video.play();
+                    $store.videoPlayer.currentPlayingIndex = this.videoIndex;
+                  } else {
+                    video.pause();
+                    $store.videoPlayer.currentPlayingIndex = null;
+                  }
+                }
+              }"
+              @click="togglePlay()"
+              on="before:visible"
+            >
+            <video
+              x-ref="video"
+              playsinline
+              preload="auto"
+              webkit-playsinline
+             {% if  block.settings.poster_img != blank %} poster="{{ block.settings.poster_img | image_url }}" {% endif %}
+              class="h-full w-full object-cover"
+            >
+              <source
+                src="{% if block.settings.video_url != blank %}{{ block.settings.video_url }}{% else %}{{ 'placeholder-video.mp4' | asset_url }}{% endif %}"
+                type="video/mp4"
+              >
+              Your browser does not support the video tag.
+            </video>
+
+            <!-- Play Button: show if not the currently playing video -->
+            <template x-if="$store.videoPlayer.currentPlayingIndex !== videoIndex">
+              {% render 'playbtn' %}
+            </template>
+
+            <!-- Pause Button: show only if currently playing -->
+            <template x-if="$store.videoPlayer.currentPlayingIndex === videoIndex">
+              {% render 'pausebtn' %}
+            </template>
+
+          </data-island>
+
+            </div>
+          {%- endunless -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  <div class="splide__arrows mt-5 flex items-center justify-between px-section">
+    {%- if collection != blank -%}
+      <div>
+        {%- if collection.all_products_count > item.settings.no_products
+          and item.settings.show_view_all
+        -%}
+          {{ view_all_button }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- render 'splide-navigation' %}
+  </div>
+  <script>
+  document.addEventListener("alpine:init", () => {
+    Alpine.store('videoPlayer', {
+      currentPlayingIndex: null
+    });
+  });
+</script>
+  <script class="slideshow-options" type="application/json">
+    {
+      "mediaQuery": "min",
+      "arrows": true,
+      "pagination": false,
+      "rewind": true,
+      "autoWidth": true,
+      "gap": "1.25rem",
+      "focus": {{ item.settings.slideshow_focus | json }},
+      "type": "loop",
+      "autoScroll": {
+        "autoStart": {% if item.settings.autoscroll_mode == '0' or item.settings.autoscroll_mode == blank %}false{% else %}true{% endif %},
+        "speed": {% if item.settings.autoscroll_mode == blank %}0{% else %}{{ item.settings.autoscroll_mode | plus: 0 | json }}{% endif %}
+      },
+      "padding": {
+        "left": "1.25rem",
+        "right": "1.25rem"
+      },
+      "breakpoints": {
+        "990": {
+          "type": "loop",
+          "gap": "2.5rem",
+          "padding": {
+            "left": "2.5rem",
+            "right": "2.5rem"
+          }
+        }
+      }
+    }
+  </script>
+  {%- if section_has_raw_embed_code -%}
+    <style>
+      .vertical-embed-wrapper > blockquote,
+      .vertical-embed-wrapper > div,
+      .vertical-embed-wrapper > iframe {
+        margin: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        position: absolute !important;
+        inset: 0 !important;
+        margin: 0 !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .vertical-embed-wrapper iframe {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        border: 0 !important;
+      }
+    </style>
+  {%- endif -%}
+</div>

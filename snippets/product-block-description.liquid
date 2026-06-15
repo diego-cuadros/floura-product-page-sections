@@ -1,0 +1,56 @@
+{%- if block.settings.truncate_description
+  and product.description.size > 100
+-%}
+  <div
+    class="js-enabled {{ block_base_classes }}"
+    x-data="{ open: false }"
+    {{ block.shopify_attributes }}
+  >
+    <div
+      class="rte {{ block.settings.text_align }}"
+      x-show="!open"
+    >
+      {{
+        product.description
+        | strip_newlines
+        | strip_html
+        | truncatewords: 25
+        | newline_to_br
+      }}
+    </div>
+    <button
+      @click="open = !open"
+      x-show="!open"
+      :aria-expanded="open ? true : 'false'"
+      class="font-secondary theme-link mt-2.5 cursor-pointer text-base{% if block.settings.text_align == 'text-center' %} w-full text-center{% endif %}"
+    >
+      {{ 'products.product.read_more' | t }}
+    </button>
+    <data-island
+      class="rte {{ block.settings.text_align }}"
+      x-show="open"
+      x-data="RTE"
+      on="idle"
+      style="display: none;"
+    >
+      {{- product.description -}}
+    </data-island>
+  </div>
+  <noscript>
+    <div class="rte {{ block.settings.text_align }}">
+      {{ product.description }}
+    </div>
+  </noscript>
+{%- else -%}
+  <div
+    class="{{ block_base_classes }} w-full max-w-full"
+    {{ block.shopify_attributes }}
+  >
+    <data-island
+      x-data="RTE"
+      class="rte {{ block.settings.text_align }}"
+    >
+      {{ product.description }}
+    </data-island>
+  </div>
+{%- endif -%}

@@ -1,0 +1,290 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "max_width": "medium",
+        "display_on_card": true,
+        "color_scheme": "scheme-6c3d44eb-acc8-48df-8fae-7b22ab978a32",
+        "use_gradient_background": false
+      }
+    },
+    "image_with_text_RLF8m8": {
+      "type": "image-with-text",
+      "name": "t:sections.image_with_text.name",
+      "settings": {
+        "display_on_card": false,
+        "section-class": "bundle-image-text",
+        "image": "shopify://shop_images/12345_2.webp",
+        "crop": "",
+        "image_shape": "default",
+        "blob_type": 1,
+        "rotate_image": 0,
+        "image_position": "left",
+        "image_size": "half",
+        "disable_media_style": false,
+        "title": "Eat   .   Flourish   .   Live",
+        "heading_size": "heading-feature",
+        "richtext": "<p><a href=\"/\" title=\"/\">Home</a> &gt; Add to bundle</p>",
+        "text_alignment": "text-left",
+        "button_link": "",
+        "button_label": "Shop Now",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "bundle_CEmFdV": {
+      "type": "bundle",
+      "blocks": {
+        "product_bmnM8N": {
+          "type": "product",
+          "settings": {
+            "product": "matcha-blueberry-1"
+          }
+        },
+        "product_DjqpnQ": {
+          "type": "product",
+          "settings": {
+            "product": "brambleberry-lavender-1"
+          }
+        },
+        "product_zLFLT4": {
+          "type": "product",
+          "settings": {
+            "product": "mango-cardamom-1"
+          }
+        },
+        "product_FmXRgG": {
+          "type": "product",
+          "settings": {
+            "product": "raspberry-rose-1"
+          }
+        },
+        "product_LWYMb7": {
+          "type": "product",
+          "settings": {
+            "product": "vanilla-rooibos-1"
+          }
+        }
+      },
+      "block_order": [
+        "product_bmnM8N",
+        "product_DjqpnQ",
+        "product_zLFLT4",
+        "product_FmXRgG",
+        "product_LWYMb7"
+      ],
+      "name": "t:sections.bundle_product.presets.name",
+      "settings": {
+        "heading": "Build Your Fiber Bundle",
+        "description": "<p>Upgrade your lifestyle.  Build your custom bundle, with single flavors, to bridge the fiber gap & take control of your wellness goals.</p>",
+        "add_to_button_label": "Add to bundle",
+        "image_ratio": "adapt",
+        "error_message": "You can only add up to",
+        "bundle_heading": "Your bundle",
+        "save_text": "Buy 4 Get The 5th Box Free.",
+        "total_heading": "Total",
+        "bundle_product_limit": 5,
+        "padding_top": 52,
+        "padding_bottom": 64
+      }
+    },
+    "vertical_video_embeds_YAR8Br": {
+      "type": "vertical-video-embeds",
+      "blocks": {
+        "video_embed_tcmF4j": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/d28abf3f94be4d1caa4c77527f304256.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_TnzFJJ": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/7dbeceec3c47456ebeccdc78613be89d.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_K9pJcA": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a8e197945bd8463dbc4e96fddbddf22a.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_Bh88Tm": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a9588f4c992243daaaa01eb6fa555ef6.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_pmbheM": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/577799218ae44cd49e8cb98b2d3d586e.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_YtXMCV": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/5f34c35ca2464c839ddbe06fbdd5a690.mp4",
+            "video_embed_code": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_embed_tcmF4j",
+        "video_embed_TnzFJJ",
+        "video_embed_K9pJcA",
+        "video_embed_Bh88Tm",
+        "video_embed_pmbheM",
+        "video_embed_YtXMCV"
+      ],
+      "name": "t:sections.vertical_video_embeds.name",
+      "settings": {
+        "title": "Floura <strong>from the Community</strong>",
+        "subheading": "",
+        "slideshow_focus": "center",
+        "autoscroll_mode": "1",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "faq_nGdKqz": {
+      "type": "faq",
+      "blocks": {
+        "question_D6yhGg": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What is the Fiber Gap?",
+            "answer": "<p>Only 5% of Americans meet the recommended daily fiber intake of 25g for women and 38g for men. Floura Bars help bridge this gap with delicious, fiber-rich whole foods.</p>"
+          }
+        },
+        "question_tLXPp7": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "How much fiber do I need to eat?",
+            "answer": "<p>Experts recommend that adults aim for <strong>25-38 grams of fiber daily</strong>, depending on age and gender. But it’s not just about how much—you also need a variety of fiber to support a diverse and thriving gut microbiome. That’s why nutritionists suggest eating <strong>30 different plant-based foods each week</strong> to get the full benefits of fiber.</p><p>At Floura, we make it easy to boost your fiber intake and diversity. Each bar or bite packs 12 whole plants, giving you 40% of your weekly fiber diversity in one delicious, convenient snack. It’s a simple, tasty way to nourish your gut and feel your best!</p>"
+          }
+        },
+        "question_iEJAWC": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "Why does plant diversity matter?",
+            "answer": "<p>Did you know experts recommend eating 30 different plants each week to fuel a healthy gut? That’s because diverse fiber supports the diverse microbes that keep your gut thriving. </p><p>Floura makes it easier than ever to meet that goal. With 12 whole plants in every bar or bite, Floura delivers 40% of your weekly fiber diversity in one delicious snack. Nourish your gut, one bite at a time.</p>"
+          }
+        },
+        "question_jL6wQ6": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What ingredients are you using?",
+            "answer": "<p>At Floura, our proprietary ingredients are anything but ordinary. Take our Red Apple Paste and SuperFiber Prebiotic Flour—crafted from innovative components like Fermented Watermelon Rind Flour and Red Apple Flour. These exceptional ingredients are prepared from fresh fruit trimmings in our facility, minimizing waste while maximizing flavor and nutrition.</p><p>What sets us apart? All our flours are made entirely from fruit, making them naturally gluten-free. And that’s not all—our products are free from gluten, dairy, emulsifiers, refined sugars (including corn syrup), stabilizers, and synthetic flavorings. Pure, clean, and bursting with goodness—that’s the Floura difference.</p>"
+          }
+        },
+        "question_DGNgTj": {
+          "type": "question",
+          "settings": {
+            "icon": "none",
+            "title": "What is the nutritional profile of a Floura Bar?",
+            "answer": "<p>The official nutrition profile for each bar is available on each product page.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_D6yhGg",
+        "question_tLXPp7",
+        "question_iEJAWC",
+        "question_jL6wQ6",
+        "question_DGNgTj"
+      ],
+      "name": "t:sections.faq.name",
+      "settings": {
+        "mainimg": "shopify://shop_images/TH_Floura-Bites_1180705_1.webp",
+        "display_on_card": true,
+        "heading_text_style": "heading",
+        "two_columns_desktop": false,
+        "title": "Frequently Asked Questions",
+        "richtext": "",
+        "color_scheme": "",
+        "use_gradient_background": false,
+        "showbtn": true,
+        "showbtnlnk": ""
+      }
+    },
+    "testimonials_VV3jTt": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_XhdQNK": {
+          "type": "testimonial",
+          "settings": {
+            "rating": "5_stars",
+            "source": "Jillian D.",
+            "quote": "These bars are my new favorite daily snack.  They are all delicious!!",
+            "product": "matcha-blueberry-1"
+          }
+        },
+        "testimonial_Brkw3g": {
+          "type": "testimonial",
+          "settings": {
+            "rating": "5_stars",
+            "source": "Leah J",
+            "quote": "I love how this tastes.  Plus it has 13g of fiber, so it’s a very easy way to hit fiber goals.",
+            "product": "raspberry-rose-1"
+          }
+        },
+        "testimonial_FFEF48": {
+          "type": "testimonial",
+          "settings": {
+            "rating": "5_stars",
+            "source": "Kristen m.",
+            "quote": "Delicious! Full of fiber and super satiating. A perfect midday snack",
+            "product": "mango-cardamom-1"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_XhdQNK",
+        "testimonial_Brkw3g",
+        "testimonial_FFEF48"
+      ],
+      "name": "t:sections.testimonials.name",
+      "settings": {
+        "display_on_card": true,
+        "title": "Trusted by People",
+        "max_width": 100,
+        "disable_media_style": false,
+        "crop": "",
+        "image_shape": "default",
+        "desktop_slide_width": 20,
+        "autoscroll_mode": "1",
+        "color_scheme": "scheme3",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_RLF8m8",
+    "bundle_CEmFdV",
+    "vertical_video_embeds_YAR8Br",
+    "faq_nGdKqz",
+    "testimonials_VV3jTt"
+  ]
+}

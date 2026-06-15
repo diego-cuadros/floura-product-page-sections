@@ -1,0 +1,103 @@
+{% liquid
+  assign tag_classes = 'relative box-border inline-block rounded-button px-2 py-0.5 text-center font-main'
+  assign title_size = block.settings.title_size
+  assign show_border = block.settings.show_border
+  assign background_color = block.settings.background_color
+  assign product_tags = product.tags
+
+  assign include_tags_list_raw = block.settings.include_tags_list
+  assign include_tags_array_raw = include_tags_list_raw | newline_to_br | strip_newlines | split: '<br />'
+
+  assign include_tags_list = ''
+
+  for include_tag in include_tags_array_raw
+    assign include_tag_downcased = include_tag | downcase
+
+    assign include_tags_list = include_tags_list | append: include_tag_downcased
+
+    unless forloop.last
+      assign include_tags_list = include_tags_list | append: ','
+    endunless
+  endfor
+
+  assign include_tags_array = include_tags_list | split: ','
+
+  assign allow_tag_links = block.settings.allow_tag_links
+  assign tag_collection = block.settings.tag_collection
+
+  if show_border
+    assign tag_classes = tag_classes | append: ' border-solid border-input border-current'
+  endif
+
+  assign list_classes = ''
+  if show_border == false
+    if background_color == 'bg-transparent text-scheme-text' and block.settings.display_on_card == false
+      assign list_classes = '-mx-2'
+    endif
+    if block.settings.display_on_card
+      if background_color == 'bg-scheme-card text-scheme-text' or background_color == 'bg-transparent text-scheme-text'
+        assign list_classes = '-mx-2'
+      endif
+    endif
+  endif
+
+  assign tags_output = ''
+  assign tags_count = 0
+%}
+
+{% for tag in product_tags %}
+  {%- capture tag_content -%}
+    {%- liquid
+      assign tag_downcase = tag | downcase
+      assign show_tag = true
+      if include_tags_list != blank
+        unless include_tags_array contains tag_downcase
+          assign show_tag = false
+        endunless
+      endif
+    -%}
+    {%- if show_tag -%}
+      {% if allow_tag_links %}
+        {% if tag_collection != blank %}
+          <li class="product-tags__tag">
+            <a href="{{ tag_collection.url }}/{{ tag_downcase | handleize }}">
+              <span class="product-tag pb-1 {{ tag_classes }} {{ title_size }} {{ background_color }} {% if settings.button_uppercase %}uppercase{% endif %}">
+                {{ tag }}
+              </span>
+            </a>
+          </li>
+        {% else %}
+          <li class="product-tags__tag">
+            <a href="/collections/all/{{ tag_downcase | handleize }}">
+              <span class="product-tag pb-1 {{ tag_classes }} {{ title_size }} {{ background_color }} {% if settings.button_uppercase %}uppercase{% endif %}">
+                {{ tag }}
+              </span>
+            </a>
+          </li>
+        {% endif %}
+      {% else %}
+        <li class="product-tags__tag">
+          <p class="product-tag pb-1 {{ tag_classes }} {{ title_size }} {{ background_color }}">
+            {{ tag }}
+          </p>
+        </li>
+      {% endif %}
+      {%- assign tags_count = tags_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endcapture -%}
+  {%- assign tags_output = tags_output | append: tag_content %}
+{% endfor %}
+
+{%- if tags_count > 0 -%}
+  <div
+    class="{{ block_base_classes }} text-sm"
+    id="{{ block.id }}"
+    {{ block.shopify_attributes }}
+  >
+    <ul
+      class="product-tags flex flex-wrap gap-3 {{ list_classes }}"
+    >
+      {{ tags_output }}
+    </ul>
+  </div>
+{%- endif -%}

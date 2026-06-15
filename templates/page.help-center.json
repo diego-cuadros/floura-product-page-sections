@@ -1,0 +1,108 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "custom_liquid_m9W8we": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom_liquid.name",
+      "settings": {
+        "title": "",
+        "custom_liquid": "<script defer src=\"https://help-center.gorgias.help/api/help-centers/loader.js?v=2\" data-gorgias-loader-help-center data-gorgias-help-center-uid=\"9ofrm9ld\"></script>",
+        "full_width": true,
+        "color_scheme": ""
+      }
+    },
+    "blog_posts_VhDkEH": {
+      "type": "blog-posts",
+      "settings": {
+        "display_on_card": false,
+        "posts_per_row_desktop": 4,
+        "title": "Explore the big benefits of fiber",
+        "blog": "gutsy",
+        "post_limit": 4,
+        "crop": "aspect-w-4 aspect-h-3",
+        "image_shape": "default",
+        "blog_show_author": false,
+        "blog_show_date": false,
+        "show_post_excerpt": true,
+        "show_view_all": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "video_with_text_TXD6rR": {
+      "type": "video-with-text",
+      "disabled": true,
+      "name": "t:sections.video_with_text.name",
+      "settings": {
+        "display_on_card": false,
+        "video": "shopify://files/videos/Transform Your Gut Health with Flora's Innovative Fiber Bars.mp4",
+        "mode": "preview",
+        "playback": "inline",
+        "crop": "aspect-w-3 aspect-h-4",
+        "video_shape": "default",
+        "blob_type": 1,
+        "rotate_video": 0,
+        "video_position": "right",
+        "video_size": "half",
+        "disable_media_style": false,
+        "title": "About Floura",
+        "heading_size": "heading-feature",
+        "richtext": "<strong>Our Process, Your Impact.</strong> We transform what most would consider “trimmings” from fruit into nutritional gold. That cut cantaloupe, pineapple, or apple slices in your grocery store? The rinds and cores are helping you bridge the fiber gap, one delicious bite at a time. While many bars use date paste, we begin with apple paste made from fruit grown in upstate New York.  Each FiberCrush bar is packed with <strong>13 grams of fiber</strong> and <strong>providing 40% of your recommended weekly fiber diversity from 12 plants</strong>, it’s <strong>the most concentrated and diverse fiber bar on the market</strong>!",
+        "text_alignment": "text-left",
+        "button_link": "",
+        "button_label": "Shop Now",
+        "color_scheme": "",
+        "use_gradient_background": false
+      }
+    },
+    "featured_collection_aFpakU": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "title": "",
+        "subheading": "",
+        "collection": "super-bars",
+        "no_products": 5,
+        "show_view_all": false,
+        "enable_quick_buy": true,
+        "display_on_card": true,
+        "layout": "grid",
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 5,
+        "slideshow_focus": "center",
+        "mobile_slide_width": "three_fifths",
+        "desktop_slide_width": 40,
+        "autoscroll_mode": "1",
+        "product_tiles_aspect_ratio": "",
+        "image_shape": "",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "max_width": "medium",
+        "display_on_card": true,
+        "color_scheme": "scheme-6c3d44eb-acc8-48df-8fae-7b22ab978a32",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "custom_liquid_m9W8we",
+    "blog_posts_VhDkEH",
+    "video_with_text_TXD6rR",
+    "featured_collection_aFpakU",
+    "main"
+  ]
+}

@@ -1,0 +1,242 @@
+{% liquid
+  unless container_class
+    case crop
+      when 'vertical'
+        assign container_class = 'aspect-w-9 aspect-h-16'
+      when 'four-three'
+        assign container_class = 'aspect-w-4 aspect-h-3'
+      when 'square'
+        assign container_class = 'aspect-w-1 aspect-h-1'
+      when 'widescreen'
+        assign container_class = 'aspect-w-16 aspect-h-9'
+      when 'cinematic'
+        assign container_class = 'aspect-w-2.35 aspect-h-1'
+      when 'full-screen'
+        assign container_class = 'h-screen first-section:h-screen-less-header-group'
+      when 'natural'
+        assign container_class = 'aspect-[1_/_var(--custom-aspect-h)] w-full'
+    endcase
+
+    if crop_desktop == crop
+      assign crop_desktop = 'same'
+    endif
+
+    case crop_desktop
+      when 'four-three'
+        assign container_class = container_class | append: ' lg:h-auto lg:aspect-w-4 lg:aspect-h-3'
+      when 'widescreen'
+        assign container_class = container_class | append: ' lg:h-auto lg:aspect-w-16 lg:aspect-h-9'
+      when 'cinematic'
+        assign container_class = container_class | append: ' lg:h-auto lg:aspect-w-2.35 lg:aspect-h-1'
+      when 'full-screen'
+        assign container_class = container_class | append: ' lg:aspect-auto lg:h-screen lg:first-section:h-screen-less-header-group'
+      when 'slideshow'
+        assign container_class = container_class | append: ' lg:aspect-auto lg:h-full'
+      when 'natural'
+        assign container_class = container_class | append: ' lg:aspect-[1_/_var(--custom-aspect-h)] lg:h-auto'
+    endcase
+  endunless
+
+  unless custom_aspect_h
+    if crop == 'natural' or crop_desktop == 'natural'
+      if video != blank
+        assign custom_aspect_h = video.sources[0].height | times: 1.00000000 | divided_by: video.sources[0].width
+      else
+        assign custom_aspect_h = 0.5625
+      endif
+    endif
+  endunless
+
+  assign video_size_class = 'w-full'
+
+  assign video_size_class = video_size_class | append: ' absolute inset-0 w-full h-full object-cover'
+
+  if style == 'inset'
+    assign video_size_class = video_size_class | append: ' media__styled-element'
+  endif
+
+  if heading_size == 'heading-feature'
+    assign content_max_width = 'max-w-xl'
+  else
+    assign content_max_width = 'max-w-lg'
+  endif
+
+  if display_content_below_image_on_mobile
+    assign content_class = 'lg:grid lg:absolute lg:inset-0 lg:w-full lg:h-full'
+    assign content_inset_class = 'max-w-site lg:py-5 lg:px-section mx-auto'
+    assign card_container_class = 'lg:card'
+    assign card_content_class = 'lg:card__surface lg:py-10 lg:px-section'
+  else
+    assign content_class = 'grid absolute inset-0 w-full h-full'
+    assign content_inset_class = 'max-w-site py-5 px-section mx-auto'
+    assign card_container_class = 'card'
+    assign card_content_class = 'card__surface py-5 lg:py-10 px-section'
+  endif
+
+  unless mode
+    assign mode = ''
+  endunless
+
+  if mode == 'logo_overlay'
+    assign content_class = 'flex items-center justify-center absolute inset-0 w-full h-full'
+    assign place_content = ''
+    assign text_align = ''
+    assign content_max_width = 'max-w-site'
+    if style == 'inset'
+      assign logo_wrapper_class = 'px-section'
+    endif
+  endif
+
+  case text_align
+    when 'text-left'
+      assign mobile_content_below_media_align = 'justify-start'
+    when 'text-center'
+      assign mobile_content_below_media_align = 'justify-center'
+    when 'text-right'
+      assign mobile_content_below_media_align = 'justify-end'
+  endcase
+%}
+
+<data-island
+  id="video-{{ section.id }}"
+  x-data="Video('inline', 'autoplay')"
+  class="relative z-10 h-full lg:bg-transparent"
+  x-intersect:enter.margin.25%.0px.75%.0px="play"
+  x-intersect:leave.margin.25%.0px.75%.0px="pause"
+  on="before:visible"
+>
+  {%- if cta_url != blank and cta_text == blank -%}
+    <a href="{{ cta_url }}" class="absolute inset-0 z-20"></a>
+  {%- endif -%}
+
+  <div class="{% if crop_desktop == 'slideshow' %}lg:h-full{% endif %} {% if style == 'inset' %}max-w-site px-5 lg:px-10 mx-auto{% else %}bg-scheme-text/80{% endif %}">
+    <div
+      class="{{ container_class }}{% if style == 'inset' %} media media--css-only{% else %} relative{% endif %} banner-section-content--h"
+      {% if custom_aspect_h %}
+        style="--custom-aspect-h: {{ custom_aspect_h }}"
+      {% endif %}
+    >
+      <data-island
+        class="contents"
+        x-data="HTMLVideo"
+        @play="play"
+        @pause="pause"
+        on="before:visible"
+      >
+        {% if video != blank %}
+          {{
+            video
+            | video_tag:
+              class: video_size_class,
+              image_size: '2000x',
+              loading: 'lazy',
+              controls: false,
+              autoplay: true,
+              muted: true,
+              loop: true,
+              playsinline: true,
+              x-ref: 'video'
+          }}
+        {% else %}
+          <video
+            x-ref="video"
+            autoplay
+            playsinline
+            muted
+            class="{{ video_size_class }}"
+          >
+            <source
+              src="{{ 'placeholder-video.mp4' | asset_url }}"
+              type="video/mp4"
+            >
+            Your browser does not support the video tag.
+          </video>
+        {% endif %}
+      </data-island>
+    </div>
+  </div>
+  <div
+    class="px-section py-section-vertical-spacing {{ content_class }} z-20  text-scheme-text {{ place_content }} {{ text_align }} {% if style == 'inset' %}max-w-site mx-auto{% endif %}"
+  >
+    {%- capture content %}
+    {%- if mode == 'logo_overlay' -%}
+      {%- if logo != blank -%}
+        {%- liquid
+          assign logo_alt = logo.alt | default: shop.name | escape
+        -%}
+        <div
+          class="mx-auto w-full"
+          style="max-width: {{ logo_max_width }}%"
+          role="complementary"
+        >
+          {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+          {{
+            logo
+            | image_url: width: 3000
+            | image_tag:
+              class: 'w-full',
+              width: logo.width,
+              sizes: sizes,
+              alt: logo_alt,
+              preload: preload
+          }}
+        </div>
+      {%- else -%}
+        <div
+          class="mx-auto w-full"
+          style="max-width: {{ logo_max_width }}%"
+          role="complementary"
+        >
+          {%- render 'icon-logo-placeholder', class: 'w-full h-auto' %}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      {% if title != blank %}
+        <h2 class="inline-heading-rte font-heading  {{ heading_size }} heading-style {{ settings.heading_drop_shadow_style }}">
+          {{ title }}
+        </h2>
+      {% endif %}
+      {% if richtext != blank %}
+        <div class="inline-rte  mt-5">
+          {{ richtext }}
+        </div>
+      {% endif %}
+    {%- endif -%}
+
+    {% if cta_url != blank and cta_text != blank %}
+      <div class="relative z-10 mt-5">
+        <a class="push-btn inline-block" href="{{ cta_url }}">
+          <span class="push-btn__surface">{{ cta_text }}</span>
+        </a>
+      </div>
+    {% endif %}
+  {%- endcapture -%}
+
+    {%- if mode == 'logo_overlay' -%}
+      <div class="flex w-full flex-col items-center gap-5 {{ logo_wrapper_class }}">
+        {{ content }}
+      </div>
+    {%- else -%}
+      <div class="flex {{ mobile_content_below_media_align }} {% if style == 'inset' %}{{ content_inset_class }}{% endif %}">
+        {%- unless display_content_below_image_on_mobile == false -%}
+          <div class="{% unless display_content_below_image_on_mobile == false %}lg:hidden{% endunless %} {% if display_on_card == true %}{{ card_container_class }}{% endif %} {{ content_max_width }}">
+            <div class="break-words {% if display_on_card == true %}{{ card_content_class }}{% endif %} ">
+              {{ content }}
+            </div>
+          </div>
+        {%- endunless -%}
+
+        <div
+          class="{% unless display_content_below_image_on_mobile == false %}hidden lg:block{% endunless %} {% if display_on_card == true %}{{ card_container_class }} {% endif %}  {{ content_max_width }} text-scheme-text"
+        >
+          <div class="break-words {% if display_on_card == true %}{{ card_content_class }}{% endif %}">
+            {{ content }}
+          </div>
+          {% if display_on_card and settings.card_show_border_on_shadow -%}
+            <div class="{{ card_border_class }}"></div>
+          {%- endif %}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</data-island>

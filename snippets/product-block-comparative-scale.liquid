@@ -1,0 +1,51 @@
+<div
+  class="{{ block_base_classes }}"
+  {{ block.shopify_attributes }}
+>
+  <div class=" comparison-chart items-center gap-1 pb-4">
+    {%- liquid
+      assign marker_position = block.settings.marker_position
+      if block.settings.marker_position_alt != blank
+        assign marker_position = block.settings.marker_position_alt
+      endif
+    -%}
+    <div class="flex justify-between pb-1">
+      {%- if block.settings.left_label != blank -%}
+        <div class="col-span-2 text-sm  {% if block.settings.uppercase_text %}uppercase{%  endif %}">
+          {{ block.settings.left_label }}
+          <span class="sr-only">{{ marker_position }}%</span>
+        </div>
+      {%- endif -%}
+      {%- if block.settings.right_label != blank -%}
+        <div class="col-span-2 text-right text-sm  {% if block.settings.uppercase_text %}uppercase{%  endif %}">
+          {{ block.settings.right_label }}
+          <span class="sr-only">
+            {{- marker_position | plus: 0 | minus: 100 | times: -1 }}%</span
+          >
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="relative col-span-8">
+      <div class="relative h-chart rounded-full border-general border-scheme-text bg-scheme-accent-1">
+        <div
+          class="absolute left-[20%] top-0 h-full w-0 border-r-general border-scheme-text"
+        ></div>
+        <div
+          class="absolute left-[40%] top-0 h-full w-0 border-r-general border-scheme-text"
+        ></div>
+        <div
+          class="absolute left-[60%] top-0 h-full w-0 border-r-general border-scheme-text"
+        ></div>
+        <div
+          class="absolute left-[80%] top-0 h-full w-0 border-r-general border-scheme-text"
+        ></div>
+        <div
+          class="absolute top-1/2 z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 transform rounded-full border-general border-scheme-text bg-scheme-accent-1 p-[2px]"
+          style="left: {{ marker_position }}%"
+        >
+          <div class="h-full w-full rounded-full bg-scheme-text"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

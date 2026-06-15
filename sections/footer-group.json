@@ -1,0 +1,89 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "newsletter_EPmR7z": {
+      "type": "newsletter",
+      "name": "t:sections.newsletter.name",
+      "settings": {
+        "title": "Subscribe to our Newsletter",
+        "richtext": "<p>Receive special offers, insights from Jeni, without the spam or gimmicks<br/><br/></p>",
+        "display_on_card": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "logo_NfAbgb": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/logo.png",
+            "logo_max_width": 170,
+            "logotext": "<p>Floura is a next gen fiber company founded by ice cream legend Jeni Britton and a few foodie friends who saw potential where others saw waste.</p>"
+          }
+        },
+        "menus-0": {
+          "type": "menus",
+          "settings": {
+            "show_menu_headings": true,
+            "linklist_1": "footer-menu-1",
+            "linklist_2": "footer-menu",
+            "linklist_3": "customer-support"
+          }
+        },
+        "contact_eLH4gP": {
+          "type": "contact",
+          "disabled": true,
+          "settings": {
+            "fc_heading": "Customer Support",
+            "fc_mail": "",
+            "fc_phone": "hello@floura.com"
+          }
+        },
+        "soss_TJgJtL": {
+          "type": "soss",
+          "settings": {
+            "sos_heading": "Social media"
+          }
+        },
+        "tagline_and_social_links_9W4NdR": {
+          "type": "tagline_and_social_links",
+          "settings": {
+            "colhead": "",
+            "tagline": "Today, we've created the most concentrated, most diverse fiber bar on the market while saving 100 million pounds of produce from landfills. The best part? It's seriously delicious.",
+            "show_social_icons": false
+          }
+        }
+      },
+      "block_order": [
+        "logo_NfAbgb",
+        "menus-0",
+        "contact_eLH4gP",
+        "soss_TJgJtL",
+        "tagline_and_social_links_9W4NdR"
+      ],
+      "settings": {
+        "show_payment_icons": true,
+        "show_country_selector": true,
+        "show_locale_selector": true,
+        "color_scheme": "scheme6",
+        "use_gradient_background": true
+      }
+    }
+  },
+  "order": [
+    "newsletter_EPmR7z",
+    "footer"
+  ]
+}

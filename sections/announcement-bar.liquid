@@ -1,0 +1,118 @@
+{%- liquid
+  assign show_announcement_bar = false
+  if section.settings.home_page_only == false or template.name == 'index'
+    assign show_announcement_bar = true
+  endif
+-%}
+
+{%- if show_announcement_bar and section.blocks.size > 0 -%}
+  <section
+    class="annsec relative overflow-hidden bg-scheme-background text-scheme-text border-section-border border-b-section {% if section.settings.use_gradient_background %}bg-scheme-gradient{% endif %}"
+    data-color-scheme="{{ section.settings.color_scheme }}"
+  >
+    <div class="section-content py-2">
+      <div
+        id="slideshow-{{ section.id }}"
+        class="announcement-slider splide"
+      >
+        <div class="splide__track">
+          <ul class="splide__list">
+            {%- for block in section.blocks -%}
+              <li class="splide__slide" {{ block.shopify_attributes }}>
+                {% if block.settings.link != blank %}
+                  <a href="{{ block.settings.link }}" class="block px-4 py-2 text-sm hover:bg-scheme-accent-1 hover:text-scheme-accent-1-contrast">
+                    {{ block.settings.text | escape }}
+                  </a>
+                {% else %}
+                  <div class="px-4 py-2 text-sm">
+                    {{ block.settings.text | escape }}
+                  </div>
+                {% endif %}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+
+        <script class="slideshow-options" type="application/json">
+          {
+            "type": "loop",
+            "autoplay": true,
+            "interval": 4000,
+            "pauseOnHover": false,
+            "resetProgress": false,
+            "arrows": true,
+            "pagination": false,
+            "speed": 500,
+            "drag": true
+          }
+        </script>
+
+        <div class="splide__arrows absolute top-1/2 left-0 w-full flex justify-between items-center px-2 -translate-y-1/2 pointer-events-none">
+          <button class="splide__arrow splide__arrow--prev pointer-events-auto">
+            <img src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/13.svg?v=1754564209" alt="Previous" class="w-2 h-2 md:w-6 md:h-6" />
+          </button>
+          <button class="splide__arrow splide__arrow--next pointer-events-auto">
+            <img src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/12.svg?v=1754564209" alt="Next" class="w-2 h-2 md:w-6 md:h-6" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Show only on home page",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "use_gradient_background",
+      "label": "Use gradient background"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Announce something here"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
