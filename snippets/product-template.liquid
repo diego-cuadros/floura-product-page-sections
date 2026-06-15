@@ -164,6 +164,18 @@
         endif
       endif
     endif
+
+    # [CUSTOM — variant image slides] Build a lookup of media ids that back a
+    # variant's featured image. These are kept as slides in the main carousel
+    # (so the buy box can feature them) even when alt contains hide-from-pdp,
+    # while still being omitted from the thumbnail strip below. Delimited with
+    # commas on both ends so `contains ',id,'` can't partial-match.
+    assign bundle_variant_media_ids = ','
+    for v in product.variants
+      if v.featured_media
+        assign bundle_variant_media_ids = bundle_variant_media_ids | append: v.featured_media.id | append: ','
+      endif
+    endfor
   endif
   # [END CUSTOM — bundle subscription PDP gallery / Alpine prep]
 %}
@@ -278,6 +290,15 @@
                           assign _b_alt = media.alt | downcase
                           if _b_alt contains 'hide-from-pdp'
                             assign bundle_hide_this_media = true
+                          endif
+                        endif
+                        # [CUSTOM — variant image slides] Keep variant-backed images as
+                        # selectable slides (featured from the buy box) even if hide-from-pdp.
+                        # Thumbnail loops are unchanged, so these stay out of the thumb strip.
+                        if bundle_hide_this_media
+                          assign _bvm_needle = ',' | append: media.id | append: ','
+                          if bundle_variant_media_ids contains _bvm_needle
+                            assign bundle_hide_this_media = false
                           endif
                         endif
                       %}

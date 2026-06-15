@@ -214,6 +214,8 @@
               name="variant-1pack"
               value="{{ _v.id }}"
               data-variant-radio
+              {%- if _v.featured_media %}
+              x-on:change="currentMediaId = {{ _v.featured_media.id }}"{% endif -%}
               {%- if forloop.first %}
               checked{%- endif -%}
               {%- unless _v.available %}
@@ -269,7 +271,9 @@
         <li
           class="mix-match-selector__item{%- unless _v.available %} mix-match-selector__item--unavailable{%- endunless -%}"
           data-variant-id="{{ _v.id }}"
-          data-available="{{ _v.available }}">
+          data-available="{{ _v.available }}"
+          {%- if _v.featured_media %}
+          x-on:click="currentMediaId = {{ _v.featured_media.id }}"{% endif -%}>
           {%- if _flavor_thumb -%}
             <img
               class="mix-match-selector__thumb"
