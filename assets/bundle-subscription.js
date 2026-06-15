@@ -489,8 +489,33 @@
       radio.addEventListener('change', refreshPurchaseView);
     });
 
+    // ── Pre-select a variant from the URL (e.g. homepage banner CTA) ──
+    // Supports /products/floura-daily-fibers-bars?variant=VARIANT_ID.
+    // Forces the 1-Pack view and checks the matching flavor radio so the
+    // customer lands with that flavor already selected and ready to buy.
+    // Runs before updateView() so the initial render reflects the choice.
+    function applyVariantFromUrl() {
+      var requestedId = new URLSearchParams(window.location.search).get('variant');
+      if (!requestedId) return;
+
+      var targetRadio = buybox.querySelector(
+        '[data-variant-radio][value="' + CSS.escape(requestedId) + '"]'
+      );
+      // Unknown id, or flavor out of stock (radio disabled) → leave defaults.
+      if (!targetRadio || targetRadio.disabled) return;
+
+      // Force the 1-Pack tier so the single-flavor selector is the active view.
+      var onePackRadio = buybox.querySelector('[name="pack-count"][value="1"]');
+      if (onePackRadio) onePackRadio.checked = true;
+
+      // Check the requested flavor and sync the hidden id read by the ATC handler.
+      targetRadio.checked = true;
+      if (selectedVariantInput) selectedVariantInput.value = targetRadio.value;
+    }
+
     // ── Initialise on load ────────────────────────────────────────
 
+    applyVariantFromUrl();
     updateView();
     refreshPurchaseView();
   }
