@@ -1,0 +1,259 @@
+{%- comment -%}
+  dc-hero-test
+  Product-page hero whose title + image come from VARIANT metafields and swap when the
+  shopper selects a different variant — no page reload.
+
+    title  -> variant metafield  custom.btomless_test_title
+    image  -> variant metafield  custom.bottmless_test_image
+
+  Every variant's values are pre-rendered (keyed by data-variant-id); a small script
+  toggles which one is visible. Variant selection is detected via document-level
+  delegated listeners, so this works wherever the section sits on the page:
+    - product.bundle-subscription buy box: flavor radios [data-variant-radio] and
+      mix-and-match tiles/steppers [data-variant-id] (that template dispatches NO
+      theme:variant:change — see snippets/buy-box-bundle-subscription.liquid).
+    - standard product templates: the Shapes product island's theme:variant:change /
+      shapes:product:variantchange events.
+    - URL ?variant=ID on load.
+{%- endcomment -%}
+
+{%- liquid
+  assign dc_current_variant = product.selected_or_first_available_variant
+  assign wrapper_id = 'dc-hero-test-wrapper-' | append: section.id
+-%}
+
+<style>
+  #{{ wrapper_id }} .dc-hero__frame {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--rounded-image, 0px);
+  }
+  #{{ wrapper_id }} .dc-hero__frame--has-image {
+    min-height: 52vh;
+  }
+  #{{ wrapper_id }} .dc-hero__frame--no-image {
+    min-height: 32vh;
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  #{{ wrapper_id }} .dc-hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  #{{ wrapper_id }} .dc-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.15) 45%,
+      rgba(0, 0, 0, 0.30) 100%
+    );
+  }
+  #{{ wrapper_id }} .dc-hero__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 60ch;
+    margin-inline: auto;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  #{{ wrapper_id }} .dc-hero__title {
+    margin: 0;
+  }
+  #{{ wrapper_id }} .dc-hero__frame--has-image .dc-hero__title {
+    color: #fff;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+  }
+  #{{ wrapper_id }} .dc-hero__empty {
+    opacity: 0.7;
+  }
+
+  @media (min-width: 768px) {
+    #{{ wrapper_id }} .dc-hero__frame--has-image {
+      min-height: 64vh;
+    }
+    #{{ wrapper_id }} .dc-hero__frame--no-image {
+      min-height: 38vh;
+    }
+    #{{ wrapper_id }} .dc-hero__content {
+      padding: 3rem;
+    }
+  }
+</style>
+
+<section
+  class="relative overflow-hidden bg-scheme-background text-scheme-text {% if section.settings.use_gradient_background %}bg-scheme-gradient{% endif %}"
+  data-color-scheme="{{ section.settings.color_scheme }}"
+>
+  {%- if product == blank -%}
+    <div class="section-content px-section max-w-site mx-auto py-section-vertical-spacing text-center">
+      <p class="opacity-70">{{ 'Add this section to a product template to preview variant metafields.' }}</p>
+    </div>
+  {%- else -%}
+    <div
+      id="{{ wrapper_id }}"
+      class="section-content {% unless section.settings.full_width %}px-section max-w-site mx-auto{% endunless %} py-section-vertical-spacing"
+    >
+      {%- for variant in product.variants -%}
+        {%- liquid
+          assign title_value = variant.metafields.custom.btomless_test_title.value
+          assign image_value = variant.metafields.custom.bottmless_test_image.value
+        -%}
+        <div
+          class="dc-hero__slide"
+          data-variant-id="{{ variant.id }}"
+          {% unless variant.id == dc_current_variant.id %}style="display: none;"{% endunless %}
+        >
+          {%- if image_value != blank -%}
+            <div class="dc-hero__frame dc-hero__frame--has-image">
+              {{
+                image_value
+                | image_url: width: 2000
+                | image_tag:
+                  loading: 'lazy',
+                  sizes: '100vw',
+                  widths: '400, 600, 800, 1000, 1200, 1600, 2000',
+                  class: 'dc-hero__image',
+                  alt: title_value | default: variant.title
+              }}
+              <div class="dc-hero__scrim" aria-hidden="true"></div>
+              {%- if title_value != blank -%}
+                <div class="dc-hero__content">
+                  <h1 class="dc-hero__title inline-heading-rte font-heading heading-{{ section.settings.heading_size }} heading-style break-words {{ settings.heading_drop_shadow_style }}">
+                    {{ title_value }}
+                  </h1>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="dc-hero__frame dc-hero__frame--no-image">
+              <div class="dc-hero__content">
+                {%- if title_value != blank -%}
+                  <h1 class="dc-hero__title inline-heading-rte font-heading heading-{{ section.settings.heading_size }} heading-style break-words {{ settings.heading_drop_shadow_style }}">
+                    {{ title_value }}
+                  </h1>
+                {%- else -%}
+                  <p class="dc-hero__empty">
+                    {{ 'This variant has no values for custom.btomless_test_title or custom.bottmless_test_image.' }}
+                  </p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <script>
+      (function () {
+        var wrapper = document.getElementById('{{ wrapper_id }}');
+        if (!wrapper || wrapper.dataset.dcBound) return;
+        wrapper.dataset.dcBound = '1';
+
+        function showVariant(variantId) {
+          if (!variantId) return;
+          var target = String(variantId);
+          wrapper.querySelectorAll('.dc-hero__slide').forEach(function (slide) {
+            slide.style.display = slide.dataset.variantId === target ? '' : 'none';
+          });
+        }
+
+        // Standard product templates: Shapes product island events.
+        function handleThemeEvent(event) {
+          var variant = event.detail && event.detail.variant;
+          if (variant && variant.id) showVariant(variant.id);
+        }
+        document.addEventListener('theme:variant:change', handleThemeEvent);
+        document.addEventListener('shapes:product:variantchange', handleThemeEvent);
+
+        // Bundle-subscription buy box (no variant-change event is dispatched).
+        document.addEventListener('change', function (event) {
+          var radio = event.target.closest && event.target.closest('[data-variant-radio]');
+          if (radio) showVariant(radio.value);
+        });
+        document.addEventListener('click', function (event) {
+          var el = event.target.closest && event.target.closest('[data-variant-id]');
+          if (el) showVariant(el.dataset.variantId);
+        });
+
+        // Initial state: honour a pre-selected variant from the URL (?variant=ID).
+        var requestedId = new URLSearchParams(window.location.search).get('variant');
+        if (requestedId) showVariant(requestedId);
+      })();
+    </script>
+  {%- endif -%}
+
+  {%- liquid
+    for block in section.blocks
+      case block.type
+        when 'background_shape'
+          render 'block-background-shape', block: block
+        when 'background_pattern'
+          render 'block-background-pattern', block: block, scheme: section.settings.color_scheme
+      endcase
+    endfor
+  -%}
+</section>
+
+{% schema %}
+{
+  "name": "DC Hero Test",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Hero whose title + image come from the selected variant's metafields (custom.btomless_test_title and custom.bottmless_test_image). Updates live when the variant changes — including the bundle-subscription buy box. Add to a product template."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "feature",
+      "options": [
+        { "value": "secondary", "label": "Small" },
+        { "value": "standard", "label": "Standard" },
+        { "value": "feature", "label": "Large" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:common.settings.header_color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme1",
+      "label": "t:common.settings.color_scheme.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "background_pattern",
+      "name": "Background pattern",
+      "settings": []
+    }
+  ],
+  "presets": [
+    {
+      "name": "DC Hero Test"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
