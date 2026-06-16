@@ -66,7 +66,12 @@
   }
 </style>
 
-<section class="whats-inside">
+<section
+  class="whats-inside"
+  {% if section.settings.background_color != blank %}
+    style="background-color: {{ section.settings.background_color }};"
+  {% endif %}
+>
   {%- comment -%} Desktop layout {%- endcomment -%}
   <div class="whats-inside__layout whats-inside__layout--desktop">
     <div class="whats-inside__columns">
@@ -74,7 +79,8 @@
         <img
           class="whats-inside__image"
           src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/Blueberry-matcha-nutrition-image.png?v=1781575380"
-          alt="Blueberry Matcha nutrition">
+          alt="Blueberry Matcha nutrition"
+        >
       </div>
 
       <div class="whats-inside__column">
@@ -98,7 +104,9 @@
         </div>
         <div class="whats-inside__ingredients">
           <h4 class="whats-inside__ingredients-label">Ingredients</h4>
-          <p class="whats-inside__ingredients-text">Water, Pea Protein, Blueberry Puree, Matcha Powder, Natural Flavors, Sea Salt.</p>
+          <p class="whats-inside__ingredients-text">
+            Water, Pea Protein, Blueberry Puree, Matcha Powder, Natural Flavors, Sea Salt.
+          </p>
         </div>
       </div>
 
@@ -164,7 +172,8 @@
       <img
         class="whats-inside__image"
         src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/Blueberry-matcha-nutrition-image.png?v=1781575380"
-        alt="Blueberry Matcha nutrition">
+        alt="Blueberry Matcha nutrition"
+      >
     </div>
 
     <div class="whats-inside__columns whats-inside__columns--stacked">
@@ -185,7 +194,9 @@
         </div>
         <div class="whats-inside__ingredients">
           <h4 class="whats-inside__ingredients-label">Ingredients</h4>
-          <p class="whats-inside__ingredients-text">Water, Pea Protein, Blueberry Puree, Matcha Powder, Natural Flavors, Sea Salt.</p>
+          <p class="whats-inside__ingredients-text">
+            Water, Pea Protein, Blueberry Puree, Matcha Powder, Natural Flavors, Sea Salt.
+          </p>
         </div>
       </div>
 
@@ -244,7 +255,14 @@
 {% schema %}
 {
   "name": "Custom What's Inside",
-  "settings": [],
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FBF5E1"
+    }
+  ],
   "presets": [
     {
       "name": "Custom What's Inside"
