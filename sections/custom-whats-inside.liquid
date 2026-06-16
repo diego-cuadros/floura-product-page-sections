@@ -1,13 +1,246 @@
-<section>
-  <div class="whats-inside-section-content">
-    <div class="whats-inside-top-container">
-      <div class="whats-inside-column"></div>
-      <div class="whats-inside-column"></div>
-      <div class="whats-inside-column"></div>
+<style>
+  /* Block */
+  .whats-inside {
+    width: 100%;
+  }
+
+  /* Layout — desktop and mobile trees swap at 749px */
+  .whats-inside__layout {
+    max-width: 1820px;
+    margin: 0 auto;
+    padding: 16px 8px;
+  }
+  .whats-inside__layout--desktop {
+    display: flex;
+    flex-direction: column;
+  }
+  .whats-inside__layout--mobile {
+    display: none;
+  }
+
+  /* Columns */
+  .whats-inside__columns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .whats-inside__columns--stacked {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .whats-inside__column {
+    max-width: 33%;
+  }
+  .whats-inside__column--full {
+    max-width: 100%;
+  }
+
+  /* Product image */
+  .whats-inside__image {
+    max-width: 100%;
+    max-height: 500px;
+  }
+
+  /* Feature highlights */
+  .whats-inside__features {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+  }
+  .whats-inside__feature-icon {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 16px;
+    border-radius: 100%;
+    background-color: #e0e0e0;
+  }
+
+  @media only screen and (max-width: 749px) {
+    .whats-inside__layout--desktop {
+      display: none;
+    }
+    .whats-inside__layout--mobile {
+      display: block;
+    }
+  }
+</style>
+
+<section class="whats-inside">
+  {%- comment -%} Desktop layout {%- endcomment -%}
+  <div class="whats-inside__layout whats-inside__layout--desktop">
+    <div class="whats-inside__columns">
+      <div class="whats-inside__column">
+        <img
+          class="whats-inside__image"
+          src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/Blueberry-matcha-nutrition-image.png?v=1781575380"
+          alt="Blueberry Matcha nutrition">
+      </div>
+
+      <div class="whats-inside__column">
+        <div class="whats-inside__title">
+          <h2 class="whats-inside__heading">What's Inside</h2>
+          <h3 class="whats-inside__flavor">Blueberry Matcha</h3>
+        </div>
+        <div class="whats-inside__stats">
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Calories</h4>
+            <p class="whats-inside__stat-value">120</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Carbs</h4>
+            <p class="whats-inside__stat-value">15g</p>
+          </div>
+        </div>
+        <div class="whats-inside__ingredients">
+          <h4 class="whats-inside__ingredients-label">Ingredients</h4>
+          <p class="whats-inside__ingredients-text">Water, Pea Protein, Blueberry Puree, Matcha Powder, Natural Flavors, Sea Salt.</p>
+        </div>
+      </div>
+
+      <div class="whats-inside__column">
+        <p class="whats-inside__daily-value-label">% Daily Value</p>
+        <div class="whats-inside__stats">
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="whats-inside-bottom-container"></div>
+
+    <div class="whats-inside__features">
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Mobile layout {%- endcomment -%}
+  <div class="whats-inside__layout whats-inside__layout--mobile">
+    <div class="whats-inside__title">
+      <h2 class="whats-inside__heading">What's Inside</h2>
+      <h3 class="whats-inside__flavor">Blueberry Matcha</h3>
+    </div>
+
+    <div class="whats-inside__image-wrapper">
+      <img
+        class="whats-inside__image"
+        src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/Blueberry-matcha-nutrition-image.png?v=1781575380"
+        alt="Blueberry Matcha nutrition">
+    </div>
+
+    <div class="whats-inside__columns whats-inside__columns--stacked">
+      <div class="whats-inside__column whats-inside__column--full">
+        <div class="whats-inside__stats">
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Calories</h4>
+            <p class="whats-inside__stat-value">120</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Carbs</h4>
+            <p class="whats-inside__stat-value">15g</p>
+          </div>
+        </div>
+        <div class="whats-inside__ingredients">
+          <h4 class="whats-inside__ingredients-label">Ingredients</h4>
+          <p class="whats-inside__ingredients-text">Water, Pea Protein, Blueberry Puree, Matcha Powder, Natural Flavors, Sea Salt.</p>
+        </div>
+      </div>
+
+      <div class="whats-inside__column whats-inside__column--full">
+        <p class="whats-inside__daily-value-label">% Daily Value</p>
+        <div class="whats-inside__stats">
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+          <div class="whats-inside__stat">
+            <h4 class="whats-inside__stat-label">Protein</h4>
+            <p class="whats-inside__stat-value">10g</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="whats-inside__features">
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+      <div class="whats-inside__feature">
+        <div class="whats-inside__feature-icon"></div>
+        <h3 class="whats-inside__feature-name">High Protein</h3>
+      </div>
+    </div>
   </div>
 </section>
+
 {% schema %}
 {
   "name": "Custom What's Inside",
