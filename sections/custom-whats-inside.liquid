@@ -18,6 +18,32 @@
     display: none;
   }
 
+  .whats-inside__heading {
+    font-size: 50px;
+    font-weight: 500;
+    font-family: 'Founders Grotesk', sans-serif;
+    line-height: 1;
+  }
+
+  @media only screen and (max-width: 769px) {
+    .whats-inside__heading {
+      font-size: 35px;
+      text-align: center;
+    }
+  }
+  .whats-inside__flavor {
+    font-size: 30px;
+    font-weight: 500;
+    font-family: 'Founders Grotesk', sans-serif;
+  }
+
+  @media only screen and (max-width: 769px) {
+    .whats-inside__flavor {
+      font-size: 25px;
+      text-align: center;
+    }
+  }
+
   /* Columns */
   .whats-inside__columns {
     display: flex;
@@ -86,7 +112,14 @@
       <div class="whats-inside__column">
         <div class="whats-inside__title">
           <h2 class="whats-inside__heading">What's Inside</h2>
-          <h3 class="whats-inside__flavor">Blueberry Matcha</h3>
+          <h3
+            class="whats-inside__flavor"
+            {% if section.settings.flavor_text_color != blank %}
+              style="color: {{ section.settings.flavor_text_color }};"
+            {% endif %}
+          >
+            Blueberry Matcha
+          </h3>
         </div>
         <div class="whats-inside__stats">
           <div class="whats-inside__stat">
@@ -165,7 +198,14 @@
   <div class="whats-inside__layout whats-inside__layout--mobile">
     <div class="whats-inside__title">
       <h2 class="whats-inside__heading">What's Inside</h2>
-      <h3 class="whats-inside__flavor">Blueberry Matcha</h3>
+      <h3
+        class="whats-inside__flavor"
+        {% if section.settings.flavor_text_color != blank %}
+          style="color: {{ section.settings.flavor_text_color }};"
+        {% endif %}
+      >
+        Blueberry Matcha
+      </h3>
     </div>
 
     <div class="whats-inside__image-wrapper">
@@ -261,6 +301,12 @@
       "id": "background_color",
       "label": "Background color",
       "default": "#FBF5E1"
+    },
+    {
+      "type": "color",
+      "id": "flavor_text_color",
+      "label": "Flavor text color",
+      "default": "#414180"
     }
   ],
   "presets": [
