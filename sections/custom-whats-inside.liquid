@@ -6,13 +6,14 @@
 
   /* Layout — desktop and mobile trees swap at 749px */
   .whats-inside__layout {
-    max-width: 1820px;
+    max-width: 1500px;
     margin: 0 auto;
-    padding: 16px 8px;
+    padding: 80px 8px;
   }
   .whats-inside__layout--desktop {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   .whats-inside__layout--mobile {
     display: none;
@@ -47,15 +48,27 @@
   /* Columns */
   .whats-inside__columns {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
   }
   .whats-inside__columns--stacked {
     flex-direction: column;
     align-items: stretch;
   }
   .whats-inside__column {
-    max-width: 33%;
+    width: 100%;
+  }
+  .whats-inside__column--left {
+    max-width: 236px;
+  }
+  .whats-inside__column--center {
+    margin-top: 2%;
+    max-width: 500px;
+  }
+  .whats-inside__column--right {
+    margin-top: 4%;
+    max-width: 350px;
   }
   .whats-inside__column--full {
     max-width: 100%;
@@ -63,8 +76,29 @@
 
   /* Product image */
   .whats-inside__image {
+    width: 100%;
     max-width: 100%;
-    max-height: 500px;
+  }
+
+  @media only screen and (max-width: 749px) {
+    .whats-inside__image-wrapper {
+      /* Post-rotation visual width of the image (its CSS height) */
+      --rotated-image-width: min(70vw, 320px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Image is 222x498; rotated, its visual height = visual width * 222/498.
+         Match the wrapper height so there's no gap/overflow around the image. */
+      height: calc(var(--rotated-image-width) * 222 / 498);
+    }
+    .whats-inside__image {
+      width: auto;
+      height: var(--rotated-image-width);
+      max-width: none;
+      max-height: none;
+      transform-origin: center center;
+      transform: rotate(90deg);
+    }
   }
 
   /* Feature highlights */
@@ -73,6 +107,8 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 32px;
+    width: 100%;
+    max-width: 750px;
   }
   .whats-inside__feature-icon {
     width: 76px;
@@ -83,12 +119,96 @@
   }
 
   @media only screen and (max-width: 749px) {
+    .whats-inside__layout {
+      padding: 16px;
+    }
     .whats-inside__layout--desktop {
       display: none;
     }
     .whats-inside__layout--mobile {
       display: block;
     }
+  }
+
+  .whats-inside__stats {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .whats-inside__stat {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    /*display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;*/
+  }
+
+  .whats-inside__stat-col {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .whats-inside__stat-col--left {
+    text-align: left;
+  }
+  .whats-inside__stat-col--right {
+    text-align: right;
+  }
+  .whats-inside__stat-col--right-down {
+    margin-top: auto;
+  }
+
+  .whats-inside__stat-col--right-calories {
+    font-size: 28px;
+    font-weight: 500;
+    margin: auto 0 auto auto;
+  }
+
+  /*.whats-inside__cell {
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    font-size: 12px;
+    font-family: 'Founders Grotesk', sans-serif;
+  }
+
+  .whats-inside__cell--left {
+    text-align: left;
+  }
+  .whats-inside__cell--right {
+    text-align: right;
+  }
+
+  .whats-inside__cell--calories {
+    font-size: 28px;
+    font-weight: 500;
+    margin-top: -15px;
+  }*/
+
+  .whats-inside__ingredients {
+    margin-top: 25px;
+  }
+
+  .whats-inside__ingredients-label {
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  .whats-inside__ingredients-text {
+    font-size: 12px;
+  }
+
+  .whats-inside__daily-value-label {
+    font-size: 12px;
+    font-family: 'Founders Grotesk', sans-serif;
+    font-weight: 500;
+    text-align: right;
   }
 </style>
 
@@ -101,7 +221,7 @@
   {%- comment -%} Desktop layout {%- endcomment -%}
   <div class="whats-inside__layout whats-inside__layout--desktop">
     <div class="whats-inside__columns">
-      <div class="whats-inside__column">
+      <div class="whats-inside__column whats-inside__column--left">
         <img
           class="whats-inside__image"
           src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/Blueberry-matcha-nutrition-image.png?v=1781575380"
@@ -109,7 +229,7 @@
         >
       </div>
 
-      <div class="whats-inside__column">
+      <div class="whats-inside__column whats-inside__column--center">
         <div class="whats-inside__title">
           <h2 class="whats-inside__heading">What's Inside</h2>
           <h3
@@ -123,44 +243,92 @@
         </div>
         <div class="whats-inside__stats">
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Calories</h4>
-            <p class="whats-inside__stat-value">120</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              1 Serving Per Container<br>
+              <strong>Serving Size</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              1 Bar (45gr)
+            </div>
           </div>
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
-          </div>
-          <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Carbs</h4>
-            <p class="whats-inside__stat-value">15g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              Amount Per Serving<br>
+              <strong>Calories</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+              160
+            </div>
           </div>
         </div>
         <div class="whats-inside__ingredients">
           <h4 class="whats-inside__ingredients-label">Ingredients</h4>
           <p class="whats-inside__ingredients-text">
-            Water, Pea Protein, Blueberry Puree, Matcha Powder, Natural Flavors, Sea Salt.
+            Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango & Pineapple),
+            Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree,
+            Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar
+            Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder <br>
+            <strong>Allergens: Almonds</strong>
           </p>
         </div>
       </div>
 
-      <div class="whats-inside__column">
+      <div class="whats-inside__column whats-inside__column--right">
         <p class="whats-inside__daily-value-label">% Daily Value</p>
         <div class="whats-inside__stats">
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              1 Serving Per Container<br>
+              <strong>Serving Size</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              1 Bar (45gr)
+            </div>
           </div>
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              1 Serving Per Container<br>
+              <strong>Serving Size</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              1 Bar (45gr)
+            </div>
           </div>
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              1 Serving Per Container<br>
+              <strong>Serving Size</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              1 Bar (45gr)
+            </div>
           </div>
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              1 Serving Per Container<br>
+              <strong>Serving Size</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              1 Bar (45gr)
+            </div>
+          </div>
+          <div class="whats-inside__stat">
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              1 Serving Per Container<br>
+              <strong>Serving Size</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              1 Bar (45gr)
+            </div>
+          </div>
+          <div class="whats-inside__stat">
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              1 Serving Per Container<br>
+              <strong>Serving Size</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              1 Bar (45gr)
+            </div>
           </div>
         </div>
       </div>
@@ -235,7 +403,11 @@
         <div class="whats-inside__ingredients">
           <h4 class="whats-inside__ingredients-label">Ingredients</h4>
           <p class="whats-inside__ingredients-text">
-            Water, Pea Protein, Blueberry Puree, Matcha Powder, Natural Flavors, Sea Salt.
+            Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango & Pineapple),
+            Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree,
+            Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar
+            Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder Allergens:
+            Almonds
           </p>
         </div>
       </div>
