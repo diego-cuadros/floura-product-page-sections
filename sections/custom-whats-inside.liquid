@@ -128,6 +128,17 @@
     .whats-inside__layout--mobile {
       display: block;
     }
+    .whats-inside__columns--mobile-row {
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .whats-inside__columns--mobile-row .whats-inside__column--mobile {
+      flex: 1 1 0;
+      min-width: 0;
+    }
   }
 
   .whats-inside__stats {
@@ -217,6 +228,42 @@
     text-align: left;
     margin-top: 10px;
   }
+
+  @media only screen and (max-width: 749px) {
+    .whats-inside__feature-name {
+      font-size: 8px;
+    }
+
+    .whats-inside__feature-icon {
+      width: 40px;
+      height: 40px;
+    }
+    .whats-inside__stat {
+      padding: 6px;
+    }
+    .whats-inside__stat-col {
+      font-size: 8px;
+    }
+    .whats-inside__stat-col--right-calories {
+      font-size: 19px;
+    }
+    .whats-inside__ingredients-label {
+      font-size: 12px;
+    }
+    .whats-inside__ingredients-text {
+      font-size: 10px;
+    }
+    .whats-inside__daily-value-label {
+      margin-top: -11px;
+    }
+    .whats-inside__daily-value-label,
+    .whats-inside__daily-value-label--bottom {
+      font-size: 8px;
+    }
+    .whats-inside__ingredients {
+      padding-left: 8px;
+    }
+  }
 </style>
 
 <section
@@ -285,56 +332,58 @@
         <div class="whats-inside__stats">
           <div class="whats-inside__stat">
             <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              1 Serving Per Container<br>
-              <strong>Serving Size</strong>
+              <strong>Total Fat 6g</strong><br>
+              Saturated Fat 1.5g<br>
+              Trans Fat 0g
             </div>
             <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              1 Bar (45gr)
+              8%<br>
+              8%
+            </div>
+          </div>
+          <div class="whats-inside__stat">
+            <div class="whats-inside__stat-col whats-inside__stat-col--left"><strong>Cholesterol 0mg</strong><br></div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              0%
+            </div>
+          </div>
+          <div class="whats-inside__stat">
+            <div class="whats-inside__stat-col whats-inside__stat-col--left"><strong>Sodium 55mg</strong><br></div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              2%
             </div>
           </div>
           <div class="whats-inside__stat">
             <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              1 Serving Per Container<br>
-              <strong>Serving Size</strong>
+              <strong>Total Carbohydrate 30g</strong><br>
+              Dietary Fiber 15g<br>
+              Total Sugars 7g Includes 0g Added Sugars
             </div>
             <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              1 Bar (45gr)
+              11%<br>
+              54%<br>
+              <br>
+              0%
             </div>
           </div>
           <div class="whats-inside__stat">
             <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              1 Serving Per Container<br>
-              <strong>Serving Size</strong>
+              <strong>Protein 3g</strong>
             </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              1 Bar (45gr)
-            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down"></div>
           </div>
           <div class="whats-inside__stat">
             <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              1 Serving Per Container<br>
-              <strong>Serving Size</strong>
+              Vitamin D 0mcg<br>
+              Calcium 60mg<br>
+              Iron 1.3mg<br>
+              Potassium 170mg
             </div>
             <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              1 Bar (45gr)
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              1 Serving Per Container<br>
-              <strong>Serving Size</strong>
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              1 Bar (45gr)
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              1 Serving Per Container<br>
-              <strong>Serving Size</strong>
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              1 Bar (45gr)
+              0%<br>
+              4%<br>
+              8%<br>
+              4%
             </div>
           </div>
         </div>
@@ -395,20 +444,26 @@
       >
     </div>
 
-    <div class="whats-inside__columns whats-inside__columns--stacked">
-      <div class="whats-inside__column whats-inside__column--full">
+    <div class="whats-inside__columns whats-inside__columns--mobile-row">
+      <div class="whats-inside__column whats-inside__column--mobile">
         <div class="whats-inside__stats">
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Calories</h4>
-            <p class="whats-inside__stat-value">120</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              1 Serving Per Container<br>
+              <strong>Serving Size</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              1 Bar (45gr)
+            </div>
           </div>
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
-          </div>
-          <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Carbs</h4>
-            <p class="whats-inside__stat-value">15g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              Amount Per Serving<br>
+              <strong>Calories</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+              160
+            </div>
           </div>
         </div>
         <div class="whats-inside__ingredients">
@@ -417,32 +472,76 @@
             Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango & Pineapple),
             Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree,
             Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar
-            Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder Allergens:
-            Almonds
+            Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder <br>
+            <strong>Allergens: Almonds</strong>
           </p>
         </div>
       </div>
 
-      <div class="whats-inside__column whats-inside__column--full">
+      <div class="whats-inside__column whats-inside__column--mobile">
         <p class="whats-inside__daily-value-label">% Daily Value</p>
         <div class="whats-inside__stats">
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              <strong>Total Fat 6g</strong><br>
+              Saturated Fat 1.5g<br>
+              Trans Fat 0g
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              8%<br>
+              8%
+            </div>
           </div>
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left"><strong>Cholesterol 0mg</strong><br></div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              0%
+            </div>
           </div>
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left"><strong>Sodium 55mg</strong><br></div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              2%
+            </div>
           </div>
           <div class="whats-inside__stat">
-            <h4 class="whats-inside__stat-label">Protein</h4>
-            <p class="whats-inside__stat-value">10g</p>
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              <strong>Total Carbohydrate 30g</strong><br>
+              Dietary Fiber 15g<br>
+              Total Sugars 7g Includes 0g Added Sugars
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              11%<br>
+              54%<br>
+              <br>
+              0%
+            </div>
+          </div>
+          <div class="whats-inside__stat">
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              <strong>Protein 3g</strong>
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down"></div>
+          </div>
+          <div class="whats-inside__stat">
+            <div class="whats-inside__stat-col whats-inside__stat-col--left">
+              Vitamin D 0mcg<br>
+              Calcium 60mg<br>
+              Iron 1.3mg<br>
+              Potassium 170mg
+            </div>
+            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+              0%<br>
+              4%<br>
+              8%<br>
+              4%
+            </div>
           </div>
         </div>
+        <p class="whats-inside__daily-value-label--bottom">
+          *The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000
+          calories a day is used for general nutrition advice.
+        </p>
       </div>
     </div>
 
