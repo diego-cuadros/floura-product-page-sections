@@ -204,11 +204,18 @@
     font-size: 12px;
   }
 
-  .whats-inside__daily-value-label {
+  .whats-inside__daily-value-label,
+  .whats-inside__daily-value-label--bottom {
     font-size: 12px;
     font-family: 'Founders Grotesk', sans-serif;
     font-weight: 500;
     text-align: right;
+  }
+
+  .whats-inside__daily-value-label--bottom {
+    font-size: 10px;
+    text-align: left;
+    margin-top: 10px;
   }
 </style>
 
@@ -331,6 +338,10 @@
             </div>
           </div>
         </div>
+        <p class="whats-inside__daily-value-label--bottom">
+          *The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000
+          calories a day is used for general nutrition advice.
+        </p>
       </div>
     </div>
 
