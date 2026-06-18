@@ -563,6 +563,220 @@
         "color_scheme": "scheme6",
         "use_gradient_background": false
       }
+    },
+    "custom_nutrition_facts_CdTzhc": {
+      "type": "custom-nutrition-facts",
+      "blocks": {
+        "center_stat_6t79jk": {
+          "type": "center_stat",
+          "settings": {
+            "left": "{{ product.metafields.custom.nutrition_facts_bottomless.value.first_block_properties | metafield_tag }}",
+            "right": "{{ product.metafields.custom.nutrition_facts_bottomless.value.first_block_values | metafield_tag }}"
+          }
+        },
+        "center_stat_calories_8NqPEa": {
+          "type": "center_stat_calories",
+          "settings": {
+            "left": "<p>Amount Per Serving<br><strong>Calories</strong></p>",
+            "right": "<p>160</p>"
+          }
+        },
+        "ingredients_axgarC": {
+          "type": "ingredients",
+          "settings": {
+            "label": "Ingredients",
+            "text": "<p>Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango &amp; Pineapple), Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree, Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder<br><strong>Allergens: Almonds</strong></p>"
+          }
+        },
+        "right_stat_LpBPid": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Total Fat 6g</strong><br>Saturated Fat 1.5g<br>Trans Fat 0g</p>",
+            "right": "<p>8%<br>8%</p>"
+          }
+        },
+        "right_stat_4MbpQ6": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Cholesterol 0mg</strong></p>",
+            "right": "<p>0%</p>"
+          }
+        },
+        "right_stat_xAH8rc": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Sodium 55mg</strong></p>",
+            "right": "<p>2%</p>"
+          }
+        },
+        "right_stat_PVCBdf": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Total Carbohydrate 30g</strong><br>Dietary Fiber 15g<br>Total Sugars 7g Includes 0g Added Sugars</p>",
+            "right": "<p>11%<br>54%<br><br>0%</p>"
+          }
+        },
+        "right_stat_ewhMLd": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Protein 3g</strong></p>",
+            "right": "<p></p>"
+          }
+        },
+        "right_stat_yhNkxp": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p>Vitamin D 0mcg<br>Calcium 60mg<br>Iron 1.3mg<br>Potassium 170mg</p>",
+            "right": "<p>0%<br>4%<br>8%<br>4%</p>"
+          }
+        },
+        "daily_value_note_U4qpVx": {
+          "type": "daily_value_note",
+          "settings": {
+            "text": "<p>*The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>"
+          }
+        },
+        "feature_r4HJyc": {
+          "type": "feature",
+          "settings": {
+            "name": "High Protein"
+          }
+        },
+        "feature_3PWJjm": {
+          "type": "feature",
+          "settings": {
+            "name": "High Protein"
+          }
+        },
+        "feature_jccfp6": {
+          "type": "feature",
+          "settings": {
+            "name": "High Protein"
+          }
+        },
+        "feature_hKDb9N": {
+          "type": "feature",
+          "settings": {
+            "name": "High Protein"
+          }
+        },
+        "feature_h7zdbm": {
+          "type": "feature",
+          "settings": {
+            "name": "High Protein"
+          }
+        },
+        "feature_JqRrMM": {
+          "type": "feature",
+          "settings": {
+            "name": "High Protein"
+          }
+        }
+      },
+      "block_order": [
+        "center_stat_6t79jk",
+        "center_stat_calories_8NqPEa",
+        "ingredients_axgarC",
+        "right_stat_LpBPid",
+        "right_stat_4MbpQ6",
+        "right_stat_xAH8rc",
+        "right_stat_PVCBdf",
+        "right_stat_ewhMLd",
+        "right_stat_yhNkxp",
+        "daily_value_note_U4qpVx",
+        "feature_r4HJyc",
+        "feature_3PWJjm",
+        "feature_jccfp6",
+        "feature_hKDb9N",
+        "feature_h7zdbm",
+        "feature_JqRrMM"
+      ],
+      "name": "Custom Nutrition Facts",
+      "settings": {
+        "image": "shopify://shop_images/Blueberry-matcha-nutrition-image.png",
+        "heading": "{{ product.metafields.custom.nutrition_facts_bottomless.value.title.value }}",
+        "flavor": "{{ product.metafields.custom.nutrition_facts_bottomless.value.flavor.value }}",
+        "daily_value_label": "% Daily Value",
+        "background_color": "#fbf5e1",
+        "flavor_text_color": "#414180"
+      }
+    },
+    "custom_hero_fLTN9V": {
+      "type": "custom-hero",
+      "name": "Custom Hero",
+      "settings": {
+        "title": "Beyond the Flavor",
+        "text": "<p>Blueberries and blue matcha contribute more than flavor and color. Both are naturally rich in anthocyanins – plant compounds that research suggests may help support overall health and wellbeing. That’s one reason they fit naturally into the Floura philosophy: real foods bring something more to the table.</p>",
+        "background_color": "#7ec58d",
+        "title_color": "#414180",
+        "text_color": "#fefefe",
+        "bold_text_color": "#414180",
+        "text_font_size_desktop": 30,
+        "text_font_size_mobile": 15,
+        "text_line_height_desktop": 35,
+        "text_line_height_mobile": 18,
+        "pattern_image": "shopify://shop_images/Pattern3.png",
+        "pattern_height": 60,
+        "text_alignment": "center"
+      }
+    },
+    "custom_hero_qfQmRU": {
+      "type": "custom-hero",
+      "name": "Custom Hero",
+      "settings": {
+        "title": "Beyond the Flavor",
+        "text": "<p>Blueberries and blue matcha contribute more than flavor and color. Both are naturally rich in anthocyanins – plant compounds that research suggests may help support overall health and wellbeing. That’s one reason they fit naturally into the Floura philosophy: real foods bring something more to the table.</p>",
+        "background_color": "#fbf5e1",
+        "title_color": "#c5273c",
+        "text_color": "#000000",
+        "bold_text_color": "#c5273c",
+        "text_font_size_desktop": 30,
+        "text_font_size_mobile": 15,
+        "text_line_height_desktop": 35,
+        "text_line_height_mobile": 18,
+        "pattern_height": 60,
+        "text_alignment": "left"
+      }
+    },
+    "custom_accordion_faq_tGXVJr": {
+      "type": "custom-accordion-faq",
+      "blocks": {
+        "faq_item_UfQ4eJ": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question goes here",
+            "answer": "<p>Answer goes here.</p>",
+            "border_color": "#000000"
+          }
+        },
+        "faq_item_C6pCAr": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question goes here",
+            "answer": "<p>Answer goes here.</p>",
+            "border_color": "#000000"
+          }
+        },
+        "faq_item_QUaiYb": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question goes here",
+            "answer": "<p>Answer goes here.</p>",
+            "border_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_UfQ4eJ",
+        "faq_item_C6pCAr",
+        "faq_item_QUaiYb"
+      ],
+      "name": "Custom Accordion FAQ",
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "background_color": "#ffffff",
+        "title_color": "#c5273c"
+      }
     }
   },
   "order": [
@@ -577,6 +791,10 @@
     "17338811218fba04af",
     "vertical_video_embeds_VYEQCE",
     "faq_xMLWJk",
-    "blog_posts_a9gV6W"
+    "blog_posts_a9gV6W",
+    "custom_nutrition_facts_CdTzhc",
+    "custom_hero_fLTN9V",
+    "custom_hero_qfQmRU",
+    "custom_accordion_faq_tGXVJr"
   ]
 }
