@@ -1,100 +1,107 @@
 <style>
-  .custom-hero {
-    width: 100%;
-  }
-  .custom-hero__pattern {
-    width: 100%;
-    background-repeat: repeat-x;
-    background-position: center bottom;
-    background-size: auto 100%;
-  }
-  .custom-hero__layout {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 80px 8px;
-  }
-  .text-on-left {
-    text-align: left;
-  }
-  .text-on-center {
-    text-align: center;
-  }
-  .text-on-right {
-    text-align: right;
-  }
+    .custom-hero {
+      width: 100%;
+    }
+    .custom-hero__pattern {
+      width: 100%;
+      background-repeat: repeat-x;
+      background-position: center bottom;
+      background-size: auto 100%;
+    }
+    .custom-hero__layout {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 80px 8px;
+    }
+    .text-on-left {
+      text-align: left;
+    }
+    .text-on-center {
+      text-align: center;
+    }
+    .text-on-right {
+      text-align: right;
+    }
 
-  .custom-hero__written-content {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
+  {%- if section.settings.image != blank -%}
+    .custom-hero__written-content {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  {% else %}
+    .custom-hero__written-content {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  {% endif %}
 
-  .custom-hero__written-title {
-    font-size: 50px;
-    font-weight: 500;
-    font-family: 'Founders Grotesk', sans-serif;
-  }
-  @media only screen and (max-width: 749px) {
     .custom-hero__written-title {
-      font-size: 35px;
+      font-size: 50px;
+      font-weight: 500;
+      font-family: 'Founders Grotesk', sans-serif;
     }
-  }
+    @media only screen and (max-width: 749px) {
+      .custom-hero__written-title {
+        font-size: 35px;
+      }
+    }
 
-  .custom-hero__written-text {
-    font-weight: 400;
-    font-size: 30px;
-    font-family: 'Founders Grotesk', sans-serif;
-    line-height: 35px;
-  }
-  @media only screen and (max-width: 749px) {
     .custom-hero__written-text {
-      font-size: 15px;
-      line-height: 18px;
+      font-weight: 400;
+      font-size: 30px;
+      font-family: 'Founders Grotesk', sans-serif;
+      line-height: 35px;
     }
-  }
+    @media only screen and (max-width: 749px) {
+      .custom-hero__written-text {
+        font-size: 15px;
+        line-height: 18px;
+      }
+    }
 
-  .custom-hero__image {
-    flex: 0 0 50%;
-    max-width: 50%;
-    display: flex;
-    justify-content: center;
-  }
+    .custom-hero__image {
+      flex: 0 0 50%;
+      max-width: 50%;
+      display: flex;
+      justify-content: center;
+    }
 
-  .custom-hero__image img {
-    aspect-ratio: 1 / 1;
-    width: 364px;
-    height: auto;
-    object-fit: cover;
-    border-radius: 50%;
-  }
+    .custom-hero__image img {
+      aspect-ratio: 1 / 1;
+      width: 364px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 50%;
+    }
 
-  #custom-hero-{{ section.id }} .custom-hero__written-text strong,
-  #custom-hero-{{ section.id }} .custom-hero__written-text b {
-    color: {{ section.settings.bold_text_color }};
-  }
+    #custom-hero-{{ section.id }} .custom-hero__written-text strong,
+    #custom-hero-{{ section.id }} .custom-hero__written-text b {
+      color: {{ section.settings.bold_text_color }};
+    }
 
-  #custom-hero-{{ section.id }} .custom-hero__written-text {
-    font-size: {{ section.settings.text_font_size_desktop }}px;
-    line-height: {{ section.settings.text_line_height_desktop }}px;
-  }
-  @media only screen and (max-width: 749px) {
     #custom-hero-{{ section.id }} .custom-hero__written-text {
-      font-size: {{ section.settings.text_font_size_mobile }}px;
-      line-height: {{ section.settings.text_line_height_mobile }}px;
+      font-size: {{ section.settings.text_font_size_desktop }}px;
+      line-height: {{ section.settings.text_line_height_desktop }}px;
     }
-  }
+    @media only screen and (max-width: 749px) {
+      #custom-hero-{{ section.id }} .custom-hero__written-text {
+        font-size: {{ section.settings.text_font_size_mobile }}px;
+        line-height: {{ section.settings.text_line_height_mobile }}px;
+      }
+    }
 
-  #custom-hero-{{ section.id }} .custom-hero__pattern {
-    height: {{ section.settings.pattern_height }}px;
-  }
-  @media only screen and (max-width: 749px) {
     #custom-hero-{{ section.id }} .custom-hero__pattern {
-      height: {{ section.settings.pattern_height_mobile }}px;
+      height: {{ section.settings.pattern_height }}px;
     }
-  }
+    @media only screen and (max-width: 749px) {
+      #custom-hero-{{ section.id }} .custom-hero__pattern {
+        height: {{ section.settings.pattern_height_mobile }}px;
+      }
+    }
 </style>
 <section
   class="custom-hero"
@@ -230,22 +237,12 @@
     {
       "type": "range",
       "id": "pattern_height",
-      "label": "Pattern height (desktop)",
+      "label": "Pattern height",
       "min": 10,
       "max": 200,
       "step": 2,
       "unit": "px",
       "default": 60
-    },
-    {
-      "type": "range",
-      "id": "pattern_height_mobile",
-      "label": "Pattern height (mobile)",
-      "min": 10,
-      "max": 200,
-      "step": 2,
-      "unit": "px",
-      "default": 40
     },
     {
       "type": "select",
