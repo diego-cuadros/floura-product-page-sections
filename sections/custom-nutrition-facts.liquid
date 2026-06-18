@@ -302,7 +302,7 @@
       </div>
 
       <div class="whats-inside__column whats-inside__column--right">
-        <p class="whats-inside__daily-value-label">% Daily Value</p>
+        <p class="whats-inside__daily-value-label">{{ section.settings.daily_value_label }}</p>
         <div class="whats-inside__stats">
           {%- for block in section.blocks -%}
             {%- case block.type -%}
@@ -327,10 +327,11 @@
             {%- endcase -%}
           {%- endfor -%}
         </div>
-        <p class="whats-inside__daily-value-label--bottom">
-          *The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000
-          calories a day is used for general nutrition advice.
-        </p>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'daily_value_note' -%}
+            <div class="whats-inside__daily-value-label--bottom" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
     </div>
 
@@ -425,7 +426,7 @@
       </div>
 
       <div class="whats-inside__column whats-inside__column--mobile">
-        <p class="whats-inside__daily-value-label">% Daily Value</p>
+        <p class="whats-inside__daily-value-label">{{ section.settings.daily_value_label }}</p>
         <div class="whats-inside__stats">
           {%- for block in section.blocks -%}
             {%- case block.type -%}
@@ -450,10 +451,11 @@
             {%- endcase -%}
           {%- endfor -%}
         </div>
-        <p class="whats-inside__daily-value-label--bottom">
-          *The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000
-          calories a day is used for general nutrition advice.
-        </p>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'daily_value_note' -%}
+            <div class="whats-inside__daily-value-label--bottom" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
     </div>
 
@@ -508,6 +510,12 @@
       "default": "Blueberry Matcha"
     },
     {
+      "type": "text",
+      "id": "daily_value_label",
+      "label": "Daily value label",
+      "default": "% Daily Value"
+    },
+    {
       "type": "color",
       "id": "background_color",
       "label": "Background color",
@@ -520,7 +528,7 @@
       "default": "#414180"
     }
   ],
-  "max_blocks": 15,
+  "max_blocks": 16,
   "blocks": [
     {
       "type": "ingredients",
@@ -616,6 +624,19 @@
           "default": "<p>160</p>"
         }
       ]
+    },
+    {
+      "type": "daily_value_note",
+      "name": "Daily value note",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Note",
+          "default": "<p>*The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>"
+        }
+      ]
     }
   ],
   "presets": [
@@ -683,6 +704,12 @@
           "settings": {
             "left": "<p>Vitamin D 0mcg<br>Calcium 60mg<br>Iron 1.3mg<br>Potassium 170mg</p>",
             "right": "<p>0%<br>4%<br>8%<br>4%</p>"
+          }
+        },
+        {
+          "type": "daily_value_note",
+          "settings": {
+            "text": "<p>*The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>"
           }
         }
       ]
