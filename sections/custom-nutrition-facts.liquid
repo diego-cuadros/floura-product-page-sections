@@ -109,6 +109,7 @@
     margin-bottom: 16px;
     border-radius: 100%;
     background-color: #e0e0e0;
+    object-fit: cover;
   }
 
   @media only screen and (max-width: 749px) {
@@ -336,30 +337,18 @@
     </div>
 
     <div class="whats-inside__features">
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'feature' -%}
+          <div class="whats-inside__feature" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 152 | image_tag: class: 'whats-inside__feature-icon', alt: block.settings.name }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'whats-inside__feature-icon placeholder-svg' }}
+            {%- endif -%}
+            <h3 class="whats-inside__feature-name">{{ block.settings.name }}</h3>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 
@@ -460,30 +449,18 @@
     </div>
 
     <div class="whats-inside__features">
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
-      <div class="whats-inside__feature">
-        <div class="whats-inside__feature-icon"></div>
-        <h3 class="whats-inside__feature-name">High Protein</h3>
-      </div>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'feature' -%}
+          <div class="whats-inside__feature" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 152 | image_tag: class: 'whats-inside__feature-icon', alt: block.settings.name }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'whats-inside__feature-icon placeholder-svg' }}
+            {%- endif -%}
+            <h3 class="whats-inside__feature-name">{{ block.settings.name }}</h3>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 </section>
@@ -528,7 +505,7 @@
       "default": "#414180"
     }
   ],
-  "max_blocks": 16,
+  "max_blocks": 24,
   "blocks": [
     {
       "type": "ingredients",
@@ -637,6 +614,24 @@
           "default": "<p>*The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>"
         }
       ]
+    },
+    {
+      "type": "feature",
+      "name": "Feature",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "High Protein"
+        }
+      ]
     }
   ],
   "presets": [
@@ -711,7 +706,13 @@
           "settings": {
             "text": "<p>*The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>"
           }
-        }
+        },
+        { "type": "feature", "settings": { "name": "High Protein" } },
+        { "type": "feature", "settings": { "name": "High Protein" } },
+        { "type": "feature", "settings": { "name": "High Protein" } },
+        { "type": "feature", "settings": { "name": "High Protein" } },
+        { "type": "feature", "settings": { "name": "High Protein" } },
+        { "type": "feature", "settings": { "name": "High Protein" } }
       ]
     }
   ]
