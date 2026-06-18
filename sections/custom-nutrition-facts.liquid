@@ -254,14 +254,14 @@
 
       <div class="whats-inside__column whats-inside__column--center">
         <div class="whats-inside__title">
-          <h2 class="whats-inside__heading">What's Inside</h2>
+          <h2 class="whats-inside__heading">{{ section.settings.heading }}</h2>
           <h3
             class="whats-inside__flavor"
             {% if section.settings.flavor_text_color != blank %}
               style="color: {{ section.settings.flavor_text_color }};"
             {% endif %}
           >
-            Blueberry Matcha
+            {{ section.settings.flavor }}
           </h3>
         </div>
         <div class="whats-inside__stats">
@@ -394,14 +394,14 @@
   {%- comment -%} Mobile layout {%- endcomment -%}
   <div class="whats-inside__layout whats-inside__layout--mobile">
     <div class="whats-inside__title">
-      <h2 class="whats-inside__heading">What's Inside</h2>
+      <h2 class="whats-inside__heading">{{ section.settings.heading }}</h2>
       <h3
         class="whats-inside__flavor"
         {% if section.settings.flavor_text_color != blank %}
           style="color: {{ section.settings.flavor_text_color }};"
         {% endif %}
       >
-        Blueberry Matcha
+        {{ section.settings.flavor }}
       </h3>
     </div>
 
@@ -551,6 +551,18 @@
       "type": "image_picker",
       "id": "image",
       "label": "Nutrition image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What's Inside"
+    },
+    {
+      "type": "text",
+      "id": "flavor",
+      "label": "Flavor",
+      "default": "Blueberry Matcha"
     },
     {
       "type": "color",
