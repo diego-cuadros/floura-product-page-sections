@@ -245,11 +245,11 @@
   <div class="whats-inside__layout whats-inside__layout--desktop">
     <div class="whats-inside__columns">
       <div class="whats-inside__column whats-inside__column--left">
-        <img
-          class="whats-inside__image"
-          src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/Blueberry-matcha-nutrition-image.png?v=1781575380"
-          alt="Blueberry Matcha nutrition"
-        >
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 600 | image_tag: class: 'whats-inside__image', alt: section.settings.image.alt }}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'whats-inside__image placeholder-svg' }}
+        {%- endif -%}
       </div>
 
       <div class="whats-inside__column whats-inside__column--center">
@@ -406,11 +406,11 @@
     </div>
 
     <div class="whats-inside__image-wrapper">
-      <img
-        class="whats-inside__image"
-        src="https://cdn.shopify.com/s/files/1/0835/7271/9938/files/Blueberry-matcha-nutrition-image.png?v=1781575380"
-        alt="Blueberry Matcha nutrition"
-      >
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 600 | image_tag: class: 'whats-inside__image', alt: section.settings.image.alt }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'whats-inside__image placeholder-svg' }}
+      {%- endif -%}
     </div>
 
     <div class="whats-inside__columns whats-inside__columns--mobile-row">
@@ -547,6 +547,11 @@
 {
   "name": "Custom What's Inside",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Nutrition image"
+    },
     {
       "type": "color",
       "id": "background_color",
