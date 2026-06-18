@@ -162,7 +162,6 @@
     text-align: right;
   }
   .whats-inside__stat-col--right-down {
-    margin-top: auto;
   }
 
   .whats-inside__stat-col--right-calories {
@@ -246,7 +245,11 @@
     <div class="whats-inside__columns">
       <div class="whats-inside__column whats-inside__column--left">
         {%- if section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 600 | image_tag: class: 'whats-inside__image', alt: section.settings.image.alt }}
+          {{
+            section.settings.image
+            | image_url: width: 600
+            | image_tag: class: 'whats-inside__image', alt: section.settings.image.alt
+          }}
         {%- else -%}
           {{ 'image' | placeholder_svg_tag: 'whats-inside__image placeholder-svg' }}
         {%- endif -%}
@@ -265,24 +268,28 @@
           </h3>
         </div>
         <div class="whats-inside__stats">
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              1 Serving Per Container<br>
-              <strong>Serving Size</strong>
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              1 Bar (45gr)
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              Amount Per Serving<br>
-              <strong>Calories</strong>
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
-              160
-            </div>
-          </div>
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'center_stat' -%}
+                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                    {{ block.settings.left }}
+                  </div>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+                    {{ block.settings.right }}
+                  </div>
+                </div>
+              {%- when 'center_stat_calories' -%}
+                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                    {{ block.settings.left }}
+                  </div>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+                    {{ block.settings.right }}
+                  </div>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
         </div>
         <div class="whats-inside__ingredients">
           <h4 class="whats-inside__ingredients-label">Ingredients</h4>
@@ -299,62 +306,28 @@
       <div class="whats-inside__column whats-inside__column--right">
         <p class="whats-inside__daily-value-label">% Daily Value</p>
         <div class="whats-inside__stats">
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              <strong>Total Fat 6g</strong><br>
-              Saturated Fat 1.5g<br>
-              Trans Fat 0g
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              8%<br>
-              8%
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left"><strong>Cholesterol 0mg</strong><br></div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              0%
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left"><strong>Sodium 55mg</strong><br></div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              2%
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              <strong>Total Carbohydrate 30g</strong><br>
-              Dietary Fiber 15g<br>
-              Total Sugars 7g Includes 0g Added Sugars
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              11%<br>
-              54%<br>
-              <br>
-              0%
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              <strong>Protein 3g</strong>
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down"></div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              Vitamin D 0mcg<br>
-              Calcium 60mg<br>
-              Iron 1.3mg<br>
-              Potassium 170mg
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              0%<br>
-              4%<br>
-              8%<br>
-              4%
-            </div>
-          </div>
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'right_stat' -%}
+                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                    {{ block.settings.left }}
+                  </div>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+                    {{ block.settings.right }}
+                  </div>
+                </div>
+              {%- when 'right_stat_calories' -%}
+                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                    {{ block.settings.left }}
+                  </div>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+                    {{ block.settings.right }}
+                  </div>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
         </div>
         <p class="whats-inside__daily-value-label--bottom">
           *The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000
@@ -407,7 +380,11 @@
 
     <div class="whats-inside__image-wrapper">
       {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 600 | image_tag: class: 'whats-inside__image', alt: section.settings.image.alt }}
+        {{
+          section.settings.image
+          | image_url: width: 600
+          | image_tag: class: 'whats-inside__image', alt: section.settings.image.alt
+        }}
       {%- else -%}
         {{ 'image' | placeholder_svg_tag: 'whats-inside__image placeholder-svg' }}
       {%- endif -%}
@@ -416,24 +393,28 @@
     <div class="whats-inside__columns whats-inside__columns--mobile-row">
       <div class="whats-inside__column whats-inside__column--mobile">
         <div class="whats-inside__stats">
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              1 Serving Per Container<br>
-              <strong>Serving Size</strong>
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              1 Bar (45gr)
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              Amount Per Serving<br>
-              <strong>Calories</strong>
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
-              160
-            </div>
-          </div>
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'center_stat' -%}
+                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                    {{ block.settings.left }}
+                  </div>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+                    {{ block.settings.right }}
+                  </div>
+                </div>
+              {%- when 'center_stat_calories' -%}
+                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                    {{ block.settings.left }}
+                  </div>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+                    {{ block.settings.right }}
+                  </div>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
         </div>
         <div class="whats-inside__ingredients">
           <h4 class="whats-inside__ingredients-label">Ingredients</h4>
@@ -450,62 +431,28 @@
       <div class="whats-inside__column whats-inside__column--mobile">
         <p class="whats-inside__daily-value-label">% Daily Value</p>
         <div class="whats-inside__stats">
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              <strong>Total Fat 6g</strong><br>
-              Saturated Fat 1.5g<br>
-              Trans Fat 0g
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              8%<br>
-              8%
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left"><strong>Cholesterol 0mg</strong><br></div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              0%
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left"><strong>Sodium 55mg</strong><br></div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              2%
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              <strong>Total Carbohydrate 30g</strong><br>
-              Dietary Fiber 15g<br>
-              Total Sugars 7g Includes 0g Added Sugars
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              11%<br>
-              54%<br>
-              <br>
-              0%
-            </div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              <strong>Protein 3g</strong>
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down"></div>
-          </div>
-          <div class="whats-inside__stat">
-            <div class="whats-inside__stat-col whats-inside__stat-col--left">
-              Vitamin D 0mcg<br>
-              Calcium 60mg<br>
-              Iron 1.3mg<br>
-              Potassium 170mg
-            </div>
-            <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
-              0%<br>
-              4%<br>
-              8%<br>
-              4%
-            </div>
-          </div>
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'right_stat' -%}
+                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                    {{ block.settings.left }}
+                  </div>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+                    {{ block.settings.right }}
+                  </div>
+                </div>
+              {%- when 'right_stat_calories' -%}
+                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                    {{ block.settings.left }}
+                  </div>
+                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+                    {{ block.settings.right }}
+                  </div>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
         </div>
         <p class="whats-inside__daily-value-label--bottom">
           *The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000
@@ -577,9 +524,146 @@
       "default": "#414180"
     }
   ],
+  "max_blocks": 14,
+  "blocks": [
+    {
+      "type": "center_stat",
+      "name": "Center stat",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "left",
+          "label": "Left text",
+          "default": "<p>1 Serving Per Container<br><strong>Serving Size</strong></p>"
+        },
+        {
+          "type": "richtext",
+          "id": "right",
+          "label": "Right text",
+          "default": "<p>1 Bar (45gr)</p>"
+        }
+      ]
+    },
+    {
+      "type": "center_stat_calories",
+      "name": "Center stat (calories)",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "left",
+          "label": "Left text",
+          "default": "<p>Amount Per Serving<br><strong>Calories</strong></p>"
+        },
+        {
+          "type": "richtext",
+          "id": "right",
+          "label": "Right text",
+          "default": "<p>160</p>"
+        }
+      ]
+    },
+    {
+      "type": "right_stat",
+      "name": "Right stat",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "left",
+          "label": "Left text",
+          "default": "<p><strong>Total Fat 6g</strong><br>Saturated Fat 1.5g<br>Trans Fat 0g</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "right",
+          "label": "Right text",
+          "default": "<p>8%<br>8%</p>"
+        }
+      ]
+    },
+    {
+      "type": "right_stat_calories",
+      "name": "Right stat (calories)",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "left",
+          "label": "Left text",
+          "default": "<p>Amount Per Serving<br><strong>Calories</strong></p>"
+        },
+        {
+          "type": "richtext",
+          "id": "right",
+          "label": "Right text",
+          "default": "<p>160</p>"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Custom What's Inside"
+      "name": "Custom What's Inside",
+      "blocks": [
+        {
+          "type": "center_stat",
+          "settings": {
+            "left": "<p>1 Serving Per Container<br><strong>Serving Size</strong></p>",
+            "right": "<p>1 Bar (45gr)</p>"
+          }
+        },
+        {
+          "type": "center_stat_calories",
+          "settings": {
+            "left": "<p>Amount Per Serving<br><strong>Calories</strong></p>",
+            "right": "<p>160</p>"
+          }
+        },
+        {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Total Fat 6g</strong><br>Saturated Fat 1.5g<br>Trans Fat 0g</p>",
+            "right": "<p>8%<br>8%</p>"
+          }
+        },
+        {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Cholesterol 0mg</strong></p>",
+            "right": "<p>0%</p>"
+          }
+        },
+        {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Sodium 55mg</strong></p>",
+            "right": "<p>2%</p>"
+          }
+        },
+        {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Total Carbohydrate 30g</strong><br>Dietary Fiber 15g<br>Total Sugars 7g Includes 0g Added Sugars</p>",
+            "right": "<p>11%<br>54%<br><br>0%</p>"
+          }
+        },
+        {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Protein 3g</strong></p>",
+            "right": "<p></p>"
+          }
+        },
+        {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p>Vitamin D 0mcg<br>Calcium 60mg<br>Iron 1.3mg<br>Potassium 170mg</p>",
+            "right": "<p>0%<br>4%<br>8%<br>4%</p>"
+          }
+        }
+      ]
     }
   ]
 }
