@@ -241,16 +241,16 @@
   # otherwise fall back to the section settings.
   # NOTE: `.title` and `.flavor` below are the metaobject FIELD KEYS (API handles).
   # If your metaobject uses different keys, change them here.
-  assign nf_heading = section.settings.heading
-  assign nf_flavor = section.settings.flavor
+  assign values_for_heading = section.settings.heading
+  assign values_for_flavor = section.settings.flavor
 
-  assign nf_metaobject = product.selected_or_first_available_variant.metafields.custom.nutrition_facts_bottomless.value
-  if nf_metaobject != blank
-    if nf_metaobject.title != blank
-      assign nf_heading = nf_metaobject.title
+  assign values_for_metaobject = product.selected_or_first_available_variant.metafields.custom.nutrition_facts_bottomless.value
+  if values_for_metaobject != blank
+    if values_for_metaobject.title != blank
+      assign values_for_heading = values_for_metaobject.title
     endif
-    if nf_metaobject.flavor != blank
-      assign nf_flavor = nf_metaobject.flavor
+    if values_for_metaobject.flavor != blank
+      assign values_for_flavor = values_for_metaobject.flavor
     endif
   endif
 -%}
@@ -278,14 +278,14 @@
 
       <div class="nutrition-facts__column nutrition-facts__column--center">
         <div class="nutrition-facts__title">
-          <h2 class="nutrition-facts__heading">{{ nf_heading }}</h2>
+          <h2 class="nutrition-facts__heading">{{ values_for_heading }}</h2>
           <h3
             class="nutrition-facts__flavor"
             {% if section.settings.flavor_text_color != blank %}
               style="color: {{ section.settings.flavor_text_color }};"
             {% endif %}
           >
-            {{ nf_flavor }}
+            {{ values_for_flavor }}
           </h3>
         </div>
         <div class="nutrition-facts__stats">
@@ -381,14 +381,14 @@
   {%- comment -%} Mobile layout {%- endcomment -%}
   <div class="nutrition-facts__layout nutrition-facts__layout--mobile">
     <div class="nutrition-facts__title">
-      <h2 class="nutrition-facts__heading">{{ nf_heading }}</h2>
+      <h2 class="nutrition-facts__heading">{{ section.settings.heading }}</h2>
       <h3
         class="nutrition-facts__flavor"
         {% if section.settings.flavor_text_color != blank %}
           style="color: {{ section.settings.flavor_text_color }};"
         {% endif %}
       >
-        {{ nf_flavor }}
+        {{ section.settings.flavor }}
       </h3>
     </div>
 
