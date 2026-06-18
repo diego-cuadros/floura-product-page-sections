@@ -1,25 +1,25 @@
 <style>
   /* Block */
-  .whats-inside {
+  .nutrition-facts {
     width: 100%;
   }
 
   /* Layout — desktop and mobile trees swap at 749px */
-  .whats-inside__layout {
+  .nutrition-facts__layout {
     max-width: 1500px;
     margin: 0 auto;
     padding: 80px 8px;
   }
-  .whats-inside__layout--desktop {
+  .nutrition-facts__layout--desktop {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  .whats-inside__layout--mobile {
+  .nutrition-facts__layout--mobile {
     display: none;
   }
 
-  .whats-inside__heading {
+  .nutrition-facts__heading {
     font-size: 50px;
     font-weight: 500;
     font-family: 'Founders Grotesk', sans-serif;
@@ -27,54 +27,54 @@
   }
 
   @media only screen and (max-width: 769px) {
-    .whats-inside__heading {
+    .nutrition-facts__heading {
       font-size: 35px;
       text-align: center;
     }
   }
-  .whats-inside__flavor {
+  .nutrition-facts__flavor {
     font-size: 30px;
     font-weight: 500;
     font-family: 'Founders Grotesk', sans-serif;
   }
 
   @media only screen and (max-width: 769px) {
-    .whats-inside__flavor {
+    .nutrition-facts__flavor {
       font-size: 25px;
       text-align: center;
     }
   }
 
   /* Columns */
-  .whats-inside__columns {
+  .nutrition-facts__columns {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     gap: 40px;
   }
-  .whats-inside__column {
+  .nutrition-facts__column {
     width: 100%;
   }
-  .whats-inside__column--left {
+  .nutrition-facts__column--left {
     max-width: 236px;
   }
-  .whats-inside__column--center {
+  .nutrition-facts__column--center {
     margin-top: 2%;
     max-width: 500px;
   }
-  .whats-inside__column--right {
+  .nutrition-facts__column--right {
     margin-top: 4%;
     max-width: 350px;
   }
 
   /* Product image */
-  .whats-inside__image {
+  .nutrition-facts__image {
     width: 100%;
     max-width: 100%;
   }
 
   @media only screen and (max-width: 749px) {
-    .whats-inside__image-wrapper {
+    .nutrition-facts__image-wrapper {
       /* Post-rotation visual width of the image (its CSS height) */
       --rotated-image-width: min(70vw, 320px);
       display: flex;
@@ -84,7 +84,7 @@
          Match the wrapper height so there's no gap/overflow around the image. */
       height: calc(var(--rotated-image-width) * 222 / 498);
     }
-    .whats-inside__image {
+    .nutrition-facts__image {
       width: auto;
       height: var(--rotated-image-width);
       max-width: none;
@@ -95,7 +95,7 @@
   }
 
   /* Feature highlights */
-  .whats-inside__features {
+  .nutrition-facts__features {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -103,7 +103,7 @@
     width: 100%;
     max-width: 750px;
   }
-  .whats-inside__feature-icon {
+  .nutrition-facts__feature-icon {
     width: 76px;
     height: 76px;
     margin-bottom: 16px;
@@ -113,35 +113,35 @@
   }
 
   @media only screen and (max-width: 749px) {
-    .whats-inside__layout {
+    .nutrition-facts__layout {
       padding: 16px;
     }
-    .whats-inside__layout--desktop {
+    .nutrition-facts__layout--desktop {
       display: none;
     }
-    .whats-inside__layout--mobile {
+    .nutrition-facts__layout--mobile {
       display: block;
     }
-    .whats-inside__columns--mobile-row {
+    .nutrition-facts__columns--mobile-row {
       flex-direction: row;
       align-items: stretch;
       justify-content: space-between;
       gap: 12px;
       margin-top: 24px;
     }
-    .whats-inside__columns--mobile-row .whats-inside__column--mobile {
+    .nutrition-facts__columns--mobile-row .nutrition-facts__column--mobile {
       flex: 1 1 0;
       min-width: 0;
     }
   }
 
-  .whats-inside__stats {
+  .nutrition-facts__stats {
     display: flex;
     flex-direction: column;
     gap: 5px;
   }
 
-  .whats-inside__stat {
+  .nutrition-facts__stat {
     background-color: #ffffff;
     border: 1px solid #000000;
     border-radius: 3px;
@@ -151,116 +151,116 @@
     gap: 5px;
   }
 
-  .whats-inside__stat-col {
+  .nutrition-facts__stat-col {
     width: 100%;
     font-size: 12px;
   }
 
-  .whats-inside__stat-col--left {
+  .nutrition-facts__stat-col--left {
     text-align: left;
   }
-  .whats-inside__stat-col--right {
+  .nutrition-facts__stat-col--right {
     text-align: right;
   }
-  .whats-inside__stat-col--right-down {
+  .nutrition-facts__stat-col--right-down {
   }
 
-  .whats-inside__stat-col--right-calories {
+  .nutrition-facts__stat-col--right-calories {
     font-size: 28px;
     font-weight: 500;
     margin: auto 0 auto auto;
   }
 
-  .whats-inside__ingredients {
+  .nutrition-facts__ingredients {
     margin-top: 25px;
   }
 
-  .whats-inside__ingredients-label {
+  .nutrition-facts__ingredients-label {
     font-weight: 500;
     font-size: 15px;
   }
 
-  .whats-inside__ingredients-text {
+  .nutrition-facts__ingredients-text {
     font-size: 12px;
   }
 
-  .whats-inside__daily-value-label,
-  .whats-inside__daily-value-label--bottom {
+  .nutrition-facts__daily-value-label,
+  .nutrition-facts__daily-value-label--bottom {
     font-size: 12px;
     font-family: 'Founders Grotesk', sans-serif;
     font-weight: 500;
     text-align: right;
   }
 
-  .whats-inside__daily-value-label--bottom {
+  .nutrition-facts__daily-value-label--bottom {
     font-size: 10px;
     text-align: left;
     margin-top: 10px;
   }
 
   @media only screen and (max-width: 749px) {
-    .whats-inside__feature-name {
+    .nutrition-facts__feature-name {
       font-size: 8px;
     }
 
-    .whats-inside__feature-icon {
+    .nutrition-facts__feature-icon {
       width: 40px;
       height: 40px;
     }
-    .whats-inside__stat {
+    .nutrition-facts__stat {
       padding: 6px;
     }
-    .whats-inside__stat-col {
+    .nutrition-facts__stat-col {
       font-size: 8px;
     }
-    .whats-inside__stat-col--right-calories {
+    .nutrition-facts__stat-col--right-calories {
       font-size: 19px;
     }
-    .whats-inside__ingredients-label {
+    .nutrition-facts__ingredients-label {
       font-size: 12px;
     }
-    .whats-inside__ingredients-text {
+    .nutrition-facts__ingredients-text {
       font-size: 10px;
     }
-    .whats-inside__daily-value-label {
+    .nutrition-facts__daily-value-label {
       margin-top: -11px;
     }
-    .whats-inside__daily-value-label,
-    .whats-inside__daily-value-label--bottom {
+    .nutrition-facts__daily-value-label,
+    .nutrition-facts__daily-value-label--bottom {
       font-size: 8px;
     }
-    .whats-inside__ingredients {
+    .nutrition-facts__ingredients {
       padding-left: 8px;
     }
   }
 </style>
 
 <section
-  class="whats-inside"
+  class="nutrition-facts"
   {% if section.settings.background_color != blank %}
     style="background-color: {{ section.settings.background_color }};"
   {% endif %}
 >
   {%- comment -%} Desktop layout {%- endcomment -%}
-  <div class="whats-inside__layout whats-inside__layout--desktop">
-    <div class="whats-inside__columns">
-      <div class="whats-inside__column whats-inside__column--left">
+  <div class="nutrition-facts__layout nutrition-facts__layout--desktop">
+    <div class="nutrition-facts__columns">
+      <div class="nutrition-facts__column nutrition-facts__column--left">
         {%- if section.settings.image != blank -%}
           {{
             section.settings.image
             | image_url: width: 600
-            | image_tag: class: 'whats-inside__image', alt: section.settings.image.alt
+            | image_tag: class: 'nutrition-facts__image', alt: section.settings.image.alt
           }}
         {%- else -%}
-          {{ 'image' | placeholder_svg_tag: 'whats-inside__image placeholder-svg' }}
+          {{ 'image' | placeholder_svg_tag: 'nutrition-facts__image placeholder-svg' }}
         {%- endif -%}
       </div>
 
-      <div class="whats-inside__column whats-inside__column--center">
-        <div class="whats-inside__title">
-          <h2 class="whats-inside__heading">{{ section.settings.heading }}</h2>
+      <div class="nutrition-facts__column nutrition-facts__column--center">
+        <div class="nutrition-facts__title">
+          <h2 class="nutrition-facts__heading">{{ section.settings.heading }}</h2>
           <h3
-            class="whats-inside__flavor"
+            class="nutrition-facts__flavor"
             {% if section.settings.flavor_text_color != blank %}
               style="color: {{ section.settings.flavor_text_color }};"
             {% endif %}
@@ -268,24 +268,24 @@
             {{ section.settings.flavor }}
           </h3>
         </div>
-        <div class="whats-inside__stats">
+        <div class="nutrition-facts__stats">
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'center_stat' -%}
-                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
                     {{ block.settings.left }}
                   </div>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
                     {{ block.settings.right }}
                   </div>
                 </div>
               {%- when 'center_stat_calories' -%}
-                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
                     {{ block.settings.left }}
                   </div>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
                     {{ block.settings.right }}
                   </div>
                 </div>
@@ -294,34 +294,34 @@
         </div>
         {%- for block in section.blocks -%}
           {%- if block.type == 'ingredients' -%}
-            <div class="whats-inside__ingredients" {{ block.shopify_attributes }}>
-              <h4 class="whats-inside__ingredients-label">{{ block.settings.label }}</h4>
-              <div class="whats-inside__ingredients-text">{{ block.settings.text }}</div>
+            <div class="nutrition-facts__ingredients" {{ block.shopify_attributes }}>
+              <h4 class="nutrition-facts__ingredients-label">{{ block.settings.label }}</h4>
+              <div class="nutrition-facts__ingredients-text">{{ block.settings.text }}</div>
             </div>
           {%- endif -%}
         {%- endfor -%}
       </div>
 
-      <div class="whats-inside__column whats-inside__column--right">
-        <p class="whats-inside__daily-value-label">{{ section.settings.daily_value_label }}</p>
-        <div class="whats-inside__stats">
+      <div class="nutrition-facts__column nutrition-facts__column--right">
+        <p class="nutrition-facts__daily-value-label">{{ section.settings.daily_value_label }}</p>
+        <div class="nutrition-facts__stats">
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'right_stat' -%}
-                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
                     {{ block.settings.left }}
                   </div>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
                     {{ block.settings.right }}
                   </div>
                 </div>
               {%- when 'right_stat_calories' -%}
-                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
                     {{ block.settings.left }}
                   </div>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
                     {{ block.settings.right }}
                   </div>
                 </div>
@@ -330,22 +330,22 @@
         </div>
         {%- for block in section.blocks -%}
           {%- if block.type == 'daily_value_note' -%}
-            <div class="whats-inside__daily-value-label--bottom" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            <div class="nutrition-facts__daily-value-label--bottom" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
           {%- endif -%}
         {%- endfor -%}
       </div>
     </div>
 
-    <div class="whats-inside__features">
+    <div class="nutrition-facts__features">
       {%- for block in section.blocks -%}
         {%- if block.type == 'feature' -%}
-          <div class="whats-inside__feature" {{ block.shopify_attributes }}>
+          <div class="nutrition-facts__feature" {{ block.shopify_attributes }}>
             {%- if block.settings.icon != blank -%}
-              {{ block.settings.icon | image_url: width: 152 | image_tag: class: 'whats-inside__feature-icon', alt: block.settings.name }}
+              {{ block.settings.icon | image_url: width: 152 | image_tag: class: 'nutrition-facts__feature-icon', alt: block.settings.name }}
             {%- else -%}
-              {{ 'image' | placeholder_svg_tag: 'whats-inside__feature-icon placeholder-svg' }}
+              {{ 'image' | placeholder_svg_tag: 'nutrition-facts__feature-icon placeholder-svg' }}
             {%- endif -%}
-            <h3 class="whats-inside__feature-name">{{ block.settings.name }}</h3>
+            <h3 class="nutrition-facts__feature-name">{{ block.settings.name }}</h3>
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -353,11 +353,11 @@
   </div>
 
   {%- comment -%} Mobile layout {%- endcomment -%}
-  <div class="whats-inside__layout whats-inside__layout--mobile">
-    <div class="whats-inside__title">
-      <h2 class="whats-inside__heading">{{ section.settings.heading }}</h2>
+  <div class="nutrition-facts__layout nutrition-facts__layout--mobile">
+    <div class="nutrition-facts__title">
+      <h2 class="nutrition-facts__heading">{{ section.settings.heading }}</h2>
       <h3
-        class="whats-inside__flavor"
+        class="nutrition-facts__flavor"
         {% if section.settings.flavor_text_color != blank %}
           style="color: {{ section.settings.flavor_text_color }};"
         {% endif %}
@@ -366,38 +366,38 @@
       </h3>
     </div>
 
-    <div class="whats-inside__image-wrapper">
+    <div class="nutrition-facts__image-wrapper">
       {%- if section.settings.image != blank -%}
         {{
           section.settings.image
           | image_url: width: 600
-          | image_tag: class: 'whats-inside__image', alt: section.settings.image.alt
+          | image_tag: class: 'nutrition-facts__image', alt: section.settings.image.alt
         }}
       {%- else -%}
-        {{ 'image' | placeholder_svg_tag: 'whats-inside__image placeholder-svg' }}
+        {{ 'image' | placeholder_svg_tag: 'nutrition-facts__image placeholder-svg' }}
       {%- endif -%}
     </div>
 
-    <div class="whats-inside__columns whats-inside__columns--mobile-row">
-      <div class="whats-inside__column whats-inside__column--mobile">
-        <div class="whats-inside__stats">
+    <div class="nutrition-facts__columns nutrition-facts__columns--mobile-row">
+      <div class="nutrition-facts__column nutrition-facts__column--mobile">
+        <div class="nutrition-facts__stats">
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'center_stat' -%}
-                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
                     {{ block.settings.left }}
                   </div>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
                     {{ block.settings.right }}
                   </div>
                 </div>
               {%- when 'center_stat_calories' -%}
-                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
                     {{ block.settings.left }}
                   </div>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
                     {{ block.settings.right }}
                   </div>
                 </div>
@@ -406,34 +406,34 @@
         </div>
         {%- for block in section.blocks -%}
           {%- if block.type == 'ingredients' -%}
-            <div class="whats-inside__ingredients" {{ block.shopify_attributes }}>
-              <h4 class="whats-inside__ingredients-label">{{ block.settings.label }}</h4>
-              <div class="whats-inside__ingredients-text">{{ block.settings.text }}</div>
+            <div class="nutrition-facts__ingredients" {{ block.shopify_attributes }}>
+              <h4 class="nutrition-facts__ingredients-label">{{ block.settings.label }}</h4>
+              <div class="nutrition-facts__ingredients-text">{{ block.settings.text }}</div>
             </div>
           {%- endif -%}
         {%- endfor -%}
       </div>
 
-      <div class="whats-inside__column whats-inside__column--mobile">
-        <p class="whats-inside__daily-value-label">{{ section.settings.daily_value_label }}</p>
-        <div class="whats-inside__stats">
+      <div class="nutrition-facts__column nutrition-facts__column--mobile">
+        <p class="nutrition-facts__daily-value-label">{{ section.settings.daily_value_label }}</p>
+        <div class="nutrition-facts__stats">
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'right_stat' -%}
-                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
                     {{ block.settings.left }}
                   </div>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-down">
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
                     {{ block.settings.right }}
                   </div>
                 </div>
               {%- when 'right_stat_calories' -%}
-                <div class="whats-inside__stat" {{ block.shopify_attributes }}>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--left">
+                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
                     {{ block.settings.left }}
                   </div>
-                  <div class="whats-inside__stat-col whats-inside__stat-col--right whats-inside__stat-col--right-calories">
+                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
                     {{ block.settings.right }}
                   </div>
                 </div>
@@ -442,22 +442,22 @@
         </div>
         {%- for block in section.blocks -%}
           {%- if block.type == 'daily_value_note' -%}
-            <div class="whats-inside__daily-value-label--bottom" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            <div class="nutrition-facts__daily-value-label--bottom" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
           {%- endif -%}
         {%- endfor -%}
       </div>
     </div>
 
-    <div class="whats-inside__features">
+    <div class="nutrition-facts__features">
       {%- for block in section.blocks -%}
         {%- if block.type == 'feature' -%}
-          <div class="whats-inside__feature" {{ block.shopify_attributes }}>
+          <div class="nutrition-facts__feature" {{ block.shopify_attributes }}>
             {%- if block.settings.icon != blank -%}
-              {{ block.settings.icon | image_url: width: 152 | image_tag: class: 'whats-inside__feature-icon', alt: block.settings.name }}
+              {{ block.settings.icon | image_url: width: 152 | image_tag: class: 'nutrition-facts__feature-icon', alt: block.settings.name }}
             {%- else -%}
-              {{ 'image' | placeholder_svg_tag: 'whats-inside__feature-icon placeholder-svg' }}
+              {{ 'image' | placeholder_svg_tag: 'nutrition-facts__feature-icon placeholder-svg' }}
             {%- endif -%}
-            <h3 class="whats-inside__feature-name">{{ block.settings.name }}</h3>
+            <h3 class="nutrition-facts__feature-name">{{ block.settings.name }}</h3>
           </div>
         {%- endif -%}
       {%- endfor -%}
