@@ -1,0 +1,107 @@
+<style>
+  .custom-hero {
+    width: 100%;
+  }
+  .custom-hero__layout {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 80px 8px;
+  }
+  .text-on-left {
+    text-align: left;
+  }
+  .text-on-center {
+    text-align: center;
+  }
+  .text-on-right {
+    text-align: right;
+  }
+
+  .custom-hero__written-content {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .custom-hero__image {
+    flex: 0 0 50%;
+    max-width: 50%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .custom-hero__image img {
+    aspect-ratio: 1 / 1;
+    width: 364px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+</style>
+<section class="custom-hero">
+  <div class="custom-hero__layout">
+    <div class="custom-hero__written-content text-on-{{ section.settings.text_alignment }}">
+      {%- if section.settings.title != blank -%}
+        <h2 class="custom-hero__written-title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="custom-hero__written-text">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.image != blank -%}
+      <div class="custom-hero__image">
+        <img
+          src="{{ section.settings.image | image_url: width: 1500 }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          loading="lazy"
+        >
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Beyond the Flavor"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Blueberries and blue matcha contribute more than flavor and color. Both are naturally rich in anthocyanins – plant compounds that research suggests may help support overall health and wellbeing. That’s one reason they fit naturally into the Floura philosophy: real foods bring something more to the table.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Hero"
+    }
+  ]
+}
+{% endschema %}
