@@ -291,16 +291,14 @@
             {%- endcase -%}
           {%- endfor -%}
         </div>
-        <div class="whats-inside__ingredients">
-          <h4 class="whats-inside__ingredients-label">Ingredients</h4>
-          <p class="whats-inside__ingredients-text">
-            Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango & Pineapple),
-            Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree,
-            Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar
-            Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder <br>
-            <strong>Allergens: Almonds</strong>
-          </p>
-        </div>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'ingredients' -%}
+            <div class="whats-inside__ingredients" {{ block.shopify_attributes }}>
+              <h4 class="whats-inside__ingredients-label">{{ block.settings.label }}</h4>
+              <div class="whats-inside__ingredients-text">{{ block.settings.text }}</div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
 
       <div class="whats-inside__column whats-inside__column--right">
@@ -416,16 +414,14 @@
             {%- endcase -%}
           {%- endfor -%}
         </div>
-        <div class="whats-inside__ingredients">
-          <h4 class="whats-inside__ingredients-label">Ingredients</h4>
-          <p class="whats-inside__ingredients-text">
-            Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango & Pineapple),
-            Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree,
-            Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar
-            Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder <br>
-            <strong>Allergens: Almonds</strong>
-          </p>
-        </div>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'ingredients' -%}
+            <div class="whats-inside__ingredients" {{ block.shopify_attributes }}>
+              <h4 class="whats-inside__ingredients-label">{{ block.settings.label }}</h4>
+              <div class="whats-inside__ingredients-text">{{ block.settings.text }}</div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
 
       <div class="whats-inside__column whats-inside__column--mobile">
@@ -524,8 +520,27 @@
       "default": "#414180"
     }
   ],
-  "max_blocks": 14,
+  "max_blocks": 15,
   "blocks": [
+    {
+      "type": "ingredients",
+      "name": "Ingredients",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Ingredients"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Ingredients text",
+          "default": "<p>Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango &amp; Pineapple), Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree, Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder<br><strong>Allergens: Almonds</strong></p>"
+        }
+      ]
+    },
     {
       "type": "center_stat",
       "name": "Center stat",
@@ -619,6 +634,13 @@
           "settings": {
             "left": "<p>Amount Per Serving<br><strong>Calories</strong></p>",
             "right": "<p>160</p>"
+          }
+        },
+        {
+          "type": "ingredients",
+          "settings": {
+            "label": "Ingredients",
+            "text": "<p>Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango &amp; Pineapple), Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree, Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder<br><strong>Allergens: Almonds</strong></p>"
           }
         },
         {
