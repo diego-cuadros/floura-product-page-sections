@@ -64,15 +64,33 @@
     object-fit: cover;
     border-radius: 50%;
   }
+
+  #custom-hero-{{ section.id }} .custom-hero__written-text strong,
+  #custom-hero-{{ section.id }} .custom-hero__written-text b {
+    color: {{ section.settings.bold_text_color }};
+  }
+
+  #custom-hero-{{ section.id }} .custom-hero__written-text {
+    font-size: {{ section.settings.text_font_size_desktop }}px;
+    line-height: {{ section.settings.text_line_height_desktop }}px;
+  }
+  @media only screen and (max-width: 749px) {
+    #custom-hero-{{ section.id }} .custom-hero__written-text {
+      font-size: {{ section.settings.text_font_size_mobile }}px;
+      line-height: {{ section.settings.text_line_height_mobile }}px;
+    }
+  }
 </style>
-<section class="custom-hero">
+<section class="custom-hero" id="custom-hero-{{ section.id }}" style="background-color: {{ section.settings.background_color }};">
   <div class="custom-hero__layout">
     <div class="custom-hero__written-content text-on-{{ section.settings.text_alignment }}">
       {%- if section.settings.title != blank -%}
-        <h2 class="custom-hero__written-title">{{ section.settings.title }}</h2>
+        <h2 class="custom-hero__written-title" style="color: {{ section.settings.title_color }};">
+          {{ section.settings.title }}
+        </h2>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
-        <p class="custom-hero__written-text">{{ section.settings.text }}</p>
+        <div class="custom-hero__written-text" style="color: {{ section.settings.text_color }};">{{ section.settings.text }}</div>
       {%- endif -%}
     </div>
     {%- if section.settings.image != blank -%}
@@ -109,6 +127,70 @@
       "type": "image_picker",
       "id": "image",
       "label": "Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FBF5E1"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#C5273C"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bold_text_color",
+      "label": "Bold text color",
+      "default": "#C5273C"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size_desktop",
+      "label": "Text font size (desktop)",
+      "min": 12,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "text_font_size_mobile",
+      "label": "Text font size (mobile)",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "text_line_height_desktop",
+      "label": "Text line height (desktop)",
+      "min": 12,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "text_line_height_mobile",
+      "label": "Text line height (mobile)",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 18
     },
     {
       "type": "select",
