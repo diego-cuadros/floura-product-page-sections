@@ -240,22 +240,61 @@
   }
 </style>
 
+{%- comment -%}
+  Variant-aware nutrition facts.
+  Every variant's content is pre-rendered (keyed by data-variant-id) and all but the
+  current one are hidden. A small delegated script (bottom of the section) swaps which
+  one is visible when the shopper picks a different variant — no page reload. Variant
+  selection is detected via:
+    - bundle-subscription buy box: [data-variant-radio] / [data-variant-id]
+      (that template dispatches NO theme:variant:change — see snippets/buy-box-bundle-subscription.liquid)
+    - standard product templates: theme:variant:change / shapes:product:variantchange events
+    - URL ?variant=ID on load
+{%- endcomment -%}
+
 {%- liquid
-  # Pull heading/flavor from the variant metaobject metafield when present,
-  # otherwise fall back to the section settings.
-  # NOTE: `.title` and `.flavor` below are the metaobject FIELD KEYS (API handles).
-  # If your metaobject uses different keys, change them here.
-  assign values_for_heading = section.settings.heading
-  assign values_for_flavor = section.settings.flavor
-  assign values_for_bar_image = section.settings.image_picker
+  assign nf_current_variant = product.selected_or_first_available_variant
+  assign nf_wrapper_id = 'nutrition-facts-' | append: section.id
+-%}
 
-  # comment
-  # assign values_for_first_block_properties = blank
-  # assign values_for_ingredients_text = blank
-  # assign values_for_daily_value_note = blank
+<section
+  class="nutrition-facts"
+  id="{{ nf_wrapper_id }}"
+  {% if section.settings.background_color != blank %}
+    style="background-color: {{ section.settings.background_color }};"
+  {% endif %}
+>
+  {%- for variant in product.variants -%}
+    {%- liquid
+      # Pull heading/flavor from the variant metaobject metafield when present,
+      # otherwise fall back to the section settings.
+      # NOTE: `.title` and `.flavor` below are the metaobject FIELD KEYS (API handles).
+      # If your metaobject uses different keys, change them here.
+      assign values_for_heading = section.settings.heading
+      assign values_for_flavor = section.settings.flavor
+      assign values_for_bar_image = section.settings.image_picker
 
-  assign metaobject = product.selected_or_first_available_variant.metafields.custom.nutrition_facts_bottomless.value
-  if metaobject != blank
+      assign values_for_first_block_properties = blank
+      assign values_for_first_block_values = blank
+      assign values_for_second_block_properties = blank
+      assign values_for_second_block_values = blank
+      assign values_for_third_block_properties = blank
+      assign values_for_third_block_values = blank
+      assign values_for_fourth_block_properties = blank
+      assign values_for_fourth_block_values = blank
+      assign values_for_fifth_block_properties = blank
+      assign values_for_fifth_block_values = blank
+      assign values_for_sixth_block_properties = blank
+      assign values_for_sixth_block_values = blank
+      assign values_for_seventh_block_properties = blank
+      assign values_for_seventh_block_values = blank
+      assign values_for_eighth_block_properties = blank
+      assign values_for_eighth_block_values = blank
+      assign values_for_ingredients_text = blank
+      assign values_for_daily_value_note = blank
+
+      assign metaobject = variant.metafields.custom.nutrition_facts_bottomless.value
+      if metaobject != blank
     if metaobject.bar_image != blank
       assign values_for_bar_image = metaobject.bar_image
     endif
@@ -329,14 +368,13 @@
       assign values_for_daily_value_note = metaobject.daily_value_note | metafield_tag
     endif
   endif
--%}
+    -%}
 
-<section
-  class="nutrition-facts"
-  {% if section.settings.background_color != blank %}
-    style="background-color: {{ section.settings.background_color }};"
-  {% endif %}
->
+    <div
+      class="nutrition-facts__variant"
+      data-variant-id="{{ variant.id }}"
+      {% unless variant.id == nf_current_variant.id %}style="display: none;"{% endunless %}
+    >
   {%- comment -%} Desktop layout {%- endcomment -%}
   <div class="nutrition-facts__layout nutrition-facts__layout--desktop">
     <div class="nutrition-facts__columns">
@@ -687,6 +725,46 @@
       {%- endfor -%}
     </div>
   </div>
+    </div>
+  {%- endfor -%}
+
+  <script>
+    (function () {
+      var wrapper = document.getElementById('{{ nf_wrapper_id }}');
+      if (!wrapper || wrapper.dataset.nfBound) return;
+      wrapper.dataset.nfBound = '1';
+
+      function showVariant(variantId) {
+        if (!variantId) return;
+        var target = String(variantId);
+        wrapper.querySelectorAll('.nutrition-facts__variant').forEach(function (slide) {
+          slide.style.display = slide.dataset.variantId === target ? '' : 'none';
+        });
+      }
+
+      // Standard product templates: Shapes product island events.
+      function handleThemeEvent(event) {
+        var variant = event.detail && event.detail.variant;
+        if (variant && variant.id) showVariant(variant.id);
+      }
+      document.addEventListener('theme:variant:change', handleThemeEvent);
+      document.addEventListener('shapes:product:variantchange', handleThemeEvent);
+
+      // Bundle-subscription buy box (no variant-change event is dispatched).
+      document.addEventListener('change', function (event) {
+        var radio = event.target.closest && event.target.closest('[data-variant-radio]');
+        if (radio) showVariant(radio.value);
+      });
+      document.addEventListener('click', function (event) {
+        var el = event.target.closest && event.target.closest('[data-variant-id]');
+        if (el) showVariant(el.dataset.variantId);
+      });
+
+      // Initial state: honour a pre-selected variant from the URL (?variant=ID).
+      var requestedId = new URLSearchParams(window.location.search).get('variant');
+      if (requestedId) showVariant(requestedId);
+    })();
+  </script>
 </section>
 
 {% schema %}
