@@ -570,8 +570,8 @@
         "center_stat_6t79jk": {
           "type": "center_stat",
           "settings": {
-            "left": "{{ product.metafields.custom.nutrition_facts_bottomless.value.first_block_properties | metafield_tag }}",
-            "right": "{{ product.metafields.custom.nutrition_facts_bottomless.value.first_block_values | metafield_tag }}"
+            "left": "",
+            "right": ""
           }
         },
         "center_stat_calories_8NqPEa": {
@@ -694,8 +694,8 @@
       "name": "Custom Nutrition Facts",
       "settings": {
         "image": "shopify://shop_images/Blueberry-matcha-nutrition-image.png",
-        "heading": "{{ product.metafields.custom.nutrition_facts_bottomless.value.title.value }}",
-        "flavor": "{{ product.metafields.custom.nutrition_facts_bottomless.value.flavor.value }}",
+        "heading": "",
+        "flavor": "",
         "daily_value_label": "% Daily Value",
         "background_color": "#fbf5e1",
         "flavor_text_color": "#414180"
@@ -720,16 +720,17 @@
         "text_alignment": "center"
       }
     },
-    "custom_hero_qfQmRU": {
-      "type": "custom-hero",
-      "name": "Custom Hero",
+    "custom_classic_hero_BVrDyA": {
+      "type": "custom-classic-hero",
+      "name": "Custom Classic Hero",
       "settings": {
-        "title": "Beyond the Flavor",
-        "text": "<p>Blueberries and blue matcha contribute more than flavor and color. Both are naturally rich in anthocyanins – plant compounds that research suggests may help support overall health and wellbeing. That’s one reason they fit naturally into the Floura philosophy: real foods bring something more to the table.</p>",
-        "background_color": "#fbf5e1",
-        "title_color": "#c5273c",
+        "title": "The Science",
+        "text": "<p><strong>Floura is a fiber company obsessed with flavor.<br/><br/></strong>We make our own prebiotic fibers from whole upcycled plants — apple cores, fermented watermelon rind, mango, melon — because different plants contain different fibers, and diverse fibers nourish a diverse microbiome. <strong>One bar. 12 plants. 15g of fiber your gut actually recognizes.</strong> <br/><br/>No synthetic isolates. No lab-made shortcuts. Just real fiber, made the way nature intended — and flavors worth craving every day.</p>",
+        "image": "shopify://shop_images/fruits.png",
+        "background_color": "#FBF5E1",
+        "title_color": "#C5273C",
         "text_color": "#000000",
-        "bold_text_color": "#c5273c",
+        "bold_text_color": "#000000",
         "text_font_size_desktop": 30,
         "text_font_size_mobile": 15,
         "text_line_height_desktop": 35,
@@ -794,7 +795,7 @@
     "blog_posts_a9gV6W",
     "custom_nutrition_facts_CdTzhc",
     "custom_hero_fLTN9V",
-    "custom_hero_qfQmRU",
+    "custom_classic_hero_BVrDyA",
     "custom_accordion_faq_tGXVJr"
   ]
 }
