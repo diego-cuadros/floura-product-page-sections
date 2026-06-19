@@ -4,22 +4,22 @@
     background-color: {{ section.settings.background_color }};
   }
   #custom-accordion-faq-{{ section.id }} .custom-accordion-faq__layout {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 80px 20px;
+    padding: 50px 20px;
   }
   #custom-accordion-faq-{{ section.id }} .custom-accordion-faq__title {
     font-size: 50px;
     font-weight: 500;
     font-family: 'Founders Grotesk', sans-serif;
-    margin: 0 0 40px;
-    text-align: center;
+    margin:0px;
+    text-align: left;
     color: {{ section.settings.title_color }};
   }
   @media only screen and (max-width: 749px) {
     #custom-accordion-faq-{{ section.id }} .custom-accordion-faq__title {
       font-size: 35px;
-      margin-bottom: 30px;
+      margin-bottom: 0px;
     }
   }
 
@@ -305,11 +305,7 @@
   "presets": [
     {
       "name": "Custom Accordion FAQ",
-      "blocks": [
-        { "type": "faq_item" },
-        { "type": "faq_item" },
-        { "type": "faq_item" }
-      ]
+      "blocks": [{ "type": "faq_item" }, { "type": "faq_item" }, { "type": "faq_item" }]
     }
   ]
 }
