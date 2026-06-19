@@ -1,3 +1,41 @@
+{%- liquid
+  # Pull hero styling/content from the current variant's metaobject metafield when present,
+  # otherwise fall back to the section settings (same pattern as custom-nutrition-facts).
+  # NOTE: the keys below (`background_color`, `title_text_color`, `text_color`,
+  # `bold_text_color`, `pattern_image`, `text`) are the metaobject FIELD KEYS (API handles)
+  # on the "beyond the flavor" metaobject. If your metaobject uses different keys, change them here.
+  assign bf_current_variant = product.selected_or_first_available_variant
+
+  assign values_for_background_color = section.settings.background_color
+  assign values_for_title_color = section.settings.title_color
+  assign values_for_text_color = section.settings.text_color
+  assign values_for_bold_text_color = section.settings.bold_text_color
+  assign values_for_pattern_image = section.settings.pattern_image
+  assign values_for_text = section.settings.text
+
+  assign bf_metaobject = bf_current_variant.metafields.custom.beyond_the_flavor_config.value
+  if bf_metaobject != blank
+    if bf_metaobject.background_color != blank
+      assign values_for_background_color = bf_metaobject.background_color
+    endif
+    if bf_metaobject.title_text_color != blank
+      assign values_for_title_color = bf_metaobject.title_text_color
+    endif
+    if bf_metaobject.text_color != blank
+      assign values_for_text_color = bf_metaobject.text_color
+    endif
+    if bf_metaobject.bold_text_color != blank
+      assign values_for_bold_text_color = bf_metaobject.bold_text_color
+    endif
+    if bf_metaobject.pattern_image != blank
+      assign values_for_pattern_image = bf_metaobject.pattern_image
+    endif
+    if bf_metaobject.text != blank
+      assign values_for_text = bf_metaobject.text | metafield_tag
+    endif
+  endif
+-%}
+
 <style>
     .custom-hero {
       width: 100%;
@@ -80,7 +118,7 @@
 
     #custom-hero-{{ section.id }} .custom-hero__written-text strong,
     #custom-hero-{{ section.id }} .custom-hero__written-text b {
-      color: {{ section.settings.bold_text_color }};
+      color: {{ values_for_bold_text_color }};
     }
 
     #custom-hero-{{ section.id }} .custom-hero__written-text {
@@ -106,18 +144,18 @@
 <section
   class="custom-hero"
   id="custom-hero-{{ section.id }}"
-  style="background-color: {{ section.settings.background_color }};"
+  style="background-color: {{ values_for_background_color }};"
 >
   <div class="custom-hero__layout">
     <div class="custom-hero__written-content text-on-{{ section.settings.text_alignment }}">
       {%- if section.settings.title != blank -%}
-        <h2 class="custom-hero__written-title" style="color: {{ section.settings.title_color }};">
+        <h2 class="custom-hero__written-title" style="color: {{ values_for_title_color }};">
           {{ section.settings.title }}
         </h2>
       {%- endif -%}
-      {%- if section.settings.text != blank -%}
-        <div class="custom-hero__written-text" style="color: {{ section.settings.text_color }};">
-          {{ section.settings.text }}
+      {%- if values_for_text != blank -%}
+        <div class="custom-hero__written-text" style="color: {{ values_for_text_color }};">
+          {{ values_for_text }}
         </div>
       {%- endif -%}
     </div>
@@ -134,10 +172,10 @@
     {%- endif -%}
   </div>
 
-  {%- if section.settings.pattern_image != blank -%}
+  {%- if values_for_pattern_image != blank -%}
     <div
       class="custom-hero__pattern"
-      style="background-image: url({{ section.settings.pattern_image | image_url: width: 1500 }});"
+      style="background-image: url({{ values_for_pattern_image | image_url: width: 1500 }});"
       role="presentation"
     ></div>
   {%- endif -%}
