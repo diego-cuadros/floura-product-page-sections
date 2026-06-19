@@ -199,6 +199,10 @@
     margin-top: 10px;
   }
 
+  .nutrition-facts__feature-name {
+    text-align: center;
+  }
+
   @media only screen and (max-width: 749px) {
     .nutrition-facts__feature-name {
       font-size: 8px;
@@ -477,19 +481,31 @@
     </div>
 
     <div class="nutrition-facts__features">
+      {%- assign feature_index = 0 -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'feature' -%}
+          {%- assign feature_index = feature_index | plus: 1 -%}
+          {%- assign feature_key = 'image_feature_' | append: feature_index -%}
+          {%- assign feature_label_key = 'feature_' | append: feature_index -%}
+          {%- assign feature_icon = block.settings.icon -%}
+          {%- assign feature_label = block.settings.name -%}
+          {%- if metaobject != blank and metaobject[feature_key] != blank -%}
+            {%- assign feature_icon = metaobject[feature_key] -%}
+          {%- endif -%}
+          {%- if metaobject != blank and metaobject[feature_label_key] != blank -%}
+            {%- assign feature_label = metaobject[feature_label_key] -%}
+          {%- endif -%}
           <div class="nutrition-facts__feature" {{ block.shopify_attributes }}>
-            {%- if block.settings.icon != blank -%}
+            {%- if feature_icon != blank -%}
               {{
-                block.settings.icon
+                feature_icon
                 | image_url: width: 152
-                | image_tag: class: 'nutrition-facts__feature-icon', alt: block.settings.name
+                | image_tag: class: 'nutrition-facts__feature-icon', alt: feature_label
               }}
             {%- else -%}
               {{ 'image' | placeholder_svg_tag: 'nutrition-facts__feature-icon placeholder-svg' }}
             {%- endif -%}
-            <h3 class="nutrition-facts__feature-name">{{ block.settings.name }}</h3>
+            <h3 class="nutrition-facts__feature-name">{{ feature_label }}</h3>
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -641,19 +657,31 @@
     </div>
 
     <div class="nutrition-facts__features">
+      {%- assign feature_index = 0 -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'feature' -%}
+          {%- assign feature_index = feature_index | plus: 1 -%}
+          {%- assign feature_key = 'image_feature_' | append: feature_index -%}
+          {%- assign feature_label_key = 'feature_' | append: feature_index -%}
+          {%- assign feature_icon = block.settings.icon -%}
+          {%- assign feature_label = block.settings.name -%}
+          {%- if metaobject != blank and metaobject[feature_key] != blank -%}
+            {%- assign feature_icon = metaobject[feature_key] -%}
+          {%- endif -%}
+          {%- if metaobject != blank and metaobject[feature_label_key] != blank -%}
+            {%- assign feature_label = metaobject[feature_label_key] -%}
+          {%- endif -%}
           <div class="nutrition-facts__feature" {{ block.shopify_attributes }}>
-            {%- if block.settings.icon != blank -%}
+            {%- if feature_icon != blank -%}
               {{
-                block.settings.icon
+                feature_icon
                 | image_url: width: 152
-                | image_tag: class: 'nutrition-facts__feature-icon', alt: block.settings.name
+                | image_tag: class: 'nutrition-facts__feature-icon', alt: feature_label
               }}
             {%- else -%}
               {{ 'image' | placeholder_svg_tag: 'nutrition-facts__feature-icon placeholder-svg' }}
             {%- endif -%}
-            <h3 class="nutrition-facts__feature-name">{{ block.settings.name }}</h3>
+            <h3 class="nutrition-facts__feature-name">{{ feature_label }}</h3>
           </div>
         {%- endif -%}
       {%- endfor -%}
