@@ -51,6 +51,10 @@
     }
   }
 
+  #custom-accordion-faq-{{ section.id }} .custom-accordion-faq__question-text {
+    flex: 1 1 auto;
+  }
+
   #custom-accordion-faq-{{ section.id }} .custom-accordion-faq__icon {
     flex: 0 0 auto;
     width: 22px;
@@ -86,7 +90,7 @@
     overflow: hidden;
   }
   #custom-accordion-faq-{{ section.id }} .custom-accordion-faq__answer-text {
-    padding: 0 0 24px 38px;
+    padding: 0 0 24px 0;
     font-family: 'Founders Grotesk', sans-serif;
     font-size: 17px;
     font-weight: 400;
@@ -100,68 +104,151 @@
   }
 </style>
 
+{%- comment -%}
+  Variant-aware accordion FAQ.
+  Every variant's content is pre-rendered (keyed by data-variant-id) and all but the
+  current one are hidden. A small delegated script (bottom of the section) swaps which
+  one is visible when the shopper picks a different variant — no page reload. Questions
+  and answers are pulled from the variant's `custom.faqs` metaobject (fields question_1
+  / answer_1 … question_12 / answer_12); each falls back to the matching FAQ item block
+  configured in the theme editor when the metaobject field is blank. Variant selection
+  is detected via:
+    - bundle-subscription buy box: [data-variant-radio] / [data-variant-id]
+      (that template dispatches NO theme:variant:change — see snippets/buy-box-bundle-subscription.liquid)
+    - standard product templates: theme:variant:change / shapes:product:variantchange events
+    - URL ?variant=ID on load
+{%- endcomment -%}
+
+{%- liquid
+  assign faq_current_variant = product.selected_or_first_available_variant
+  assign faq_wrapper_id = 'custom-accordion-faq-' | append: section.id
+-%}
+
 <section
   class="custom-accordion-faq"
-  id="custom-accordion-faq-{{ section.id }}"
+  id="{{ faq_wrapper_id }}"
 >
   <div class="custom-accordion-faq__layout">
     {%- if section.settings.title != blank -%}
       <h2 class="custom-accordion-faq__title">{{ section.settings.title }}</h2>
     {%- endif -%}
 
-    <div class="custom-accordion-faq__items">
-      {%- for block in section.blocks -%}
-        {%- if block.settings.question != blank -%}
-          <div
-            class="custom-accordion-faq__item"
-            style="--faq-border-color: {{ block.settings.border_color }};"
-            {{ block.shopify_attributes }}
-          >
-            <button
-              type="button"
-              class="custom-accordion-faq__question"
-              aria-expanded="false"
-              aria-controls="faq-answer-{{ section.id }}-{{ block.id }}"
-            >
-              <span class="custom-accordion-faq__icon custom-accordion-faq__icon--plus" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
-              <span class="custom-accordion-faq__icon custom-accordion-faq__icon--minus" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
-              <span class="custom-accordion-faq__question-text">{{ block.settings.question }}</span>
-            </button>
-            <div
-              class="custom-accordion-faq__answer"
-              id="faq-answer-{{ section.id }}-{{ block.id }}"
-              role="region"
-            >
-              <div class="custom-accordion-faq__answer-inner">
-                <div class="custom-accordion-faq__answer-text">{{ block.settings.answer }}</div>
+    {%- for variant in product.variants -%}
+      {%- liquid
+        # Pull questions/answers from the variant metaobject metafield when present,
+        # otherwise fall back to the section's FAQ item blocks.
+        assign faq_metaobject = variant.metafields.custom.faqs.value
+      -%}
+      <div
+        class="custom-accordion-faq__variant"
+        data-variant-id="{{ variant.id }}"
+        {% unless variant.id == faq_current_variant.id %}
+          style="display: none;"
+        {% endunless %}
+      >
+        <div class="custom-accordion-faq__items">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              # `question_N` (single line text) and `answer_N` (richtext) keyed by block order.
+              assign faq_question_key = 'question_' | append: forloop.index
+              assign faq_answer_key = 'answer_' | append: forloop.index
+
+              assign faq_question = block.settings.question
+              assign faq_answer = block.settings.answer
+
+              if faq_metaobject != blank and faq_metaobject[faq_question_key] != blank
+                assign faq_question = faq_metaobject[faq_question_key]
+              endif
+              if faq_metaobject != blank and faq_metaobject[faq_answer_key] != blank
+                assign faq_answer = faq_metaobject[faq_answer_key] | metafield_tag
+              endif
+            -%}
+            {%- if faq_question != blank -%}
+              <div
+                class="custom-accordion-faq__item"
+                style="--faq-border-color: {{ block.settings.border_color }};"
+                {{ block.shopify_attributes }}
+              >
+                <button
+                  type="button"
+                  class="custom-accordion-faq__question"
+                  aria-expanded="false"
+                  aria-controls="faq-answer-{{ section.id }}-{{ variant.id }}-{{ block.id }}"
+                >
+                  <span class="custom-accordion-faq__question-text">{{ faq_question }}</span>
+                  <span class="custom-accordion-faq__icon custom-accordion-faq__icon--plus" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </span>
+                  <span class="custom-accordion-faq__icon custom-accordion-faq__icon--minus" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </span>
+                </button>
+                <div
+                  class="custom-accordion-faq__answer"
+                  id="faq-answer-{{ section.id }}-{{ variant.id }}-{{ block.id }}"
+                  role="region"
+                >
+                  <div class="custom-accordion-faq__answer-inner">
+                    <div class="custom-accordion-faq__answer-text">{{ faq_answer }}</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endfor -%}
   </div>
 </section>
 
 <script>
   (function () {
-    var section = document.getElementById('custom-accordion-faq-{{ section.id }}');
-    if (!section) return;
-    section.querySelectorAll('.custom-accordion-faq__question').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-      });
+    var wrapper = document.getElementById('{{ faq_wrapper_id }}');
+    if (!wrapper || wrapper.dataset.faqBound) return;
+    wrapper.dataset.faqBound = '1';
+
+    // Accordion toggle (works across every pre-rendered variant).
+    wrapper.addEventListener('click', function (event) {
+      var btn = event.target.closest && event.target.closest('.custom-accordion-faq__question');
+      if (!btn || !wrapper.contains(btn)) return;
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
     });
+
+    function showVariant(variantId) {
+      if (!variantId) return;
+      var target = String(variantId);
+      wrapper.querySelectorAll('.custom-accordion-faq__variant').forEach(function (slide) {
+        slide.style.display = slide.dataset.variantId === target ? '' : 'none';
+      });
+    }
+
+    // Standard product templates: Shapes product island events.
+    function handleThemeEvent(event) {
+      var variant = event.detail && event.detail.variant;
+      if (variant && variant.id) showVariant(variant.id);
+    }
+    document.addEventListener('theme:variant:change', handleThemeEvent);
+    document.addEventListener('shapes:product:variantchange', handleThemeEvent);
+
+    // Bundle-subscription buy box (no variant-change event is dispatched).
+    document.addEventListener('change', function (event) {
+      var radio = event.target.closest && event.target.closest('[data-variant-radio]');
+      if (radio) showVariant(radio.value);
+    });
+    document.addEventListener('click', function (event) {
+      var el = event.target.closest && event.target.closest('[data-variant-id]');
+      if (el) showVariant(el.dataset.variantId);
+    });
+
+    // Initial state: honour a pre-selected variant from the URL (?variant=ID).
+    var requestedId = new URLSearchParams(window.location.search).get('variant');
+    if (requestedId) showVariant(requestedId);
   })();
 </script>
 
