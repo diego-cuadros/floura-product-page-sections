@@ -243,9 +243,13 @@
   # If your metaobject uses different keys, change them here.
   assign values_for_heading = section.settings.heading
   assign values_for_flavor = section.settings.flavor
+  assign values_for_bar_image = section.settings.image_picker
 
   assign values_for_metaobject = product.selected_or_first_available_variant.metafields.custom.nutrition_facts_bottomless.value
   if values_for_metaobject != blank
+    if values_for_metaobject.bar_image != blank
+      assign values_for_bar_image = values_for_metaobject.bar_image
+    endif
     if values_for_metaobject.title != blank
       assign values_for_heading = values_for_metaobject.title
     endif
@@ -265,11 +269,11 @@
   <div class="nutrition-facts__layout nutrition-facts__layout--desktop">
     <div class="nutrition-facts__columns">
       <div class="nutrition-facts__column nutrition-facts__column--left">
-        {%- if section.settings.image != blank -%}
+        {%- if values_for_bar_image != blank -%}
           {{
-            section.settings.image
+            values_for_bar_image
             | image_url: width: 600
-            | image_tag: class: 'nutrition-facts__image', alt: section.settings.image.alt
+            | image_tag: class: 'nutrition-facts__image', alt: values_for_bar_image.alt
           }}
         {%- else -%}
           {{ 'image' | placeholder_svg_tag: 'nutrition-facts__image placeholder-svg' }}
@@ -381,23 +385,23 @@
   {%- comment -%} Mobile layout {%- endcomment -%}
   <div class="nutrition-facts__layout nutrition-facts__layout--mobile">
     <div class="nutrition-facts__title">
-      <h2 class="nutrition-facts__heading">{{ section.settings.heading }}</h2>
+      <h2 class="nutrition-facts__heading">{{ values_for_heading }}</h2>
       <h3
         class="nutrition-facts__flavor"
         {% if section.settings.flavor_text_color != blank %}
           style="color: {{ section.settings.flavor_text_color }};"
         {% endif %}
       >
-        {{ section.settings.flavor }}
+        {{ values_for_flavor }}
       </h3>
     </div>
 
     <div class="nutrition-facts__image-wrapper">
-      {%- if section.settings.image != blank -%}
+      {%- if values_for_bar_image != blank -%}
         {{
-          section.settings.image
+          values_for_bar_image
           | image_url: width: 600
-          | image_tag: class: 'nutrition-facts__image', alt: section.settings.image.alt
+          | image_tag: class: 'nutrition-facts__image', alt: values_for_bar_image.alt
         }}
       {%- else -%}
         {{ 'image' | placeholder_svg_tag: 'nutrition-facts__image placeholder-svg' }}
