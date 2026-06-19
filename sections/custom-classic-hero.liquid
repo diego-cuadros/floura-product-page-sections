@@ -50,11 +50,11 @@
       }
     }
 
-    .custom-classic-hero__written-text {
+    .custom-classic-hero__written-text p {
       font-weight: 400;
-      font-size: 30px;
+      font-size: 22px;
       font-family: 'Founders Grotesk', sans-serif;
-      line-height: 35px;
+      line-height: 28px;
     }
     @media only screen and (max-width: 749px) {
       .custom-classic-hero__written-text {
@@ -64,8 +64,8 @@
     }
 
     .custom-classic-hero__image {
-      flex: 0 0 50%;
-      max-width: 50%;
+      flex: 0 0 30%;
+      max-width: 30%;
       display: flex;
       justify-content: center;
     }
@@ -102,6 +102,50 @@
         height: {{ section.settings.pattern_height_mobile }}px;
       }
     }
+
+    #custom-classic-hero-{{ section.id }} .custom-classic-hero__written-title {
+      color: {{ section.settings.title_color }};
+    }
+
+    /* Mobile: image rendered at the top of the container as the background
+       of the written-title, with the written text centered below it. */
+    @media only screen and (max-width: 749px) {
+      #custom-classic-hero-{{ section.id }} .custom-classic-hero__layout {
+        flex-direction: column;
+        padding: 0 0 24px;
+      }
+      #custom-classic-hero-{{ section.id }} .custom-classic-hero__image {
+        display: none;
+      }
+      #custom-classic-hero-{{ section.id }} .custom-classic-hero__written-content {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+      }
+      #custom-classic-hero-{{ section.id }} .custom-classic-hero__written-text {
+        text-align: left;
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 0 50px;
+      }
+    {%- if section.settings.image != blank -%}
+      #custom-classic-hero-{{ section.id }} .custom-classic-hero__written-title {
+        background-image: url({{ section.settings.image | image_url: width: 1500 }});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        text-shadow: 0px 4px 4px #00000040;
+        color: {{ section.settings.title_color_mobile }};
+        min-height: 157px;
+        display: flex;
+        align-items:center;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 0 24px;
+        padding: 24px 20px;
+      }
+    {%- endif -%}
+    }
 </style>
 <section
   class="custom-classic-hero"
@@ -111,7 +155,7 @@
   <div class="custom-classic-hero__layout">
     <div class="custom-classic-hero__written-content text-on-{{ section.settings.text_alignment }}">
       {%- if section.settings.title != blank -%}
-        <h2 class="custom-classic-hero__written-title" style="color: {{ section.settings.title_color }};">
+        <h2 class="custom-classic-hero__written-title">
           {{ section.settings.title }}
         </h2>
       {%- endif -%}
@@ -175,6 +219,13 @@
       "id": "title_color",
       "label": "Title color",
       "default": "#C5273C"
+    },
+    {
+      "type": "color",
+      "id": "title_color_mobile",
+      "label": "Title color (mobile)",
+      "info": "Used for the title that overlays the hero image on mobile.",
+      "default": "#FFFFFF"
     },
     {
       "type": "color",
