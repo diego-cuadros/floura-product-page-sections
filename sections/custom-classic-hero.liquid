@@ -1,0 +1,265 @@
+<style>
+    .custom-classic-hero {
+      width: 100%;
+    }
+    .custom-classic-hero__pattern {
+      width: 100%;
+      background-repeat: repeat-x;
+      background-position: center bottom;
+      background-size: auto 100%;
+    }
+    .custom-classic-hero__layout {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 80px 8px;
+    }
+    .text-on-left {
+      text-align: left;
+    }
+    .text-on-center {
+      text-align: center;
+    }
+    .text-on-right {
+      text-align: right;
+    }
+
+  {%- if section.settings.image != blank -%}
+    .custom-classic-hero__written-content {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  {% else %}
+    .custom-classic-hero__written-content {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  {% endif %}
+
+    .custom-classic-hero__written-title {
+      font-size: 50px;
+      font-weight: 500;
+      font-family: 'Founders Grotesk', sans-serif;
+    }
+    @media only screen and (max-width: 749px) {
+      .custom-classic-hero__written-title {
+        font-size: 35px;
+      }
+    }
+
+    .custom-classic-hero__written-text {
+      font-weight: 400;
+      font-size: 30px;
+      font-family: 'Founders Grotesk', sans-serif;
+      line-height: 35px;
+    }
+    @media only screen and (max-width: 749px) {
+      .custom-classic-hero__written-text {
+        font-size: 15px;
+        line-height: 18px;
+      }
+    }
+
+    .custom-classic-hero__image {
+      flex: 0 0 50%;
+      max-width: 50%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .custom-classic-hero__image img {
+      aspect-ratio: 1 / 1;
+      width: 364px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    #custom-classic-hero-{{ section.id }} .custom-classic-hero__written-text strong,
+    #custom-classic-hero-{{ section.id }} .custom-classic-hero__written-text b {
+      color: {{ section.settings.bold_text_color }};
+    }
+
+    #custom-classic-hero-{{ section.id }} .custom-classic-hero__written-text {
+      font-size: {{ section.settings.text_font_size_desktop }}px;
+      line-height: {{ section.settings.text_line_height_desktop }}px;
+    }
+    @media only screen and (max-width: 749px) {
+      #custom-classic-hero-{{ section.id }} .custom-classic-hero__written-text {
+        font-size: {{ section.settings.text_font_size_mobile }}px;
+        line-height: {{ section.settings.text_line_height_mobile }}px;
+      }
+    }
+
+    #custom-classic-hero-{{ section.id }} .custom-classic-hero__pattern {
+      height: {{ section.settings.pattern_height }}px;
+    }
+    @media only screen and (max-width: 749px) {
+      #custom-classic-hero-{{ section.id }} .custom-classic-hero__pattern {
+        height: {{ section.settings.pattern_height_mobile }}px;
+      }
+    }
+</style>
+<section
+  class="custom-classic-hero"
+  id="custom-classic-hero-{{ section.id }}"
+  style="background-color: {{ section.settings.background_color }};"
+>
+  <div class="custom-classic-hero__layout">
+    <div class="custom-classic-hero__written-content text-on-{{ section.settings.text_alignment }}">
+      {%- if section.settings.title != blank -%}
+        <h2 class="custom-classic-hero__written-title" style="color: {{ section.settings.title_color }};">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="custom-classic-hero__written-text" style="color: {{ section.settings.text_color }};">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.image != blank -%}
+      <div class="custom-classic-hero__image">
+        <img
+          src="{{ section.settings.image | image_url: width: 1500 }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          loading="lazy"
+        >
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.pattern_image != blank -%}
+    <div
+      class="custom-classic-hero__pattern"
+      style="background-image: url({{ section.settings.pattern_image | image_url: width: 1500 }});"
+      role="presentation"
+    ></div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Custom Classic Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Beyond the Flavor"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Blueberries and blue matcha contribute more than flavor and color. Both are naturally rich in anthocyanins – plant compounds that research suggests may help support overall health and wellbeing. That’s one reason they fit naturally into the Floura philosophy: real foods bring something more to the table.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FBF5E1"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#C5273C"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bold_text_color",
+      "label": "Bold text color",
+      "default": "#C5273C"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size_desktop",
+      "label": "Text font size (desktop)",
+      "min": 12,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "text_font_size_mobile",
+      "label": "Text font size (mobile)",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "text_line_height_desktop",
+      "label": "Text line height (desktop)",
+      "min": 12,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "text_line_height_mobile",
+      "label": "Text line height (mobile)",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "image_picker",
+      "id": "pattern_image",
+      "label": "Bottom pattern image",
+      "info": "Decorative pattern that repeats horizontally across the full width."
+    },
+    {
+      "type": "range",
+      "id": "pattern_height",
+      "label": "Pattern height",
+      "min": 10,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Classic Hero"
+    }
+  ]
+}
+{% endschema %}
