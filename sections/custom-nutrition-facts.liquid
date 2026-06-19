@@ -255,14 +255,18 @@
 {%- liquid
   assign nf_current_variant = product.selected_or_first_available_variant
   assign nf_wrapper_id = 'nutrition-facts-' | append: section.id
+  # Variant id for which this whole section must be hidden (e.g. variety pack).
+  assign nf_hidden_variant_id = 52270001881410
 -%}
 
 <section
   class="nutrition-facts"
   id="{{ nf_wrapper_id }}"
-  {% if section.settings.background_color != blank %}
-    style="background-color: {{ section.settings.background_color }};"
-  {% endif %}
+  data-nf-hidden-variant-id="{{ nf_hidden_variant_id }}"
+  style="
+    {%- if section.settings.background_color != blank %}background-color: {{ section.settings.background_color }};{% endif -%}
+    {%- if nf_current_variant.id == nf_hidden_variant_id %}display: none;{% endif -%}
+  "
 >
   {%- for variant in product.variants -%}
     {%- liquid
@@ -295,102 +299,264 @@
 
       assign metaobject = variant.metafields.custom.nutrition_facts_bottomless.value
       if metaobject != blank
-    if metaobject.bar_image != blank
-      assign values_for_bar_image = metaobject.bar_image
-    endif
-    if metaobject.title != blank
-      assign values_for_heading = metaobject.title
-    endif
-    if metaobject.flavor != blank
-      assign values_for_flavor = metaobject.flavor
-    endif
+        if metaobject.bar_image != blank
+          assign values_for_bar_image = metaobject.bar_image
+        endif
+        if metaobject.title != blank
+          assign values_for_heading = metaobject.title
+        endif
+        if metaobject.flavor != blank
+          assign values_for_flavor = metaobject.flavor
+        endif
 
-    if metaobject.first_block_properties != blank
-      assign values_for_first_block_properties = metaobject.first_block_properties | metafield_tag
-    endif
-    if metaobject.first_block_values != blank
-      assign values_for_first_block_values = metaobject.first_block_values | metafield_tag
-    endif
+        if metaobject.first_block_properties != blank
+          assign values_for_first_block_properties = metaobject.first_block_properties | metafield_tag
+        endif
+        if metaobject.first_block_values != blank
+          assign values_for_first_block_values = metaobject.first_block_values | metafield_tag
+        endif
 
-    if metaobject.second_block_properties != blank
-      assign values_for_second_block_properties = metaobject.second_block_properties | metafield_tag
-    endif
-    if metaobject.second_block_values != blank
-      assign values_for_second_block_values = metaobject.second_block_values | metafield_tag
-    endif
+        if metaobject.second_block_properties != blank
+          assign values_for_second_block_properties = metaobject.second_block_properties | metafield_tag
+        endif
+        if metaobject.second_block_values != blank
+          assign values_for_second_block_values = metaobject.second_block_values | metafield_tag
+        endif
 
-    if metaobject.third_block_properties != blank
-      assign values_for_third_block_properties = metaobject.third_block_properties | metafield_tag
-    endif
-    if metaobject.third_block_values != blank
-      assign values_for_third_block_values = metaobject.third_block_values | metafield_tag
-    endif
+        if metaobject.third_block_properties != blank
+          assign values_for_third_block_properties = metaobject.third_block_properties | metafield_tag
+        endif
+        if metaobject.third_block_values != blank
+          assign values_for_third_block_values = metaobject.third_block_values | metafield_tag
+        endif
 
-    if metaobject.fourth_block_properties != blank
-      assign values_for_fourth_block_properties = metaobject.fourth_block_properties | metafield_tag
-    endif
-    if metaobject.fourth_block_values != blank
-      assign values_for_fourth_block_values = metaobject.fourth_block_values | metafield_tag
-    endif
+        if metaobject.fourth_block_properties != blank
+          assign values_for_fourth_block_properties = metaobject.fourth_block_properties | metafield_tag
+        endif
+        if metaobject.fourth_block_values != blank
+          assign values_for_fourth_block_values = metaobject.fourth_block_values | metafield_tag
+        endif
 
-    if metaobject.fifth_block_properties != blank
-      assign values_for_fifth_block_properties = metaobject.fifth_block_properties | metafield_tag
-    endif
-    if metaobject.fifth_block_values != blank
-      assign values_for_fifth_block_values = metaobject.fifth_block_values | metafield_tag
-    endif
+        if metaobject.fifth_block_properties != blank
+          assign values_for_fifth_block_properties = metaobject.fifth_block_properties | metafield_tag
+        endif
+        if metaobject.fifth_block_values != blank
+          assign values_for_fifth_block_values = metaobject.fifth_block_values | metafield_tag
+        endif
 
-    if metaobject.sixth_block_properties != blank
-      assign values_for_sixth_block_properties = metaobject.sixth_block_properties | metafield_tag
-    endif
-    if metaobject.sixth_block_values != blank
-      assign values_for_sixth_block_values = metaobject.sixth_block_values | metafield_tag
-    endif
+        if metaobject.sixth_block_properties != blank
+          assign values_for_sixth_block_properties = metaobject.sixth_block_properties | metafield_tag
+        endif
+        if metaobject.sixth_block_values != blank
+          assign values_for_sixth_block_values = metaobject.sixth_block_values | metafield_tag
+        endif
 
-    if metaobject.seventh_block_properties != blank
-      assign values_for_seventh_block_properties = metaobject.seventh_block_properties | metafield_tag
-    endif
-    if metaobject.seventh_block_values != blank
-      assign values_for_seventh_block_values = metaobject.seventh_block_values | metafield_tag
-    endif
+        if metaobject.seventh_block_properties != blank
+          assign values_for_seventh_block_properties = metaobject.seventh_block_properties | metafield_tag
+        endif
+        if metaobject.seventh_block_values != blank
+          assign values_for_seventh_block_values = metaobject.seventh_block_values | metafield_tag
+        endif
 
-    if metaobject.eighth_block_properties != blank
-      assign values_for_eighth_block_properties = metaobject.eighth_block_properties | metafield_tag
-    endif
-    if metaobject.eighth_block_values != blank
-      assign values_for_eighth_block_values = metaobject.eighth_block_values | metafield_tag
-    endif
+        if metaobject.eighth_block_properties != blank
+          assign values_for_eighth_block_properties = metaobject.eighth_block_properties | metafield_tag
+        endif
+        if metaobject.eighth_block_values != blank
+          assign values_for_eighth_block_values = metaobject.eighth_block_values | metafield_tag
+        endif
 
-    if metaobject.ingredients_text != blank
-      assign values_for_ingredients_text = metaobject.ingredients_text | metafield_tag
-    endif
-    if metaobject.daily_value_note != blank
-      assign values_for_daily_value_note = metaobject.daily_value_note | metafield_tag
-    endif
-  endif
+        if metaobject.ingredients_text != blank
+          assign values_for_ingredients_text = metaobject.ingredients_text | metafield_tag
+        endif
+        if metaobject.daily_value_note != blank
+          assign values_for_daily_value_note = metaobject.daily_value_note | metafield_tag
+        endif
+      endif
     -%}
-
     <div
       class="nutrition-facts__variant"
       data-variant-id="{{ variant.id }}"
-      {% unless variant.id == nf_current_variant.id %}style="display: none;"{% endunless %}
+      {% unless variant.id == nf_current_variant.id %}
+        style="display: none;"
+      {% endunless %}
     >
-  {%- comment -%} Desktop layout {%- endcomment -%}
-  <div class="nutrition-facts__layout nutrition-facts__layout--desktop">
-    <div class="nutrition-facts__columns">
-      <div class="nutrition-facts__column nutrition-facts__column--left">
-        {%- if values_for_bar_image != blank -%}
-          {{
-            values_for_bar_image
-            | image_url: width: 600
-            | image_tag: class: 'nutrition-facts__image', alt: values_for_bar_image.alt
-          }}
-        {%- else -%}
-          {{ 'image' | placeholder_svg_tag: 'nutrition-facts__image placeholder-svg' }}
-        {%- endif -%}
+      {%- comment -%} Desktop layout {%- endcomment -%}
+      <div class="nutrition-facts__layout nutrition-facts__layout--desktop">
+        <div class="nutrition-facts__columns">
+          <div class="nutrition-facts__column nutrition-facts__column--left">
+            {%- if values_for_bar_image != blank -%}
+              {{
+                values_for_bar_image
+                | image_url: width: 600
+                | image_tag: class: 'nutrition-facts__image', alt: values_for_bar_image.alt
+              }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'nutrition-facts__image placeholder-svg' }}
+            {%- endif -%}
+          </div>
+
+          <div class="nutrition-facts__column nutrition-facts__column--center">
+            <div class="nutrition-facts__title">
+              <h2 class="nutrition-facts__heading">{{ values_for_heading }}</h2>
+              <h3
+                class="nutrition-facts__flavor"
+                {% if section.settings.flavor_text_color != blank %}
+                  style="color: {{ section.settings.flavor_text_color }};"
+                {% endif %}
+              >
+                {{ values_for_flavor }}
+              </h3>
+            </div>
+            <div class="nutrition-facts__stats">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'center_stat' -%}
+                    <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
+                        {% if forloop.index == 1 %}
+                          {{ values_for_first_block_properties | default: block.settings.left }}
+                        {% else %}
+                          {{ block.settings.left }}
+                        {% endif %}
+                      </div>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
+                        {% if forloop.index == 1 %}
+                          {{ values_for_first_block_values | default: block.settings.right }}
+                        {% else %}
+                          {{ block.settings.right }}
+                        {% endif %}
+                      </div>
+                    </div>
+                  {%- when 'center_stat_calories' -%}
+                    <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
+                        {% if forloop.index == 2 %}
+                          {{ values_for_second_block_properties | default: block.settings.left }}
+                        {% else %}
+                          {{ block.settings.left }}
+                        {% endif %}
+                      </div>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
+                        {% if forloop.index == 2 %}
+                          {{ values_for_second_block_values | default: block.settings.left }}
+                        {% else %}
+                          {{ block.settings.right }}
+                        {% endif %}
+                      </div>
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'ingredients' -%}
+                <div class="nutrition-facts__ingredients" {{ block.shopify_attributes }}>
+                  <h4 class="nutrition-facts__ingredients-label">{{ block.settings.label }}</h4>
+                  <div class="nutrition-facts__ingredients-text">
+                    {{ values_for_ingredients_text | default: block.settings.text }}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          <div class="nutrition-facts__column nutrition-facts__column--right">
+            <p class="nutrition-facts__daily-value-label">{{ section.settings.daily_value_label }}</p>
+            <div class="nutrition-facts__stats">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'right_stat' -%}
+                    <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
+                        {% if forloop.index == 4 %}
+                          {{ values_for_third_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 5 %}
+                          {{ values_for_fourth_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 6 %}
+                          {{ values_for_fifth_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 7 %}
+                          {{ values_for_sixth_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 8 %}
+                          {{ values_for_seventh_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 9 %}
+                          {{ values_for_eighth_block_properties | default: block.settings.left }}
+                        {% else %}
+                          {{ block.settings.left }}
+                        {% endif %}
+                      </div>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
+                        {% if forloop.index == 4 %}
+                          {{ values_for_third_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 5 %}
+                          {{ values_for_fourth_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 6 %}
+                          {{ values_for_fifth_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 7 %}
+                          {{ values_for_sixth_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 8 %}
+                          {{ values_for_seventh_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 9 %}
+                          {{ values_for_eighth_block_values | default: block.settings.right }}
+                        {% else %}
+                          {{ block.settings.right }}
+                        {% endif %}
+                      </div>
+                    </div>
+                  {%- when 'right_stat_calories' -%}
+                    <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
+                        {{ block.settings.left }}
+                      </div>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
+                        {{ block.settings.right }}
+                      </div>
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'daily_value_note' -%}
+                <div class="nutrition-facts__daily-value-label--bottom" {{ block.shopify_attributes }}>
+                  {{ values_for_daily_value_note | default: block.settings.text }}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <div class="nutrition-facts__features">
+          {%- assign feature_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'feature' -%}
+              {%- assign feature_index = feature_index | plus: 1 -%}
+              {%- assign feature_key = 'image_feature_' | append: feature_index -%}
+              {%- assign feature_label_key = 'feature_' | append: feature_index -%}
+              {%- assign feature_icon = block.settings.icon -%}
+              {%- assign feature_label = block.settings.name -%}
+              {%- if metaobject != blank and metaobject[feature_key] != blank -%}
+                {%- assign feature_icon = metaobject[feature_key] -%}
+              {%- endif -%}
+              {%- if metaobject != blank and metaobject[feature_label_key] != blank -%}
+                {%- assign feature_label = metaobject[feature_label_key] -%}
+              {%- endif -%}
+              <div class="nutrition-facts__feature" {{ block.shopify_attributes }}>
+                {%- if feature_icon != blank -%}
+                  {{
+                    feature_icon
+                    | image_url: width: 152
+                    | image_tag: class: 'nutrition-facts__feature-icon', alt: feature_label
+                  }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'nutrition-facts__feature-icon placeholder-svg' }}
+                {%- endif -%}
+                <h3 class="nutrition-facts__feature-name">{{ feature_label }}</h3>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
       </div>
 
-      <div class="nutrition-facts__column nutrition-facts__column--center">
+      {%- comment -%} Mobile layout {%- endcomment -%}
+      <div class="nutrition-facts__layout nutrition-facts__layout--mobile">
         <div class="nutrition-facts__title">
           <h2 class="nutrition-facts__heading">{{ values_for_heading }}</h2>
           <h3
@@ -402,329 +568,168 @@
             {{ values_for_flavor }}
           </h3>
         </div>
-        <div class="nutrition-facts__stats">
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when 'center_stat' -%}
-                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
-                    {% if forloop.index == 1 %}
-                      {{ values_for_first_block_properties | default: block.settings.left }}
-                    {% else %}
-                      {{ block.settings.left }}
-                    {% endif %}
-                  </div>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
-                    {% if forloop.index == 1 %}
-                      {{ values_for_first_block_values | default: block.settings.right }}
-                    {% else %}
-                      {{ block.settings.right }}
-                    {% endif %}
-                  </div>
-                </div>
-              {%- when 'center_stat_calories' -%}
-                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
-                    {% if forloop.index == 2 %}
-                      {{ values_for_second_block_properties | default: block.settings.left }}
-                    {% else %}
-                      {{ block.settings.left }}
-                    {% endif %}
-                  </div>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
-                    {% if forloop.index == 2 %}
-                      {{ values_for_second_block_values | default: block.settings.left }}
-                    {% else %}
-                      {{ block.settings.right }}
-                    {% endif %}
-                  </div>
-                </div>
-            {%- endcase -%}
-          {%- endfor -%}
-        </div>
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'ingredients' -%}
-            <div class="nutrition-facts__ingredients" {{ block.shopify_attributes }}>
-              <h4 class="nutrition-facts__ingredients-label">{{ block.settings.label }}</h4>
-              <div class="nutrition-facts__ingredients-text">
-                {{ values_for_ingredients_text | default: block.settings.text }}
-              </div>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
 
-      <div class="nutrition-facts__column nutrition-facts__column--right">
-        <p class="nutrition-facts__daily-value-label">{{ section.settings.daily_value_label }}</p>
-        <div class="nutrition-facts__stats">
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when 'right_stat' -%}
-                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
-                    {% if forloop.index == 4 %}
-                      {{ values_for_third_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 5 %}
-                      {{ values_for_fourth_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 6 %}
-                      {{ values_for_fifth_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 7 %}
-                      {{ values_for_sixth_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 8 %}
-                      {{ values_for_seventh_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 9 %}
-                      {{ values_for_eighth_block_properties | default: block.settings.left }}
-                    {% else %}
-                      {{ block.settings.left }}
-                    {% endif %}
-                  </div>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
-                    {% if forloop.index == 4 %}
-                      {{ values_for_third_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 5 %}
-                      {{ values_for_fourth_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 6 %}
-                      {{ values_for_fifth_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 7 %}
-                      {{ values_for_sixth_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 8 %}
-                      {{ values_for_seventh_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 9 %}
-                      {{ values_for_eighth_block_values | default: block.settings.right }}
-                    {% else %}
-                      {{ block.settings.right }}
-                    {% endif %}
-                  </div>
-                </div>
-              {%- when 'right_stat_calories' -%}
-                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
-                    {{ block.settings.left }}
-                  </div>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
-                    {{ block.settings.right }}
-                  </div>
-                </div>
-            {%- endcase -%}
-          {%- endfor -%}
+        <div class="nutrition-facts__image-wrapper">
+          {%- if values_for_bar_image != blank -%}
+            {{
+              values_for_bar_image
+              | image_url: width: 600
+              | image_tag: class: 'nutrition-facts__image', alt: values_for_bar_image.alt
+            }}
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'nutrition-facts__image placeholder-svg' }}
+          {%- endif -%}
         </div>
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'daily_value_note' -%}
-            <div class="nutrition-facts__daily-value-label--bottom" {{ block.shopify_attributes }}>
-              {{ values_for_daily_value_note | default: block.settings.text }}
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    </div>
 
-    <div class="nutrition-facts__features">
-      {%- assign feature_index = 0 -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'feature' -%}
-          {%- assign feature_index = feature_index | plus: 1 -%}
-          {%- assign feature_key = 'image_feature_' | append: feature_index -%}
-          {%- assign feature_label_key = 'feature_' | append: feature_index -%}
-          {%- assign feature_icon = block.settings.icon -%}
-          {%- assign feature_label = block.settings.name -%}
-          {%- if metaobject != blank and metaobject[feature_key] != blank -%}
-            {%- assign feature_icon = metaobject[feature_key] -%}
-          {%- endif -%}
-          {%- if metaobject != blank and metaobject[feature_label_key] != blank -%}
-            {%- assign feature_label = metaobject[feature_label_key] -%}
-          {%- endif -%}
-          <div class="nutrition-facts__feature" {{ block.shopify_attributes }}>
-            {%- if feature_icon != blank -%}
-              {{
-                feature_icon
-                | image_url: width: 152
-                | image_tag: class: 'nutrition-facts__feature-icon', alt: feature_label
-              }}
-            {%- else -%}
-              {{ 'image' | placeholder_svg_tag: 'nutrition-facts__feature-icon placeholder-svg' }}
-            {%- endif -%}
-            <h3 class="nutrition-facts__feature-name">{{ feature_label }}</h3>
+        <div class="nutrition-facts__columns nutrition-facts__columns--mobile-row">
+          <div class="nutrition-facts__column nutrition-facts__column--mobile">
+            <div class="nutrition-facts__stats">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'center_stat' -%}
+                    <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
+                        {% if forloop.index == 1 %}
+                          {{ values_for_first_block_properties | default: block.settings.left }}
+                        {% else %}
+                          {{ block.settings.left }}
+                        {% endif %}
+                      </div>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
+                        {% if forloop.index == 1 %}
+                          {{ values_for_first_block_values | default: block.settings.right }}
+                        {% else %}
+                          {{ block.settings.right }}
+                        {% endif %}
+                      </div>
+                    </div>
+                  {%- when 'center_stat_calories' -%}
+                    <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
+                        {% if forloop.index == 2 %}
+                          {{ values_for_second_block_properties | default: block.settings.left }}
+                        {% else %}
+                          {{ block.settings.left }}
+                        {% endif %}
+                      </div>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
+                        {% if forloop.index == 2 %}
+                          {{ values_for_second_block_values | default: block.settings.left }}
+                        {% else %}
+                          {{ block.settings.right }}
+                        {% endif %}
+                      </div>
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'ingredients' -%}
+                <div class="nutrition-facts__ingredients" {{ block.shopify_attributes }}>
+                  <h4 class="nutrition-facts__ingredients-label">{{ block.settings.label }}</h4>
+                  <div class="nutrition-facts__ingredients-text">
+                    {{ values_for_ingredients_text | default: block.settings.text }}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
           </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-  </div>
 
-  {%- comment -%} Mobile layout {%- endcomment -%}
-  <div class="nutrition-facts__layout nutrition-facts__layout--mobile">
-    <div class="nutrition-facts__title">
-      <h2 class="nutrition-facts__heading">{{ values_for_heading }}</h2>
-      <h3
-        class="nutrition-facts__flavor"
-        {% if section.settings.flavor_text_color != blank %}
-          style="color: {{ section.settings.flavor_text_color }};"
-        {% endif %}
-      >
-        {{ values_for_flavor }}
-      </h3>
-    </div>
-
-    <div class="nutrition-facts__image-wrapper">
-      {%- if values_for_bar_image != blank -%}
-        {{
-          values_for_bar_image
-          | image_url: width: 600
-          | image_tag: class: 'nutrition-facts__image', alt: values_for_bar_image.alt
-        }}
-      {%- else -%}
-        {{ 'image' | placeholder_svg_tag: 'nutrition-facts__image placeholder-svg' }}
-      {%- endif -%}
-    </div>
-
-    <div class="nutrition-facts__columns nutrition-facts__columns--mobile-row">
-      <div class="nutrition-facts__column nutrition-facts__column--mobile">
-        <div class="nutrition-facts__stats">
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when 'center_stat' -%}
-                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
-                    {% if forloop.index == 1 %}
-                      {{ values_for_first_block_properties | default: block.settings.left }}
-                    {% else %}
-                      {{ block.settings.left }}
-                    {% endif %}
-                  </div>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
-                    {% if forloop.index == 1 %}
-                      {{ values_for_first_block_values | default: block.settings.right }}
-                    {% else %}
-                      {{ block.settings.right }}
-                    {% endif %}
-                  </div>
-                </div>
-              {%- when 'center_stat_calories' -%}
-                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
-                    {% if forloop.index == 2 %}
-                      {{ values_for_second_block_properties | default: block.settings.left }}
-                    {% else %}
-                      {{ block.settings.left }}
-                    {% endif %}
-                  </div>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
-                    {% if forloop.index == 2 %}
-                      {{ values_for_second_block_values | default: block.settings.left }}
-                    {% else %}
-                      {{ block.settings.right }}
-                    {% endif %}
-                  </div>
-                </div>
-            {%- endcase -%}
-          {%- endfor -%}
-        </div>
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'ingredients' -%}
-            <div class="nutrition-facts__ingredients" {{ block.shopify_attributes }}>
-              <h4 class="nutrition-facts__ingredients-label">{{ block.settings.label }}</h4>
-              <div class="nutrition-facts__ingredients-text">
-                {{ values_for_ingredients_text | default: block.settings.text }}
-              </div>
+          <div class="nutrition-facts__column nutrition-facts__column--mobile">
+            <p class="nutrition-facts__daily-value-label">{{ section.settings.daily_value_label }}</p>
+            <div class="nutrition-facts__stats">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'right_stat' -%}
+                    <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
+                        {% if forloop.index == 4 %}
+                          {{ values_for_third_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 5 %}
+                          {{ values_for_fourth_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 6 %}
+                          {{ values_for_fifth_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 7 %}
+                          {{ values_for_sixth_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 8 %}
+                          {{ values_for_seventh_block_properties | default: block.settings.left }}
+                        {% elsif forloop.index == 9 %}
+                          {{ values_for_eighth_block_properties | default: block.settings.left }}
+                        {% else %}
+                          {{ block.settings.left }}
+                        {% endif %}
+                      </div>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
+                        {% if forloop.index == 4 %}
+                          {{ values_for_third_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 5 %}
+                          {{ values_for_fourth_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 6 %}
+                          {{ values_for_fifth_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 7 %}
+                          {{ values_for_sixth_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 8 %}
+                          {{ values_for_seventh_block_values | default: block.settings.right }}
+                        {% elsif forloop.index == 9 %}
+                          {{ values_for_eighth_block_values | default: block.settings.right }}
+                        {% else %}
+                          {{ block.settings.right }}
+                        {% endif %}
+                      </div>
+                    </div>
+                  {%- when 'right_stat_calories' -%}
+                    <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
+                        {{ block.settings.left }}
+                      </div>
+                      <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
+                        {{ block.settings.right }}
+                      </div>
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
             </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-
-      <div class="nutrition-facts__column nutrition-facts__column--mobile">
-        <p class="nutrition-facts__daily-value-label">{{ section.settings.daily_value_label }}</p>
-        <div class="nutrition-facts__stats">
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when 'right_stat' -%}
-                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
-                    {% if forloop.index == 4 %}
-                      {{ values_for_third_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 5 %}
-                      {{ values_for_fourth_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 6 %}
-                      {{ values_for_fifth_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 7 %}
-                      {{ values_for_sixth_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 8 %}
-                      {{ values_for_seventh_block_properties | default: block.settings.left }}
-                    {% elsif forloop.index == 9 %}
-                      {{ values_for_eighth_block_properties | default: block.settings.left }}
-                    {% else %}
-                      {{ block.settings.left }}
-                    {% endif %}
-                  </div>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-down">
-                    {% if forloop.index == 4 %}
-                      {{ values_for_third_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 5 %}
-                      {{ values_for_fourth_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 6 %}
-                      {{ values_for_fifth_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 7 %}
-                      {{ values_for_sixth_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 8 %}
-                      {{ values_for_seventh_block_values | default: block.settings.right }}
-                    {% elsif forloop.index == 9 %}
-                      {{ values_for_eighth_block_values | default: block.settings.right }}
-                    {% else %}
-                      {{ block.settings.right }}
-                    {% endif %}
-                  </div>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'daily_value_note' -%}
+                <div class="nutrition-facts__daily-value-label--bottom" {{ block.shopify_attributes }}>
+                  {{ values_for_daily_value_note | default: block.settings.text }}
                 </div>
-              {%- when 'right_stat_calories' -%}
-                <div class="nutrition-facts__stat" {{ block.shopify_attributes }}>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--left">
-                    {{ block.settings.left }}
-                  </div>
-                  <div class="nutrition-facts__stat-col nutrition-facts__stat-col--right nutrition-facts__stat-col--right-calories">
-                    {{ block.settings.right }}
-                  </div>
-                </div>
-            {%- endcase -%}
-          {%- endfor -%}
-        </div>
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'daily_value_note' -%}
-            <div class="nutrition-facts__daily-value-label--bottom" {{ block.shopify_attributes }}>
-              {{ values_for_daily_value_note | default: block.settings.text }}
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    </div>
-
-    <div class="nutrition-facts__features">
-      {%- assign feature_index = 0 -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'feature' -%}
-          {%- assign feature_index = feature_index | plus: 1 -%}
-          {%- assign feature_key = 'image_feature_' | append: feature_index -%}
-          {%- assign feature_label_key = 'feature_' | append: feature_index -%}
-          {%- assign feature_icon = block.settings.icon -%}
-          {%- assign feature_label = block.settings.name -%}
-          {%- if metaobject != blank and metaobject[feature_key] != blank -%}
-            {%- assign feature_icon = metaobject[feature_key] -%}
-          {%- endif -%}
-          {%- if metaobject != blank and metaobject[feature_label_key] != blank -%}
-            {%- assign feature_label = metaobject[feature_label_key] -%}
-          {%- endif -%}
-          <div class="nutrition-facts__feature" {{ block.shopify_attributes }}>
-            {%- if feature_icon != blank -%}
-              {{
-                feature_icon
-                | image_url: width: 152
-                | image_tag: class: 'nutrition-facts__feature-icon', alt: feature_label
-              }}
-            {%- else -%}
-              {{ 'image' | placeholder_svg_tag: 'nutrition-facts__feature-icon placeholder-svg' }}
-            {%- endif -%}
-            <h3 class="nutrition-facts__feature-name">{{ feature_label }}</h3>
+              {%- endif -%}
+            {%- endfor -%}
           </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-  </div>
+        </div>
+
+        <div class="nutrition-facts__features">
+          {%- assign feature_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'feature' -%}
+              {%- assign feature_index = feature_index | plus: 1 -%}
+              {%- assign feature_key = 'image_feature_' | append: feature_index -%}
+              {%- assign feature_label_key = 'feature_' | append: feature_index -%}
+              {%- assign feature_icon = block.settings.icon -%}
+              {%- assign feature_label = block.settings.name -%}
+              {%- if metaobject != blank and metaobject[feature_key] != blank -%}
+                {%- assign feature_icon = metaobject[feature_key] -%}
+              {%- endif -%}
+              {%- if metaobject != blank and metaobject[feature_label_key] != blank -%}
+                {%- assign feature_label = metaobject[feature_label_key] -%}
+              {%- endif -%}
+              <div class="nutrition-facts__feature" {{ block.shopify_attributes }}>
+                {%- if feature_icon != blank -%}
+                  {{
+                    feature_icon
+                    | image_url: width: 152
+                    | image_tag: class: 'nutrition-facts__feature-icon', alt: feature_label
+                  }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'nutrition-facts__feature-icon placeholder-svg' }}
+                {%- endif -%}
+                <h3 class="nutrition-facts__feature-name">{{ feature_label }}</h3>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
     </div>
   {%- endfor -%}
 
@@ -734,9 +739,19 @@
       if (!wrapper || wrapper.dataset.nfBound) return;
       wrapper.dataset.nfBound = '1';
 
+      var hiddenVariantId = wrapper.dataset.nfHiddenVariantId || '';
+
       function showVariant(variantId) {
         if (!variantId) return;
         var target = String(variantId);
+
+        // Hide the entire section for the configured variant.
+        if (hiddenVariantId && target === hiddenVariantId) {
+          wrapper.style.display = 'none';
+          return;
+        }
+        wrapper.style.display = '';
+
         wrapper.querySelectorAll('.nutrition-facts__variant').forEach(function (slide) {
           slide.style.display = slide.dataset.variantId === target ? '' : 'none';
         });
