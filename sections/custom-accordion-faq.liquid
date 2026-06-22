@@ -127,6 +127,9 @@
 <section
   class="custom-accordion-faq"
   id="{{ faq_wrapper_id }}"
+  data-variant-switcher
+  data-slide-selector=".custom-accordion-faq__variant"
+  data-question-selector=".custom-accordion-faq__question"
 >
   <div class="custom-accordion-faq__layout">
     {%- if section.settings.title != blank -%}
@@ -206,51 +209,7 @@
   </div>
 </section>
 
-<script>
-  (function () {
-    var wrapper = document.getElementById('{{ faq_wrapper_id }}');
-    if (!wrapper || wrapper.dataset.faqBound) return;
-    wrapper.dataset.faqBound = '1';
-
-    // Accordion toggle (works across every pre-rendered variant).
-    wrapper.addEventListener('click', function (event) {
-      var btn = event.target.closest && event.target.closest('.custom-accordion-faq__question');
-      if (!btn || !wrapper.contains(btn)) return;
-      var expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-    });
-
-    function showVariant(variantId) {
-      if (!variantId) return;
-      var target = String(variantId);
-      wrapper.querySelectorAll('.custom-accordion-faq__variant').forEach(function (slide) {
-        slide.style.display = slide.dataset.variantId === target ? '' : 'none';
-      });
-    }
-
-    // Standard product templates: Shapes product island events.
-    function handleThemeEvent(event) {
-      var variant = event.detail && event.detail.variant;
-      if (variant && variant.id) showVariant(variant.id);
-    }
-    document.addEventListener('theme:variant:change', handleThemeEvent);
-    document.addEventListener('shapes:product:variantchange', handleThemeEvent);
-
-    // Bundle-subscription buy box (no variant-change event is dispatched).
-    document.addEventListener('change', function (event) {
-      var radio = event.target.closest && event.target.closest('[data-variant-radio]');
-      if (radio) showVariant(radio.value);
-    });
-    document.addEventListener('click', function (event) {
-      var el = event.target.closest && event.target.closest('[data-variant-id]');
-      if (el) showVariant(el.dataset.variantId);
-    });
-
-    // Initial state: honour a pre-selected variant from the URL (?variant=ID).
-    var requestedId = new URLSearchParams(window.location.search).get('variant');
-    if (requestedId) showVariant(requestedId);
-  })();
-</script>
+<script src="{{ 'variant-section-switcher.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {

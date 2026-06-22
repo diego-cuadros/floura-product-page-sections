@@ -262,7 +262,9 @@
 <section
   class="nutrition-facts"
   id="{{ nf_wrapper_id }}"
-  data-nf-hidden-variant-id="{{ nf_hidden_variant_id }}"
+  data-variant-switcher
+  data-slide-selector=".nutrition-facts__variant"
+  data-hidden-variant-id="{{ nf_hidden_variant_id }}"
   style="
     {%- if section.settings.background_color != blank %}background-color: {{ section.settings.background_color }};{% endif -%}
     {%- if nf_current_variant.id == nf_hidden_variant_id %}display: none;{% endif -%}
@@ -733,53 +735,7 @@
     </div>
   {%- endfor -%}
 
-  <script>
-    (function () {
-      var wrapper = document.getElementById('{{ nf_wrapper_id }}');
-      if (!wrapper || wrapper.dataset.nfBound) return;
-      wrapper.dataset.nfBound = '1';
-
-      var hiddenVariantId = wrapper.dataset.nfHiddenVariantId || '';
-
-      function showVariant(variantId) {
-        if (!variantId) return;
-        var target = String(variantId);
-
-        // Hide the entire section for the configured variant.
-        if (hiddenVariantId && target === hiddenVariantId) {
-          wrapper.style.display = 'none';
-          return;
-        }
-        wrapper.style.display = '';
-
-        wrapper.querySelectorAll('.nutrition-facts__variant').forEach(function (slide) {
-          slide.style.display = slide.dataset.variantId === target ? '' : 'none';
-        });
-      }
-
-      // Standard product templates: Shapes product island events.
-      function handleThemeEvent(event) {
-        var variant = event.detail && event.detail.variant;
-        if (variant && variant.id) showVariant(variant.id);
-      }
-      document.addEventListener('theme:variant:change', handleThemeEvent);
-      document.addEventListener('shapes:product:variantchange', handleThemeEvent);
-
-      // Bundle-subscription buy box (no variant-change event is dispatched).
-      document.addEventListener('change', function (event) {
-        var radio = event.target.closest && event.target.closest('[data-variant-radio]');
-        if (radio) showVariant(radio.value);
-      });
-      document.addEventListener('click', function (event) {
-        var el = event.target.closest && event.target.closest('[data-variant-id]');
-        if (el) showVariant(el.dataset.variantId);
-      });
-
-      // Initial state: honour a pre-selected variant from the URL (?variant=ID).
-      var requestedId = new URLSearchParams(window.location.search).get('variant');
-      if (requestedId) showVariant(requestedId);
-    })();
-  </script>
+  <script src="{{ 'variant-section-switcher.js' | asset_url }}" defer="defer"></script>
 </section>
 
 {% schema %}
