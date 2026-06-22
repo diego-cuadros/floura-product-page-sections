@@ -216,26 +216,30 @@
       padding: 6px;
     }
     .nutrition-facts__stat-col {
-      font-size: 8px;
+      font-size: 14px;
     }
     .nutrition-facts__stat-col--right-calories {
       font-size: 19px;
     }
     .nutrition-facts__ingredients-label {
-      font-size: 12px;
+      font-size: 14px;
     }
     .nutrition-facts__ingredients-text {
-      font-size: 10px;
+      font-size: 14px;
     }
     .nutrition-facts__daily-value-label {
       margin-top: -11px;
     }
     .nutrition-facts__daily-value-label,
     .nutrition-facts__daily-value-label--bottom {
-      font-size: 8px;
+      font-size: 14px;
     }
     .nutrition-facts__ingredients {
       padding-left: 8px;
+    }
+
+    .nutrition-facts__mobile-margin {
+      margin-top: 8px;
     }
   }
 </style>
@@ -585,7 +589,7 @@
 
         <div class="nutrition-facts__columns nutrition-facts__columns--mobile-row">
           <div class="nutrition-facts__column nutrition-facts__column--mobile">
-            <div class="nutrition-facts__stats">
+            <div class="nutrition-facts__stats nutrition-facts__mobile-margin">
               {%- for block in section.blocks -%}
                 {%- case block.type -%}
                   {%- when 'center_stat' -%}
