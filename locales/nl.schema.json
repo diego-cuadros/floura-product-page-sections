@@ -1591,6 +1591,14 @@
           }
         }
       },
+      "richtext": {
+        "name": "Tekst met opmaak",
+        "settings": {
+          "text": {
+            "label": "Tekst"
+          }
+        }
+      },
       "icon_row": {
         "name": "Pictogramrij",
         "settings": {

@@ -1,0 +1,13 @@
+{%- if block.settings.text != blank -%}
+  <div
+    class="{{ block_base_classes }} w-full max-w-full"
+    {{ block.shopify_attributes }}
+  >
+    <data-island
+      x-data="RTE"
+      class="rte {{ block.settings.text_align }}"
+    >
+      {{ block.settings.text }}
+    </data-island>
+  </div>
+{%- endif -%}

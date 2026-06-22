@@ -1591,6 +1591,14 @@
           }
         }
       },
+      "richtext": {
+        "name": "Testo formattato",
+        "settings": {
+          "text": {
+            "label": "Testo"
+          }
+        }
+      },
       "icon_row": {
         "name": "Riga di icone",
         "settings": {

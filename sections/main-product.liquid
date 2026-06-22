@@ -1864,6 +1864,41 @@
       ]
     },
     {
+      "type": "richtext",
+      "name": "t:common.blocks.richtext.name",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "display_on_card",
+          "label": "t:common.settings.display_on_card.label",
+          "default": false,
+          "info": "t:common.settings.display_on_card.info"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Add your product information here.</p>",
+          "label": "t:common.blocks.richtext.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "t:common.settings.text_align.label",
+          "default": "text-left",
+          "options": [
+            {
+              "value": "text-left",
+              "label": "t:common.options.left.label"
+            },
+            {
+              "value": "text-center",
+              "label": "t:common.options.center.label"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "type": "icon_row",
       "name": "t:common.blocks.icon_row.name",
       "settings": [

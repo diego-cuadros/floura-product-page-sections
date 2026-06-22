@@ -1591,6 +1591,14 @@
           }
         }
       },
+      "richtext": {
+        "name": "Rich text",
+        "settings": {
+          "text": {
+            "label": "Tekst"
+          }
+        }
+      },
       "icon_row": {
         "name": "Ikon række",
         "settings": {

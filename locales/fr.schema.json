@@ -1591,6 +1591,14 @@
           }
         }
       },
+      "richtext": {
+        "name": "Texte enrichi",
+        "settings": {
+          "text": {
+            "label": "Texte"
+          }
+        }
+      },
       "icon_row": {
         "name": "Rangée d'icônes",
         "settings": {

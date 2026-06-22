@@ -1591,6 +1591,14 @@
           }
         }
       },
+      "richtext": {
+        "name": "Texto formatado",
+        "settings": {
+          "text": {
+            "label": "Texto"
+          }
+        }
+      },
       "icon_row": {
         "name": "Linha de ícones",
         "settings": {
