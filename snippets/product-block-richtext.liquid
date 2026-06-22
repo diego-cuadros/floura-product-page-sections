@@ -1,4 +1,53 @@
-{%- if block.settings.text != blank -%}
+{%- comment -%}
+  Rich text product block.
+
+  Renders the variant metafield `custom.unique_variant_description` (rich text)
+  for the selected variant, falling back to the block's rich text setting when
+  the metafield is empty. Every variant's content is pre-rendered (keyed by
+  data-variant-id) and toggled on variant change via variant-section-switcher.js
+  (theme:variant:change / shapes:product:variantchange, the bundle-subscription
+  buy box, and ?variant=ID on load).
+{%- endcomment -%}
+
+{%- liquid
+  assign rtx_current_variant = product.selected_or_first_available_variant
+  assign rtx_wrapper_id = 'product-block-richtext-' | append: block.id
+-%}
+
+{%- if product -%}
+  <div
+    id="{{ rtx_wrapper_id }}"
+    class="{{ block_base_classes }} w-full max-w-full"
+    data-variant-switcher
+    data-slide-selector=".product-block-richtext__variant"
+    {{ block.shopify_attributes }}
+  >
+    {%- for variant in product.variants -%}
+      {%- liquid
+        # Variant rich text metafield. Render through `metafield_tag` so the rich
+        # text is converted to HTML (mirrors custom-hero / custom-nutrition-facts);
+        # fall back to the block's customizer rich text setting when empty.
+        assign rtx_meta = variant.metafields.custom.unique_variant_description
+        assign rtx_content = block.settings.text
+        if rtx_meta != blank
+          assign rtx_content = rtx_meta | metafield_tag
+        endif
+      -%}
+      {%- if rtx_content != blank -%}
+        <data-island
+          x-data="RTE"
+          on="idle"
+          class="product-block-richtext__variant rte {{ block.settings.text_align }}"
+          data-variant-id="{{ variant.id }}"
+          {%- unless variant.id == rtx_current_variant.id %} style="display: none;"{% endunless -%}
+        >
+          {{ rtx_content }}
+        </data-island>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <script src="{{ 'variant-section-switcher.js' | asset_url }}" defer="defer"></script>
+{%- elsif block.settings.text != blank -%}
   <div
     class="{{ block_base_classes }} w-full max-w-full"
     {{ block.shopify_attributes }}
