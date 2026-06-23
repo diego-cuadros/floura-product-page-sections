@@ -275,26 +275,6 @@
       return groupFromName(radioFlavorName(checked));
     }
 
-    /**
-     * Make a flavor (by group key) the default selection on load, so its images
-     * render first. Selects the matching 1-pack radio and notifies Alpine so the
-     * featured image follows. Returns true if a matching radio was found.
-     */
-    function selectDefaultFlavor(groupKey) {
-      var radios = buybox.querySelectorAll('[data-variant-radio]');
-      for (var i = 0; i < radios.length; i++) {
-        var g = groupFromName(radioFlavorName(radios[i]));
-        if (g && g.key === groupKey) {
-          if (!radios[i].checked) {
-            radios[i].checked = true;
-            radios[i].dispatchEvent(new Event('change', { bubbles: true }));
-          }
-          return true;
-        }
-      }
-      return false;
-    }
-
     function applyFromCheckedRadio() {
       applyFilter(groupFromCheckedRadio());
     }
@@ -321,11 +301,9 @@
       });
     });
 
-    // Initial state: wait for Alpine to hydrate, then default the gallery to
-    // Variety Pack (falling back to the checked flavor if there's no variety
-    // variant) and force its first image as the featured one.
+    // Initial state: wait for Alpine to hydrate, then filter the gallery to
+    // whatever flavor is already selected (no flavor is forced on load).
     whenReady(function () {
-      selectDefaultFlavor('variety');
       var group = groupFromCheckedRadio();
       if (group) {
         applyFilter(group);
