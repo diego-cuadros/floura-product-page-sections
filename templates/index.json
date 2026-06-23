@@ -56,8 +56,54 @@
         "use_gradient_background": false
       }
     },
+    "image_with_text_overlay_xnwkYH": {
+      "type": "image-with-text-overlay",
+      "name": "t:sections.image_with_text_overlay.name",
+      "settings": {
+        "custom__class": "",
+        "image": "shopify://shop_images/june-23-sale-dt.png",
+        "image_mobile": "shopify://shop_images/june-23-sale-m.png",
+        "display_on_card": false,
+        "display_content_below_image_on_mobile": false,
+        "style": "full",
+        "mobile_style": "full",
+        "height": "natural",
+        "place_content": "place-content-center-center",
+        "text_align": "text-center",
+        "text_align_mobile": "default",
+        "text_max_width_desktop": "default",
+        "content_padding_mobile": 20,
+        "subheader": "",
+        "subheader_font_size_desktop": 20,
+        "subheader_font_size_mobile": 16,
+        "subheader_color": "",
+        "subheader_max_width_desktop": 500,
+        "subheader_max_width_mobile": 320,
+        "badge_max_width_desktop": 280,
+        "badge_max_width_mobile": 200,
+        "title": "",
+        "title_new_line_after_each_word": false,
+        "header_font_size": 80,
+        "header_font_size_mobile": 40,
+        "header_color": "",
+        "richtext": "",
+        "body_font_size_desktop": 20,
+        "body_font_size_mobile": 18,
+        "body_text_color": "",
+        "button_bg_color": "",
+        "button_text_color": "",
+        "button_outline_color": "",
+        "button_hover_bg_color": "",
+        "button_hover_text_color": "",
+        "cta_url": "https://www.floura.com/products/floura-daily-fiber-bars",
+        "cta_text": "",
+        "color_scheme": "",
+        "use_gradient_background": false
+      }
+    },
     "image_with_text_overlay_qzHU8k": {
       "type": "image-with-text-overlay",
+      "disabled": true,
       "name": "t:sections.image_with_text_overlay.name",
       "settings": {
         "custom__class": "",
@@ -908,7 +954,8 @@
             "show_drop_shadow": false,
             "transition_speed": 5,
             "header_text": "Customers Loving Floura",
-            "show_average_rating": true
+            "show_average_rating": true,
+            "rating_display": "default"
           }
         }
       },
@@ -927,6 +974,7 @@
   },
   "order": [
     "image_with_text_overlay_Y9XNAM",
+    "image_with_text_overlay_xnwkYH",
     "image_with_text_overlay_qzHU8k",
     "custom_liquid_A3hcHk",
     "image_with_text_overlay_Tx7PeT",
