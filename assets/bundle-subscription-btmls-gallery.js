@@ -199,6 +199,26 @@
     }
 
     /**
+     * Re-apply the correct track position for the carousel's current index.
+     *
+     * Splide derives its max scroll limit from the LAST slide's position. Once we
+     * filter the gallery, the trailing (non-matching) slides are display:none, so
+     * their position is 0 and Splide's limit collapses to 0 — every splide.go()
+     * to a visible slide is then clamped back to translateX(0), and on mobile the
+     * featured image never moves. splide.go() still updates the index correctly,
+     * so we just translate to that index's position, bypassing the broken clamp.
+     */
+    function syncSplidePosition(splide) {
+      splide = splide || activeSplide();
+      if (!splide || !splide.Components) return;
+      try {
+        var Move = splide.Components.Move;
+        var pos = Move.toPosition(splide.index);
+        if (Math.abs(Move.getPosition() - pos) > 1) Move.translate(pos);
+      } catch (e) { /* no-op */ }
+    }
+
+    /**
      * Move the mobile Splide carousel to a given media id. The featured image on
      * mobile is whichever slide Splide shows, so this must run after filtering/
      * reordering (and after refresh) to keep it in sync with the selected variant.
@@ -211,7 +231,10 @@
         var idx = slides.findIndex(function (s) {
           return Number(s.dataset.mediaId) === Number(mediaId);
         });
-        if (idx > -1) splide.go(idx);
+        if (idx > -1) {
+          splide.go(idx);
+          syncSplidePosition(splide); // go() is clamped to 0 once filtered; force it
+        }
       } catch (e) { /* no-op */ }
     }
 
@@ -302,6 +325,19 @@
         if (String(radio.value) === '1') applyFromCheckedRadio();
       });
     });
+
+    // Tapping a thumbnail (or a variant change) sets Alpine's currentMediaId,
+    // which the core theme turns into a `shapes:product:mediachange` event whose
+    // handler calls splide.go() — clamped to 0 on our filtered gallery (see
+    // syncSplidePosition). Re-apply the position once the core handler has run so
+    // the mobile featured image actually follows the selected thumbnail.
+    var slideshowEl = root.querySelector && root.querySelector('.splide--product');
+    if (slideshowEl) {
+      document.addEventListener('shapes:product:mediachange', function (e) {
+        if (!e.detail || e.detail.slideshowId !== slideshowEl.id) return;
+        requestAnimationFrame(function () { syncSplidePosition(); });
+      });
+    }
 
     // Initial state: wait for Alpine to hydrate, then filter the gallery to
     // whatever flavor is already selected (no flavor is forced on load).
