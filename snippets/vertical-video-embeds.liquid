@@ -220,6 +220,110 @@
     });
   });
 </script>
+  {%- comment -%}
+    [CUSTOM — not core theme] iOS Safari never paints a <video>'s first frame as
+    a thumbnail without a poster, so the videos show blank/white until played.
+    We can't add a "#t" media fragment to the source — forcing every video
+    (these + Splide's loop clones) to load a frame exhausts iOS's video-decoder
+    budget and breaks tap-to-play. Instead, extract each video's first frame to a
+    JPEG via a throwaway <canvas> (the Shopify CDN serves the mp4s CORS-enabled),
+    set it as the real videos' poster, and re-apply to clones. Posters are plain
+    images — no decoder — so thumbnails show AND playback is unaffected.
+  {%- endcomment -%}
+  <script>
+    (function () {
+      var ROOT_ID = 'slideshow-{{ section.id }}-{{ index }}';
+      function init() {
+        var root = document.getElementById(ROOT_ID);
+        if (!root || !('MutationObserver' in window)) return;
+
+        var posters = {}; // base video URL -> data URL
+
+        function baseUrl(u) { return (u || '').split('#')[0]; }
+        function sourceUrlOf(video) {
+          var s = video.querySelector('source');
+          return baseUrl(s ? s.getAttribute('src') : video.getAttribute('src'));
+        }
+
+        // Paint extracted posters onto every matching <video> (originals + Splide
+        // clones), without clobbering a merchant-set poster.
+        function applyAll() {
+          root.querySelectorAll('video').forEach(function (video) {
+            if (video.getAttribute('poster')) return;
+            var poster = posters[sourceUrlOf(video)];
+            if (poster) video.setAttribute('poster', poster);
+          });
+        }
+
+        // Grab the first frame of `url` into a JPEG data URL via a short-lived,
+        // muted <video> + <canvas>, then release the decoder. Resolves false on
+        // any failure (CORS, decode, timeout) so the gallery just stays blank.
+        function extract(url) {
+          return new Promise(function (resolve) {
+            var v = document.createElement('video');
+            v.crossOrigin = 'anonymous';
+            v.muted = true;
+            v.preload = 'auto';
+            v.setAttribute('playsinline', '');
+            v.setAttribute('webkit-playsinline', '');
+            var settled = false;
+            function done(result) {
+              if (settled) return;
+              settled = true;
+              v.removeAttribute('src');
+              try { v.load(); } catch (e) { /* release decoder */ }
+              resolve(result);
+            }
+            v.addEventListener('error', function () { done(false); });
+            v.addEventListener('loadeddata', function () {
+              try { v.currentTime = 0.1; } catch (e) { done(false); }
+            });
+            v.addEventListener('seeked', function () {
+              try {
+                var c = document.createElement('canvas');
+                c.width = v.videoWidth;
+                c.height = v.videoHeight;
+                c.getContext('2d').drawImage(v, 0, 0);
+                done(c.toDataURL('image/jpeg', 0.72));
+              } catch (e) { done(false); }
+            });
+            setTimeout(function () { done(false); }, 15000);
+            v.src = url + '#t=0.1';
+          });
+        }
+
+        // Unique source URLs still lacking a poster.
+        var urls = [];
+        root.querySelectorAll('video').forEach(function (video) {
+          if (video.getAttribute('poster')) return;
+          var url = sourceUrlOf(video);
+          if (url && urls.indexOf(url) === -1) urls.push(url);
+        });
+        if (!urls.length) return;
+
+        // Splide builds its loop clones after init; re-apply posters as they
+        // appear, then stop watching once they've all been created.
+        var observer = new MutationObserver(applyAll);
+        observer.observe(root, { childList: true, subtree: true });
+        setTimeout(function () { observer.disconnect(); }, 12000);
+
+        // Sequential: never hold more than one extra video decoder at a time.
+        (function next(i) {
+          if (i >= urls.length) return;
+          extract(urls[i]).then(function (poster) {
+            posters[urls[i]] = poster || false;
+            if (poster) applyAll();
+            next(i + 1);
+          });
+        })(0);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
   <script class="slideshow-options" type="application/json">
     {
       "mediaQuery": "min",
