@@ -351,7 +351,17 @@
                         <li
                           class="feature-media-item block {% unless bundle_is_first_slide %} max-lg:[.splide:not(.is-active)_&]:hidden lg:hidden {% endunless %} {{ section.settings.media_mobile_width }} splide__slide px-section lg:w-full lg:px-0"
                           data-media-id="{{ media.id }}"
-                          x-transition.opacity.duration.200ms
+                          {%- comment -%}
+                            [CUSTOM] Omit the per-slide opacity transition when the flavor
+                            gallery filter is on. The filter toggles display:none on these
+                            same items, which corrupts Alpine's x-transition and leaves the
+                            slide stuck at opacity:0 (blank featured image) when you return to
+                            a previously-selected variant. The .product-media fade still
+                            provides the visual transition.
+                          {%- endcomment -%}
+                          {%- unless section.settings.enable_flavor_gallery_filter -%}
+                            x-transition.opacity.duration.200ms
+                          {%- endunless -%}
                           x-show="isMaxLgBreakpoint || currentMediaId === {{ media.id }}"
                           {% unless bundle_is_first_slide %}
                             :class="{ 'lg:hidden' : false }"
