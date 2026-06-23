@@ -30,6 +30,7 @@
         "title": {
           "type": "title",
           "settings": {
+            "use_variant_metafield": true,
             "display_on_card": false,
             "text_align": "text-left"
           }
@@ -44,6 +45,7 @@
         },
         "popup_NzHggr": {
           "type": "popup",
+          "disabled": true,
           "settings": {
             "display_on_card": false,
             "icon": "none",
@@ -306,6 +308,7 @@
         "faq_item_C6pCAr",
         "faq_item_QUaiYb"
       ],
+      "disabled": true,
       "name": "Custom Accordion FAQ",
       "settings": {
         "title": "Frequently Asked Questions",
