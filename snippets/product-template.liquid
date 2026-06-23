@@ -1038,7 +1038,7 @@
                       {{ block.settings.liquid }}
                     </div>
                   {%- when 'bundle_sub_buy_box' -%}
-                    {%- if template.suffix == 'bundle-subscription' -%}
+                    {%- if template.suffix == 'bundle-subscription' or template.suffix == 'bundle-subscription-btmls' -%}
                       <div
                         class="{{ block_base_classes }}"
                         {{ block.shopify_attributes }}
@@ -1203,6 +1203,20 @@
     endif
   -%}
 </data-island>
+
+{%- comment -%}
+  [CUSTOM — bundle-subscription-btmls PDP only — not core theme]
+  Filter the gallery by the selected flavor: only media whose file name contains
+  the flavor keyword stays visible (see assets/bundle-subscription-btmls-gallery.js).
+{%- endcomment -%}
+{%- if template.suffix == 'bundle-subscription-btmls' -%}
+  <style>
+    #shopify-section-{{ section.id }} .btmls-gallery-hide {
+      display: none !important;
+    }
+  </style>
+  <script src="{{ 'bundle-subscription-btmls-gallery.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {%- liquid
   assign stickers = section.blocks | where: 'type', 'sticker'

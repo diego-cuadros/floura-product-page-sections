@@ -72,7 +72,7 @@
     {{ 'floura.css' | asset_url | stylesheet_tag }}
     {{ 'home-page.css' | asset_url | stylesheet_tag }}
     {{ 'account-page.css' | asset_url | stylesheet_tag }}
-    {%- if template.suffix == 'bundle-subscription' -%}
+    {%- if template.suffix == 'bundle-subscription' or template.suffix == 'bundle-subscription-btmls' -%}
       {{ 'bundle-subscription-custom-buy-box-block.css' | asset_url | stylesheet_tag }}
       {{ 'bundle-subscription-pdp.css' | asset_url | stylesheet_tag }}
     {%- endif -%}

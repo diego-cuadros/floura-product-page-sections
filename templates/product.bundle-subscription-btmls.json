@@ -1,0 +1,439 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs_XXXEgJ": {
+      "type": "breadcrumbs",
+      "name": "t:sections.breadcrumbs.name",
+      "settings": {
+        "separator": "/",
+        "text_alignment": "justify-start",
+        "font_size": "text-sm",
+        "active_text_color": "text",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353"
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "judge_me_reviews_preview_badge_C7M9mN": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "use_variant_metafield": true,
+            "display_on_card": false,
+            "text_align": "text-left"
+          }
+        },
+        "richtext_Ny3PyQ": {
+          "type": "richtext",
+          "settings": {
+            "display_on_card": false,
+            "text": "<p>Add your product information here.</p>",
+            "text_align": "text-left"
+          }
+        },
+        "popup_NzHggr": {
+          "type": "popup",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false,
+            "icon": "none",
+            "text": "+ Nutrition Facts",
+            "page": "nutrition-facts"
+          }
+        },
+        "liquid_98Rz3z": {
+          "type": "liquid",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false,
+            "liquid": "<b>Flavor notes: </b>"
+          }
+        },
+        "text_nktTfx": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false,
+            "text": "{{ product.metafields.custom.excerpt.value }}",
+            "icon": "none"
+          }
+        },
+        "buy_box_bundle_sub": {
+          "type": "bundle_sub_buy_box",
+          "settings": {
+            "accent_color": "#c5273c",
+            "pack_2_badge": "Most Popular",
+            "pack_4_badge": "Best Value",
+            "size_selector_heading": "Choose Size (12 bars per pack)",
+            "flavor_selector_heading": "Choose Flavors",
+            "atc_button_text": "Add to Cart"
+          }
+        },
+        "icon_row_EyCVpK": {
+          "type": "icon_row",
+          "disabled": true,
+          "settings": {
+            "display_on_card": false,
+            "uppercase_text": false,
+            "icon_alignment": "justify-center",
+            "icon_thickness": 1.5,
+            "background_color": "bg-transparent text-scheme-text",
+            "show_border": true,
+            "icon_size": "h-10 w-10",
+            "icon_1": "vegan",
+            "text_1": "Plant Based",
+            "icon_2": "no_additives",
+            "text_2": "Preservative Free",
+            "icon_3": "washing",
+            "text_3": "Row item",
+            "icon_4": "gluten_free",
+            "text_4": "Gluten Free",
+            "icon_5": "dairy_free",
+            "text_5": "Dairy Free"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_preview_badge_C7M9mN",
+        "title",
+        "richtext_Ny3PyQ",
+        "popup_NzHggr",
+        "liquid_98Rz3z",
+        "text_nktTfx",
+        "buy_box_bundle_sub",
+        "icon_row_EyCVpK"
+      ],
+      "custom_css": [
+        ".jdgm-widget.jdgm-widget {margin-bottom: -15px;}"
+      ],
+      "settings": {
+        "bbl": "shopify://pages/bundle",
+        "show_carousel": true,
+        "crop": "",
+        "image_shape": "default",
+        "desktop_media_width": "lg:col-span-6_lg:col-span-6",
+        "show_slideshow_arrows_on_desktop": false,
+        "show_slideshow_arrows_on_mobile": false,
+        "enable_image_zoom": false,
+        "enable_video_looping": true,
+        "autoplay_videos_on_desktop": true,
+        "media_mobile_width": "w-full",
+        "thumbnails_position": "under",
+        "thumbnail_crop": "aspect-w-1 aspect-h-1",
+        "thumbnail_shape": "default",
+        "thumbnail_size": "standard",
+        "show_thumbnails_on_mobile": true,
+        "thumbnails_carousel_on_desktop": true,
+        "hide_media_shadow": false,
+        "color_scheme": "scheme-c73160f2-3f02-469f-9aef-73b6dc70138b",
+        "use_gradient_background": false
+      }
+    },
+    "custom_nutrition_facts_CdTzhc": {
+      "type": "custom-nutrition-facts",
+      "blocks": {
+        "center_stat_6t79jk": {
+          "type": "center_stat",
+          "settings": {
+            "left": "",
+            "right": ""
+          }
+        },
+        "center_stat_calories_8NqPEa": {
+          "type": "center_stat_calories",
+          "settings": {
+            "left": "<p>Amount Per Serving<br><strong>Calories</strong></p>",
+            "right": "<p>160</p>"
+          }
+        },
+        "ingredients_axgarC": {
+          "type": "ingredients",
+          "settings": {
+            "label": "Ingredients",
+            "text": "<p>Floura SuperFiber Flour Mix (Apple, Fermented Watermelon Rind, Cantaloupe, Honeydew, Mango &amp; Pineapple), Agave Inulin Powder, White Chia Flour, Roasted Almonds, Tapioca Fiber, Vegetable Glycerine, Apple Puree, Blueberry Concentrate, Blue Agave Syrup, Pumpkin Seeds, Puffed Quinoa, Coconut Oil, Apple Cider Vinegar Powder, Vitamin E (To Preserve Freshness), Salt, Blueberry Natural Flavor, Blue Matcha Powder<br><strong>Allergens: Almonds</strong></p>"
+          }
+        },
+        "right_stat_LpBPid": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Total Fat 6g</strong><br>Saturated Fat 1.5g<br>Trans Fat 0g</p>",
+            "right": "<p>8%<br>8%</p>"
+          }
+        },
+        "right_stat_4MbpQ6": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Cholesterol 0mg</strong></p>",
+            "right": "<p>0%</p>"
+          }
+        },
+        "right_stat_xAH8rc": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Sodium 55mg</strong></p>",
+            "right": "<p>2%</p>"
+          }
+        },
+        "right_stat_PVCBdf": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Total Carbohydrate 30g</strong><br>Dietary Fiber 15g<br>Total Sugars 7g Includes 0g Added Sugars</p>",
+            "right": "<p>11%<br>54%<br><br>0%</p>"
+          }
+        },
+        "right_stat_ewhMLd": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p><strong>Protein 3g</strong></p>",
+            "right": "<p></p>"
+          }
+        },
+        "right_stat_yhNkxp": {
+          "type": "right_stat",
+          "settings": {
+            "left": "<p>Vitamin D 0mcg<br>Calcium 60mg<br>Iron 1.3mg<br>Potassium 170mg</p>",
+            "right": "<p>0%<br>4%<br>8%<br>4%</p>"
+          }
+        },
+        "daily_value_note_U4qpVx": {
+          "type": "daily_value_note",
+          "settings": {
+            "text": "<p>*The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "center_stat_6t79jk",
+        "center_stat_calories_8NqPEa",
+        "ingredients_axgarC",
+        "right_stat_LpBPid",
+        "right_stat_4MbpQ6",
+        "right_stat_xAH8rc",
+        "right_stat_PVCBdf",
+        "right_stat_ewhMLd",
+        "right_stat_yhNkxp",
+        "daily_value_note_U4qpVx"
+      ],
+      "name": "Custom Nutrition Facts",
+      "settings": {
+        "image": "shopify://shop_images/Blueberry-matcha-nutrition-image.png",
+        "heading": "",
+        "flavor": "",
+        "daily_value_label": "% Daily Value",
+        "background_color": "#fbf5e1",
+        "flavor_text_color": "#414180"
+      }
+    },
+    "custom_hero_fLTN9V": {
+      "type": "custom-hero",
+      "name": "Custom Hero",
+      "settings": {
+        "title": "Beyond the Flavor",
+        "text": "<p>Blueberries and blue matcha contribute more than flavor and color. Both are naturally rich in anthocyanins – plant compounds that research suggests may help support overall health and wellbeing. That’s one reason they fit naturally into the Floura philosophy: real foods bring something more to the table.</p>",
+        "background_color": "#7ec58d",
+        "title_color": "#414180",
+        "text_color": "#fefefe",
+        "bold_text_color": "#414180",
+        "text_font_size_desktop": 30,
+        "text_font_size_mobile": 15,
+        "text_line_height_desktop": 35,
+        "text_line_height_mobile": 18,
+        "pattern_image": "shopify://shop_images/Pattern3.png",
+        "pattern_height": 60,
+        "text_alignment": "center"
+      }
+    },
+    "custom_classic_hero_BVrDyA": {
+      "type": "custom-classic-hero",
+      "name": "Custom Classic Hero",
+      "settings": {
+        "title": "The Science",
+        "text": "<p><strong>Floura is a fiber company obsessed with flavor.<br/><br/></strong>We make our own prebiotic fibers from whole upcycled plants — apple cores, fermented watermelon rind, mango, melon — because different plants contain different fibers, and diverse fibers nourish a diverse microbiome. <strong>One bar. 12 plants. 15g of fiber your gut actually recognizes.</strong> <br/><br/>No synthetic isolates. No lab-made shortcuts. Just real fiber, made the way nature intended — and flavors worth craving every day.</p>",
+        "image": "shopify://shop_images/fruits.png",
+        "background_color": "#fbf5e1",
+        "title_color": "#c5273c",
+        "title_color_mobile": "#ffffff",
+        "text_color": "#000000",
+        "bold_text_color": "#000000",
+        "text_font_size_desktop": 30,
+        "text_font_size_mobile": 15,
+        "text_line_height_desktop": 35,
+        "text_line_height_mobile": 18,
+        "pattern_height": 60,
+        "text_alignment": "left"
+      }
+    },
+    "custom_accordion_faq_tGXVJr": {
+      "type": "custom-accordion-faq",
+      "blocks": {
+        "faq_item_UfQ4eJ": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question goes here",
+            "answer": "<p>Answer goes here.</p>",
+            "border_color": "#000000"
+          }
+        },
+        "faq_item_C6pCAr": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question goes here",
+            "answer": "<p>Answer goes here.</p>",
+            "border_color": "#000000"
+          }
+        },
+        "faq_item_QUaiYb": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question goes here",
+            "answer": "<p>Answer goes here.</p>",
+            "border_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_UfQ4eJ",
+        "faq_item_C6pCAr",
+        "faq_item_QUaiYb"
+      ],
+      "disabled": true,
+      "name": "Custom Accordion FAQ",
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "background_color": "#ffffff",
+        "title_color": "#c5273c"
+      }
+    },
+    "176340801886e044c3": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_abQYrY": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_abQYrY"
+      ],
+      "settings": {
+        "apply_vertical_spacing": true,
+        "apply_horizontal_spacing": true,
+        "display_on_card": false,
+        "content_width_desktop": "lg:w-full",
+        "color_scheme": "scheme-f825fdcd-6fdf-4c0b-8147-190bf5bdc353",
+        "use_gradient_background": false
+      }
+    },
+    "vertical_video_embeds_VYEQCE": {
+      "type": "vertical-video-embeds",
+      "blocks": {
+        "video_embed_yTchpe": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/d28abf3f94be4d1caa4c77527f304256.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_MitTgX": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/7dbeceec3c47456ebeccdc78613be89d.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_twnk8F": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a8e197945bd8463dbc4e96fddbddf22a.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_mwfecb": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a9588f4c992243daaaa01eb6fa555ef6.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_BXQcRa": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/577799218ae44cd49e8cb98b2d3d586e.mp4",
+            "video_embed_code": ""
+          }
+        },
+        "video_embed_TKkamT": {
+          "type": "video_embed",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/5f34c35ca2464c839ddbe06fbdd5a690.mp4",
+            "video_embed_code": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_embed_yTchpe",
+        "video_embed_MitTgX",
+        "video_embed_twnk8F",
+        "video_embed_mwfecb",
+        "video_embed_BXQcRa",
+        "video_embed_TKkamT"
+      ],
+      "name": "t:sections.vertical_video_embeds.name",
+      "settings": {
+        "title": "Floura <strong>from the Community</strong>",
+        "subheading": "",
+        "slideshow_focus": "center",
+        "autoscroll_mode": "1",
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    },
+    "blog_posts_a9gV6W": {
+      "type": "blog-posts",
+      "name": "t:sections.blog_posts.name",
+      "settings": {
+        "display_on_card": false,
+        "posts_per_row_desktop": 4,
+        "title": "Blog posts",
+        "blog": "gutsy",
+        "post_limit": 4,
+        "crop": "aspect-w-4 aspect-h-3",
+        "image_shape": "default",
+        "blog_show_author": false,
+        "blog_show_date": false,
+        "show_post_excerpt": true,
+        "show_view_all": false,
+        "color_scheme": "scheme6",
+        "use_gradient_background": false
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs_XXXEgJ",
+    "main",
+    "custom_nutrition_facts_CdTzhc",
+    "custom_hero_fLTN9V",
+    "custom_classic_hero_BVrDyA",
+    "custom_accordion_faq_tGXVJr",
+    "176340801886e044c3",
+    "vertical_video_embeds_VYEQCE",
+    "blog_posts_a9gV6W"
+  ]
+}
