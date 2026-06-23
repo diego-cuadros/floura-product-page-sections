@@ -120,6 +120,7 @@
       ],
       "settings": {
         "bbl": "shopify://pages/bundle",
+        "enable_flavor_gallery_filter": true,
         "show_carousel": true,
         "crop": "",
         "image_shape": "default",
