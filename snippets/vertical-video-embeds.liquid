@@ -168,6 +168,28 @@
               @click="togglePlay()"
               on="before:visible"
             >
+            {%- liquid
+              if block.settings.video_url != blank
+                assign video_src = block.settings.video_url
+              else
+                assign video_src = 'placeholder-video.mp4' | asset_url
+              endif
+              # iOS Safari won't paint a <video>'s first frame as a thumbnail
+              # without a poster — the area stays blank/white until playback. A
+              # "#t" media fragment forces it to seek to and render that frame.
+              # Skip it when a poster is set (the poster already covers iOS) or
+              # the URL already carries a fragment.
+              assign add_frame_hint = false
+              if block.settings.poster_img == blank
+                assign add_frame_hint = true
+              endif
+              if video_src contains '#'
+                assign add_frame_hint = false
+              endif
+              if add_frame_hint
+                assign video_src = video_src | append: '#t=0.1'
+              endif
+            -%}
             <video
               x-ref="video"
               playsinline
@@ -177,7 +199,7 @@
               class="h-full w-full object-cover"
             >
               <source
-                src="{% if block.settings.video_url != blank %}{{ block.settings.video_url }}{% else %}{{ 'placeholder-video.mp4' | asset_url }}{% endif %}"
+                src="{{ video_src }}"
                 type="video/mp4"
               >
               Your browser does not support the video tag.
