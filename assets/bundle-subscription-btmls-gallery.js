@@ -52,6 +52,14 @@
 
     var root = buybox.closest('[data-product-root]') || document;
 
+    // The main carousel's slide list (Splide's __list) and every slide in its
+    // original server order. We keep references to ALL slides — including ones we
+    // later detach while filtering — so any flavor change can bring them back.
+    var slideListEl = root.querySelector ? root.querySelector('.feature-media-list') : null;
+    var allSlides = slideListEl
+      ? Array.prototype.slice.call(slideListEl.querySelectorAll('.feature-media-item[data-media-id]'))
+      : [];
+
     /** The Alpine Product() scope for this section, once hydrated (else null). */
     function getData() {
       try {
@@ -163,10 +171,10 @@
         });
     }
 
-    function reorderGallery(group) {
-      var slideList = root.querySelector('.feature-media-list');
-      if (slideList) reorderList(slideList, '.feature-media-item', group);
-
+    // Reorder the thumbnail strips (mobile grid + desktop list). These are not
+    // Splide carousels, so display:none filtering is fine here; only the main
+    // carousel needs the physical rebuild below.
+    function reorderThumbnails(group) {
       var thumbLists = [];
       root.querySelectorAll('.product-thumbnail-list-item').forEach(function (li) {
         if (li.parentNode && thumbLists.indexOf(li.parentNode) === -1) {
@@ -175,6 +183,40 @@
       });
       thumbLists.forEach(function (list) {
         reorderList(list, '.product-thumbnail-list-item', group);
+      });
+    }
+
+    /**
+     * Rebuild the main carousel so it holds ONLY the matching slides, in render
+     * order. We physically detach non-matching slides rather than display:none-ing
+     * them: Splide (autoWidth) derives its scroll limit from the last slide's
+     * position, so trailing display:none slides — which have width/position 0 —
+     * collapse the limit to 0. Then every go()/drag/arrow is clamped to
+     * translateX(0): on mobile the featured image freezes on the first slide or,
+     * when a swipe lands the index on a hidden slide, blanks out entirely.
+     * Removing them from the list keeps Splide's slide set, indices and limits
+     * correct, so navigation works natively.
+     */
+    function rebuildSlideList(group) {
+      if (!slideListEl || !allSlides.length) return;
+      var matching = allSlides.filter(function (el) {
+        return fileMatchesGroup(fileNameOf(el), group);
+      });
+      matching.sort(function (a, b) {
+        return orderOf(fileNameOf(a), group) - orderOf(fileNameOf(b), group);
+      });
+      // Detach whatever is currently in the list, then re-attach only the
+      // matching slides in order. Non-matching slides stay detached (still
+      // referenced by allSlides for the next flavor change). Clear HIDE_CLASS on
+      // the matching slides — a slide filtered out by a previous flavor still
+      // carries it, and an attached display:none slide would zero its width and
+      // re-break Splide's limit.
+      allSlides.forEach(function (el) {
+        if (el.parentNode === slideListEl) slideListEl.removeChild(el);
+      });
+      matching.forEach(function (el) {
+        el.classList.remove(HIDE_CLASS);
+        slideListEl.appendChild(el);
       });
     }
 
@@ -199,29 +241,9 @@
     }
 
     /**
-     * Re-apply the correct track position for the carousel's current index.
-     *
-     * Splide derives its max scroll limit from the LAST slide's position. Once we
-     * filter the gallery, the trailing (non-matching) slides are display:none, so
-     * their position is 0 and Splide's limit collapses to 0 — every splide.go()
-     * to a visible slide is then clamped back to translateX(0), and on mobile the
-     * featured image never moves. splide.go() still updates the index correctly,
-     * so we just translate to that index's position, bypassing the broken clamp.
-     */
-    function syncSplidePosition(splide) {
-      splide = splide || activeSplide();
-      if (!splide || !splide.Components) return;
-      try {
-        var Move = splide.Components.Move;
-        var pos = Move.toPosition(splide.index);
-        if (Math.abs(Move.getPosition() - pos) > 1) Move.translate(pos);
-      } catch (e) { /* no-op */ }
-    }
-
-    /**
      * Move the mobile Splide carousel to a given media id. The featured image on
      * mobile is whichever slide Splide shows, so this must run after filtering/
-     * reordering (and after refresh) to keep it in sync with the selected variant.
+     * rebuilding (and after refresh) to keep it in sync with the selected variant.
      */
     function goToMedia(mediaId) {
       var splide = activeSplide();
@@ -231,10 +253,7 @@
         var idx = slides.findIndex(function (s) {
           return Number(s.dataset.mediaId) === Number(mediaId);
         });
-        if (idx > -1) {
-          splide.go(idx);
-          syncSplidePosition(splide); // go() is clamped to 0 once filtered; force it
-        }
+        if (idx > -1) splide.go(idx);
       } catch (e) { /* no-op */ }
     }
 
@@ -254,8 +273,10 @@
         el.classList.toggle(HIDE_CLASS, !show);
       });
 
-      // Order the visible images by their "<keyword>-<n>" suffix (blueberry-1 first).
-      reorderGallery(group);
+      // Order the visible thumbnails by their "<keyword>-<n>" suffix (blueberry-1
+      // first), and rebuild the main carousel to contain only those slides.
+      reorderThumbnails(group);
+      rebuildSlideList(group);
 
       // If the currently-featured image isn't part of this flavor, switch the
       // featured image to the first visible one (via Alpine, not an <a> click)
@@ -325,19 +346,6 @@
         if (String(radio.value) === '1') applyFromCheckedRadio();
       });
     });
-
-    // Tapping a thumbnail (or a variant change) sets Alpine's currentMediaId,
-    // which the core theme turns into a `shapes:product:mediachange` event whose
-    // handler calls splide.go() — clamped to 0 on our filtered gallery (see
-    // syncSplidePosition). Re-apply the position once the core handler has run so
-    // the mobile featured image actually follows the selected thumbnail.
-    var slideshowEl = root.querySelector && root.querySelector('.splide--product');
-    if (slideshowEl) {
-      document.addEventListener('shapes:product:mediachange', function (e) {
-        if (!e.detail || e.detail.slideshowId !== slideshowEl.id) return;
-        requestAnimationFrame(function () { syncSplidePosition(); });
-      });
-    }
 
     // Initial state: wait for Alpine to hydrate, then filter the gallery to
     // whatever flavor is already selected (no flavor is forced on load).
