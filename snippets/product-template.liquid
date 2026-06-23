@@ -1214,6 +1214,19 @@
     #shopify-section-{{ section.id }} .btmls-gallery-hide {
       display: none !important;
     }
+    /* Soft fade when the flavor (and its image set) changes. */
+    #shopify-section-{{ section.id }} .product-media {
+      transition: opacity 0.22s ease;
+    }
+    /* Keep the gallery hidden until JS has filtered + ordered the flavor's
+       images, so all images never flash on first load. */
+    #shopify-section-{{ section.id }} [data-product-root]:not(.btmls-gallery-ready) .product-media,
+    #shopify-section-{{ section.id }} .product-media.btmls-gallery-fading {
+      opacity: 0;
+    }
+    #shopify-section-{{ section.id }} .product-media.btmls-gallery-fading {
+      transition: none;
+    }
   </style>
   <script src="{{ 'bundle-subscription-btmls-gallery.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
