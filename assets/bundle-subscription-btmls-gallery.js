@@ -38,7 +38,9 @@
     { key: 'raspberry', title: ['raspberry'],                file: ['raspberry'] },
     { key: 'brambleberry', title: ['brambleberry'],          file: ['brambleberry'] },
     { key: 'vanilla', title: ['vanilla'],                file: ['vanilla'] },
-    { key: 'mango', title: ['mango'],                file: ['mango'] }
+    { key: 'mango', title: ['mango'],                file: ['mango'] },
+    { key: 'mint', title: ['mint'],                file: ['mint'] }
+
 
   ];
 
